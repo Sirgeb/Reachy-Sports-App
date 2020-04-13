@@ -1,7 +1,8 @@
 {
   "expo": {
-    "name": "HelloWorld",
-    "slug": "ReachySports",
+    "name": "Reachy Sports",
+    "slug": "Reachy-Sports",
+    "sdkVersion": "37.0.0",
     "platforms": [
       "ios",
       "android",
@@ -15,14 +16,24 @@
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
+    "ios": {
+      "bundleIdentifier": "com.sirgeb.reachysports",
+      "buildNumber": "1.0.0",
+      "supportsTablet": true
+    },
+    "android": {
+<<<<<<< HEAD
+      "package": "com.sirgeb.reachysports",
+=======
+      "package": "com.sirgeb.reachy-sports",
+>>>>>>> 0b20f86ee50cef3fa66113fcf7f1318be5d8a865
+      "versionCode": 1
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
       "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    }
+    ]
   }
 }
