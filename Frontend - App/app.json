@@ -22,11 +22,7 @@
       "supportsTablet": true
     },
     "android": {
-<<<<<<< HEAD
       "package": "com.sirgeb.reachysports",
-=======
-      "package": "com.sirgeb.reachy-sports",
->>>>>>> 0b20f86ee50cef3fa66113fcf7f1318be5d8a865
       "versionCode": 1
     },
     "updates": {
