@@ -1,11 +1,11 @@
 import { createStackNavigator } from "react-navigation-stack";
 import Signin from '../screens/Auth/Signin';
 
-const AuthNavigation = createStackNavigator({
+const AuthNavigator = createStackNavigator({
   Signin
 }, {
   initialRouteName: "Signin",
-  headerMode: "none",
+  headerMode: "none"
 });
 
-export default AuthNavigation;
+export default AuthNavigator;

@@ -6,7 +6,7 @@ import styles from '../styles';
 
 const ProfileLink = ({ navigation }) => {
   return (
-    <TouchableOpacity onPress={() => navigation.navigate("AuthNavigation")}>
+    <TouchableOpacity onPress={() => navigation.navigate("Auth")}>
       <FontAwesome5 
         name="user-circle" 
         size={28} 

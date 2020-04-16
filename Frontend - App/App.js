@@ -1,11 +1,11 @@
 import React from 'react';
 import { View } from 'react-native';
-import MainNavigation from "./navigation/MainNavigation";
+import DrawerNavigation from "./navigation/DrawerNavigation";
 
 export default function App() {
   return (
     <>
-      <MainNavigation />
+      <DrawerNavigation />
     </>
   );
 }
