@@ -11,7 +11,7 @@ const ProfileLink = ({ navigation }) => {
         name="user-circle" 
         size={28} 
         color={styles.white}
-        style={{ marginHorizontal: 30 }}
+        style={{ marginHorizontal: 20 }}
       />
     </TouchableOpacity>
   )

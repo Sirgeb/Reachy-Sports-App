@@ -9,19 +9,18 @@ const SearchBar = ({ onChange, value, onSubmit }) => {
   return (
     <TextInput 
       style={{ 
-        width: constants.width - 140, 
+        width: constants.width - 40, 
         height: 35, 
-        backgroundColor: styles.lightGrey,
-        padding: 10,
-        borderRadius: 2
+        backgroundColor: styles.white,
+        paddingHorizontal: 20
       }}
       returnKeyType="search"
       value={value} 
-      placeholder={"Search Post"} 
+      placeholder="Enter profile name here " 
       onEndEditing={onSubmit}
       value={value}
       onChangeText={onChange}
-      placeholderTextColor={styles.darkGrey}
+      placeholderTextColor={styles.darkGreyColor}
     />
   )
 }

@@ -4,9 +4,10 @@ import { createAppContainer } from 'react-navigation';
 import SportsUpdateNavigator from './SportsUpdateNavigator';
 import SportsChatNavigator from './SportsChatNavigator';
 import CustomDrawerContent from '../components/CustomDrawerContent';
-import { AntDesign, Ionicons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import MatchesNavigator from './MatchesNavigator';
 import AuthNavigator from './AuthNavigator';
+import HallOfFameNavigator from './HallOfFameNavigator';
 import styles from '../styles';
 import { Platform } from 'react-native';
 
@@ -33,7 +34,7 @@ const DrawerNavigation = createDrawerNavigator({
       drawerIcon: ({ focused }) => (
         <AntDesign 
           name="message1" 
-          size={22} 
+          size={20} 
           color={focused ? `${styles.orange}` : `${styles.black}`}
         />
       ),
@@ -50,6 +51,19 @@ const DrawerNavigation = createDrawerNavigator({
         color={focused ? `${styles.orange}` : `${styles.black}`}
         />
       ),
+    }
+  },
+  HallOfFame: {
+    screen: HallOfFameNavigator,
+    navigationOptions: {
+      title: 'Hall Of Fame',
+      drawerIcon: ({ focused }) => (
+        <MaterialIcons
+          name="stars" 
+          size={26} 
+          color={focused ? `${styles.orange}` : `${styles.black}`}
+        />
+      )
     }
   },
   Auth: {

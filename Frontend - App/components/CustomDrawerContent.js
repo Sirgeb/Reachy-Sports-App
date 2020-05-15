@@ -1,8 +1,7 @@
 import React from 'react';
 import SafeAreaView from 'react-native-safe-area-view';
 import { DrawerItems } from 'react-navigation-drawer';
-import { Text, StyleSheet, View, Image, ScrollView } from 'react-native';
-import { FontAwesome5, AntDesign, Foundation, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { Text, StyleSheet, View, Image, ScrollView, Platform } from 'react-native';
 import styles from '../styles';
 
 const CustomDrawerContent = props => (
@@ -27,7 +26,7 @@ const CustomDrawerContent = props => (
 
 const style = StyleSheet.create({
   container: {
-    flex: 1,
+    flex: 1
   },
 });
 

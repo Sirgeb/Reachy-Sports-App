@@ -13,8 +13,7 @@ const MatchesNavigator = createStackNavigator({
       headerLeft: () => <MenuLink />,
       headerTitle: () => (
         <HeaderTitle title="Matches" />
-      ),
-      headerRight: () => <ProfileLink />,
+      )
     }
   }
 }, {

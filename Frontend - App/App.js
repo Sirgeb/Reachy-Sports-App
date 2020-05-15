@@ -1,11 +1,12 @@
 import React from 'react';
-import { View } from 'react-native';
 import DrawerNavigation from "./navigation/DrawerNavigation";
 
-export default function App() {
+const App = () => {
   return (
     <>
       <DrawerNavigation />
     </>
   );
 }
+
+export default App;

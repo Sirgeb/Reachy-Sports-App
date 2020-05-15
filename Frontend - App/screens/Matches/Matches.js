@@ -1,12 +1,21 @@
 import React from 'react'
-import { View, Text } from 'react-native'
+import { Image, View} from 'react-native'
 
 class Matches extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text>Matches</Text>
+      <View style={{ 
+        flex: 1, 
+        justifyContent: 'center', 
+        alignItems: 'center', 
+        backgroundColor: '#ffffff'
+      }}>
+        <Image 
+          source={require('../../assets/coming-soon.gif')} 
+          resizeMode="contain" 
+          style={{ height: 300, width: 300}}
+        />
       </View>
     )
   }

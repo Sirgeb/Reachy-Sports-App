@@ -1,96 +1,68 @@
 import React from 'react'
 import styled from 'styled-components/native';
-import { Image } from 'react-native';
+import { FlatList } from 'react-native';
+import SportsUpdateListItem from '../../components/SportsUpdateListItem';
 import styles from '../../styles';
+import constants from '../../constants';
 
 const Container = styled.View` 
   margin: 10px;
-  background-color: ${styles.grey};
+  background-color: ${styles.white};
 `;
 
-const Text = styled.Text``;
-const Wrapper = styled.View`
-  padding: 10px;
-`;
+const List = [{
+  id: '2kjl2jkj2ljlk2l',
+  title: "Super Eagles of Nigeria Ready",
+  createdAt: "4 hours ago",
+  postComments: "0"
+}, {
+  id: 'kljl32k24l2k3j4l3',
+  title: 'Italy the resume sports activities',
+  createdAt: '5 hours ago',
+  postComments: '0'
+}, {
+  id: 'kljl32k24kjkkl2k3j4l3',
+  title: 'Italy the resume sports activities',
+  createdAt: '5 hours ago',
+  postComments: '2'
+}, {
+  id: 'kljl32k24l2jkkk3j4l3',
+  title: 'Italy the resume sports activities',
+  createdAt: '5 hours ago',
+  postComments: '5'
+},
+{
+  id: 'kljl32k24l2kii3j4l3',
+  title: 'Italy the resume',
+  createdAt: '5 hours ago',
+  postComments: '3'
+}, {
+  id: 'kljk24l2k3j4l3',
+  title: 'Italy the resume sports activities',
+  createdAt: '5 hours ago',
+  postComments: '7'
+}, {
+  id: 'kljl32k24l2hjgjghk3j4l3',
+  title: 'Italy the resume sports activities',
+  createdAt: '5 hours ago',
+  postComments: '5'
+}];
 
-const PostContainer = styled.View`
-  flex-direction: row;
-  background-color: #fafafa;
-  margin-bottom: 1.5px;
-  padding: 10px;
-`;
-const PostTitle = styled.Text`
-  flex-direction: row;
-  flex-wrap: wrap;
-`;
-const Base = styled.View`
-  flex: 1;
-  justify-content: space-around;
-`;
-const Time = styled.View``;
-const Comment = styled.View``;
+const SportsUpdate = () => {
 
-class SportsUpdate extends React.Component {
-
-  render() {
-    return (
-      <Container>
-        <PostContainer>
-          <Image 
-            source={require('../../assets/colors.jpg')}
-            style={{ height: 80, width: 80}}
-          />
-          <Wrapper>
-            <PostTitle>Super Eagles of Nigeria Ready</PostTitle>
-            <Base>
-              <Time>  
-                <Text>Posted: 4 hours ago</Text>
-              </Time>
-              <Comment> 
-                <Text>8 comments</Text>
-              </Comment>
-            </Base>
-          </Wrapper>
-        </PostContainer>
-
-        <PostContainer>
-          <Image 
-            source={require('../../assets/colors.jpg')}
-            style={{ height: 80, width: 80}}
-          />
-          <Wrapper>
-            <PostTitle>Super Eagles of Nigeria Ready</PostTitle>
-            <Base>
-              <Time>  
-                <Text>Posted: 4 hours ago</Text>
-              </Time>
-              <Comment> 
-                <Text>8 comments</Text>
-              </Comment>
-            </Base>
-          </Wrapper>
-        </PostContainer>
-
-        <PostContainer>
-          <Image 
-            source={require('../../assets/colors.jpg')}
-            style={{ height: 80, width: 80}}
-          />
-          <Wrapper>
-            <PostTitle>Super Eagles of Nigeria Ready</PostTitle>
-            <Base>
-              <Time>  
-                <Text>Posted: 4 hours ago</Text>
-              </Time>
-              <Comment> 
-                <Text>8 comments</Text>
-              </Comment>
-            </Base>
-          </Wrapper>
-        </PostContainer>
-      </Container>
-    )
-  }
+  return (
+    <Container>
+      <FlatList
+          showsVerticalScrollIndicator={false}
+          keyExtractor={item => item.id}
+          data={List}
+          contentContainerStyle={{ width: constants.width }}
+          renderItem={({item}) => (
+            <SportsUpdateListItem { ...item }/>
+          )}
+        />
+    </Container>
+  )
 }
 
-export default SportsUpdate
+export default SportsUpdate;
