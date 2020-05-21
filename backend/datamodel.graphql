@@ -1,0 +1,48 @@
+type User {
+  id: ID! @id @unique
+  firstname: String!
+  lastname: String!
+  email: String @unique
+  avatar: String
+  facebookID: String @unique
+  googleID: String @unique
+  permission: Permission @default(value: USER)
+  comments: [Comment!]! @relation(name: "CommentsOfUser", onDelete: CASCADE)
+  posts: [Post!]! @relation(name: "PostsOfUser", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Post {
+  id: ID! @id @unique
+  image: String!
+  caption: String!
+  description: String!
+  category: Category!
+  comments: [Comment!]! @relation(name: "CommentOfPost", onDelete: CASCADE)
+  user: User @relation(name: "PostsOfUser")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Comment {
+  id: ID! @id @unique
+  text: String!
+  user: User @relation(name: "CommentsOfUser")
+  post: Post @relation(name: "CommentOfPost")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+enum Category {
+  FOOTBALL
+  GOLF 
+  BASKETBALL
+  BOXERS
+  RUNNERS
+}
+
+enum Permission {
+  ADMIN
+  USER  
+}

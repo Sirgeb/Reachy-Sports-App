@@ -5,8 +5,10 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "start": "env-cmd -f ./src/.env node build/server.js",
     "dev": "nodemon --exec babel-node src/server.js",
-    "deploy-generate": "prisma deploy && prisma generate"
+    "heroku-postbuild": "babel src --out-dir build --copy-files",
+    "deploy-generate": "env-cmd -f ./src/.env prisma deploy && prisma generate"
   },
   "engines": {
     "node": "12.16.2",
@@ -18,8 +20,8 @@
     "@babel/node": "7.2.2",
     "@babel/preset-env": "7.3.1",
     "@babel/runtime": "^7.9.2",
-    "dotenv": "^8.2.0",
-    "env-cmd": "^10.1.0",
+    "dotenv": "8.2.0",
+    "env-cmd": "10.1.0",
     "graphql-tools": "^4.0.7",
     "graphql-yoga": "^1.18.3",
     "jsonwebtoken": "^8.5.1",
