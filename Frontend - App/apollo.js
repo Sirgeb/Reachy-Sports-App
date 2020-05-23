@@ -20,14 +20,13 @@ const wsLink = new WebSocketLink({
   }
 });
 
-
 const request = async (operation) => {
-    const token = await AsyncStorage.getItem('jwt');
-    operation.setContext({
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+  const token = await AsyncStorage.getItem('jwt');
+  operation.setContext({
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
 };
 
 const requestLink = new ApolloLink((operation, forward) =>
@@ -63,18 +62,8 @@ export default (cache) => new ApolloClient({
     }),
     requestLink,
     withClientState({
-      defaults: {
-        isConnected: true
-      },
-      resolvers: {
-        Mutation: {
-          updateNetworkStatus: (_, { isConnected }, { cache }) => {
-            cache.writeData({ data: { isConnected }});
-            return null;
-          }
-        }
-      },
-      cache
+      defaults: {},
+      cache,
     }),
     split(
       // split based on operation type
@@ -89,5 +78,6 @@ export default (cache) => new ApolloClient({
       httpLink,
     )
   ]),
-  cache
+  cache,
+  resolvers: {}
 });

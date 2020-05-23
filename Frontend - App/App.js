@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ApolloProvider } from 'react-apollo-hooks';
+import { ApolloProvider, useQuery } from 'react-apollo-hooks';
 import { AppLoading } from 'expo';
 import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
@@ -7,16 +7,16 @@ import { Asset } from 'expo-asset';
 import { AsyncStorage } from 'react-native';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
+import SwitchNavigator from './navigation/SwitchNavigator';
 import clientConfig from './apollo';
-import DrawerNavigation from "./navigation/DrawerNavigation";
 import assets from './assets';
 
 const App = () => { 
+  // AsyncStorage.clear();
   const [loaded, setLoaded] = useState(false);
   const [client, setClient] = useState(null);
 
   const preLoad = async () => {
-    // await AsyncStorage.clear();
     try {
       // Preload Fonts
       await Font.loadAsync({
@@ -34,15 +34,14 @@ const App = () => {
         ...assets
       ]);
 
-      // Preload Cache
+      // Persist Cache
       const cache = new InMemoryCache();
-
       await persistCache({
         cache,
         storage: AsyncStorage,
       });
 
-      // initialize client with cache
+      // initialize client
       const client = clientConfig(cache);
 
       setLoaded(true);
@@ -59,7 +58,7 @@ const App = () => {
 
   return loaded && client ?  (
     <ApolloProvider client={client}>
-      <DrawerNavigation />
+      <SwitchNavigator />
     </ApolloProvider>
   ) : (
     <AppLoading />

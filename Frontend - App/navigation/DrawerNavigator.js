@@ -11,7 +11,7 @@ import HallOfFameNavigator from './HallOfFameNavigator';
 import styles from '../styles';
 import { Platform } from 'react-native';
 
-const DrawerNavigation = createDrawerNavigator({
+const DrawerNavigator = createDrawerNavigator({
   SportsUpdate: {
     screen: SportsUpdateNavigator,
     navigationOptions: {
@@ -87,4 +87,4 @@ const DrawerNavigation = createDrawerNavigator({
   }
 });
 
-export default createAppContainer(DrawerNavigation);
+export default createAppContainer(DrawerNavigator);

@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
+import { AsyncStorage } from 'react-native';
 import AppIntroSlider from 'react-native-app-intro-slider';
+import { withNavigation } from 'react-navigation';
 import styled from 'styled-components/native';
+
 import styles from '../styles';
  
 const slides = [
   {
     key: '1',
     title: 'Reachy Sports',
-    text: 'Toggle to catch all',
+    text: 'Brings You... Sports Update, Sports Chat,\n Matches and Hall of Fame \n  All in one App',
     image: require('../assets/all-in-one.jpg'),
     backgroundColor: '#abc',
   },
-  {
+  { 
     key: '2',
     title: 'Sports Update',
-    text: 'Catch sports updates live in the app',
+    text: 'Catch sports updates live in the app \n as they come!',
     image: require('../assets/sports-update.jpg'),
     backgroundColor: '#abc',
   },
@@ -27,7 +30,7 @@ const slides = [
   }
 ];
  
-const AppIntro = () => {
+const AppIntro = ({ navigation }) => {
 
   const renderItem = ({ item }) => {
     return (
@@ -39,21 +42,20 @@ const AppIntro = () => {
     );
   }
 
-  const onDone = () => {
-    // User finished the introduction. Show real app through
-    // navigation or simply by controlling state
-    // setShowRealApp(true);
+  const onDone = async () => {
+    await AsyncStorage.setItem("intro", "shown");
+    navigation.navigate('Home');
   }
 
-    return (
-      <AppIntroSlider 
-        renderItem={renderItem} 
-        data={slides} 
-        onDone={onDone}
-        showPrevButton={true}
-      />
-    )
-}
+  return (
+    <AppIntroSlider 
+      renderItem={renderItem} 
+      data={slides} 
+      onDone={onDone}
+      showPrevButton={true}
+    />
+  )
+};
 
 const Container = styled.View`
   flex: 1;
@@ -78,4 +80,4 @@ const Text = styled.Text`
   color: ${styles.dark};
 `;
 
-export default AppIntro;
+export default withNavigation(AppIntro);
