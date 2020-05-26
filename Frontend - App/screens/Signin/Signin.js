@@ -130,19 +130,30 @@ const Signin = ({ navigation }) => {
           }}
         />
       </Picture>
-      <Text style={{ padding: 10, color: styles.orange}}>To Join Conversation</Text>
-      <Wrapper>
-        <AuthButton
-          onPress={facebookLogin}
-          text="Sign in with Facebook"
-          bgColor={styles.facebook}
-        />
-        <AuthButton
-          onPress={googleLogin}
-          text="Sign in with Google"
-          bgColor={styles.google}
-        />
-      </Wrapper>
+      {!loading && <Text style={{ padding: 10, color: styles.orange}}>To Join Conversation</Text>}
+      {
+        loading ? 
+          <Image 
+            source={require('../../assets/loading.gif')} 
+            resizeMode="contain"
+            style={{
+              height: 150,
+              width: 150
+            }}
+          /> : 
+          <Wrapper>
+          <AuthButton
+            onPress={facebookLogin}
+            text="Sign in with Facebook"
+            bgColor={styles.facebook}
+          />
+          <AuthButton
+            onPress={googleLogin}
+            text="Sign in with Google"
+            bgColor={styles.google}
+          />
+        </Wrapper>
+      }
     </Container>
   )
 }
@@ -170,4 +181,4 @@ const Picture = styled.View`
   flex: 2;
 `
 
-export default Signin
+export default Signin;
