@@ -12,7 +12,7 @@ export default {
         category,
         user: {
           connect: {
-            id: "ckaburcwg28640941zs77r9c8"
+            id: "ckankn6zgoutp0941gmu5okrh"
           }
         }
       });
