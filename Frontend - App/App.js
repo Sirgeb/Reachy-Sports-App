@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { ApolloProvider, useQuery } from 'react-apollo-hooks';
+import { ApolloProvider } from 'react-apollo-hooks';
 import { AppLoading } from 'expo';
 import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
@@ -9,15 +9,17 @@ import { InMemoryCache } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
 import SwitchNavigator from './navigation/SwitchNavigator';
 import clientConfig from './apollo';
+import { AuthProvider } from './AuthContext';
 import assets from './assets';
 
 const App = () => { 
-  // AsyncStorage.clear();
   const [loaded, setLoaded] = useState(false);
   const [client, setClient] = useState(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(null);
 
   const preLoad = async () => {
     try {
+      // await AsyncStorage.clear();
       // Preload Fonts
       await Font.loadAsync({
         ...Ionicons.font,
@@ -44,6 +46,15 @@ const App = () => {
       // initialize client
       const client = clientConfig(cache);
 
+      // check if user is authenticated
+      const isLoggedIn = await AsyncStorage.getItem("isLoggedIn");
+
+      if (!isLoggedIn || isLoggedIn === "false") {
+        setIsLoggedIn(false);
+      } else {
+        setIsLoggedIn(true);
+      }
+
       setLoaded(true);
       setClient(client);
 
@@ -56,9 +67,11 @@ const App = () => {
     preLoad();
   }, []);
 
-  return loaded && client ?  (
+  return loaded && client && isLoggedIn !== null ?  (
     <ApolloProvider client={client}>
-      <SwitchNavigator />
+      <AuthProvider isLoggedIn={isLoggedIn}>
+        <SwitchNavigator />
+      </AuthProvider>
     </ApolloProvider>
   ) : (
     <AppLoading />

@@ -723,7 +723,7 @@ type User {
   firstname: String!
   lastname: String!
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -744,7 +744,7 @@ input UserCreateInput {
   firstname: String!
   lastname: String!
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -767,7 +767,7 @@ input UserCreateWithoutCommentsInput {
   firstname: String!
   lastname: String!
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -779,7 +779,7 @@ input UserCreateWithoutPostsInput {
   firstname: String!
   lastname: String!
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -800,8 +800,8 @@ enum UserOrderByInput {
   lastname_DESC
   email_ASC
   email_DESC
-  avatar_ASC
-  avatar_DESC
+  picture_ASC
+  picture_DESC
   facebookID_ASC
   facebookID_DESC
   googleID_ASC
@@ -819,7 +819,7 @@ type UserPreviousValues {
   firstname: String!
   lastname: String!
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -849,7 +849,7 @@ input UserUpdateInput {
   firstname: String
   lastname: String
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -861,7 +861,7 @@ input UserUpdateManyMutationInput {
   firstname: String
   lastname: String
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -889,7 +889,7 @@ input UserUpdateWithoutCommentsDataInput {
   firstname: String
   lastname: String
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -900,7 +900,7 @@ input UserUpdateWithoutPostsDataInput {
   firstname: String
   lastname: String
   email: String
-  avatar: String
+  picture: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -974,20 +974,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
-  avatar: String
-  avatar_not: String
-  avatar_in: [String!]
-  avatar_not_in: [String!]
-  avatar_lt: String
-  avatar_lte: String
-  avatar_gt: String
-  avatar_gte: String
-  avatar_contains: String
-  avatar_not_contains: String
-  avatar_starts_with: String
-  avatar_not_starts_with: String
-  avatar_ends_with: String
-  avatar_not_ends_with: String
+  picture: String
+  picture_not: String
+  picture_in: [String!]
+  picture_not_in: [String!]
+  picture_lt: String
+  picture_lte: String
+  picture_gt: String
+  picture_gte: String
+  picture_contains: String
+  picture_not_contains: String
+  picture_starts_with: String
+  picture_not_starts_with: String
+  picture_ends_with: String
+  picture_not_ends_with: String
   facebookID: String
   facebookID_not: String
   facebookID_in: [String!]

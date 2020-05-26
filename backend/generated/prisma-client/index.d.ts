@@ -223,8 +223,8 @@ export type UserOrderByInput =
   | "lastname_DESC"
   | "email_ASC"
   | "email_DESC"
-  | "avatar_ASC"
-  | "avatar_DESC"
+  | "picture_ASC"
+  | "picture_DESC"
   | "facebookID_ASC"
   | "facebookID_DESC"
   | "googleID_ASC"
@@ -351,20 +351,20 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
-  avatar?: Maybe<String>;
-  avatar_not?: Maybe<String>;
-  avatar_in?: Maybe<String[] | String>;
-  avatar_not_in?: Maybe<String[] | String>;
-  avatar_lt?: Maybe<String>;
-  avatar_lte?: Maybe<String>;
-  avatar_gt?: Maybe<String>;
-  avatar_gte?: Maybe<String>;
-  avatar_contains?: Maybe<String>;
-  avatar_not_contains?: Maybe<String>;
-  avatar_starts_with?: Maybe<String>;
-  avatar_not_starts_with?: Maybe<String>;
-  avatar_ends_with?: Maybe<String>;
-  avatar_not_ends_with?: Maybe<String>;
+  picture?: Maybe<String>;
+  picture_not?: Maybe<String>;
+  picture_in?: Maybe<String[] | String>;
+  picture_not_in?: Maybe<String[] | String>;
+  picture_lt?: Maybe<String>;
+  picture_lte?: Maybe<String>;
+  picture_gt?: Maybe<String>;
+  picture_gte?: Maybe<String>;
+  picture_contains?: Maybe<String>;
+  picture_not_contains?: Maybe<String>;
+  picture_starts_with?: Maybe<String>;
+  picture_not_starts_with?: Maybe<String>;
+  picture_ends_with?: Maybe<String>;
+  picture_not_ends_with?: Maybe<String>;
   facebookID?: Maybe<String>;
   facebookID_not?: Maybe<String>;
   facebookID_in?: Maybe<String[] | String>;
@@ -538,7 +538,7 @@ export interface UserCreateWithoutCommentsInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -596,7 +596,7 @@ export interface UserCreateWithoutPostsInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -635,7 +635,7 @@ export interface UserUpdateWithoutCommentsDataInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -908,7 +908,7 @@ export interface UserUpdateWithoutPostsDataInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -999,7 +999,7 @@ export interface UserCreateInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1011,7 +1011,7 @@ export interface UserUpdateInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1023,7 +1023,7 @@ export interface UserUpdateManyMutationInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  avatar?: Maybe<String>;
+  picture?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1109,7 +1109,7 @@ export interface User {
   firstname: String;
   lastname: String;
   email?: String;
-  avatar?: String;
+  picture?: String;
   facebookID?: String;
   googleID?: String;
   permission?: Permission;
@@ -1122,7 +1122,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
   email: () => Promise<String>;
-  avatar: () => Promise<String>;
+  picture: () => Promise<String>;
   facebookID: () => Promise<String>;
   googleID: () => Promise<String>;
   permission: () => Promise<Permission>;
@@ -1155,7 +1155,7 @@ export interface UserSubscription
   firstname: () => Promise<AsyncIterator<String>>;
   lastname: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  avatar: () => Promise<AsyncIterator<String>>;
+  picture: () => Promise<AsyncIterator<String>>;
   facebookID: () => Promise<AsyncIterator<String>>;
   googleID: () => Promise<AsyncIterator<String>>;
   permission: () => Promise<AsyncIterator<Permission>>;
@@ -1188,7 +1188,7 @@ export interface UserNullablePromise
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
   email: () => Promise<String>;
-  avatar: () => Promise<String>;
+  picture: () => Promise<String>;
   facebookID: () => Promise<String>;
   googleID: () => Promise<String>;
   permission: () => Promise<Permission>;
@@ -1628,7 +1628,7 @@ export interface UserPreviousValues {
   firstname: String;
   lastname: String;
   email?: String;
-  avatar?: String;
+  picture?: String;
   facebookID?: String;
   googleID?: String;
   permission?: Permission;
@@ -1643,7 +1643,7 @@ export interface UserPreviousValuesPromise
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
   email: () => Promise<String>;
-  avatar: () => Promise<String>;
+  picture: () => Promise<String>;
   facebookID: () => Promise<String>;
   googleID: () => Promise<String>;
   permission: () => Promise<Permission>;
@@ -1658,7 +1658,7 @@ export interface UserPreviousValuesSubscription
   firstname: () => Promise<AsyncIterator<String>>;
   lastname: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  avatar: () => Promise<AsyncIterator<String>>;
+  picture: () => Promise<AsyncIterator<String>>;
   facebookID: () => Promise<AsyncIterator<String>>;
   googleID: () => Promise<AsyncIterator<String>>;
   permission: () => Promise<AsyncIterator<Permission>>;

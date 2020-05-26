@@ -3,9 +3,9 @@ type Mutation {
     firstname: String!
     lastname: String!
     email: String
-    avatar: String
+    picture: String
     facebookID: String
     googleID: String
     permission: Permission
-  ): Boolean!
+  ): String!
 }
