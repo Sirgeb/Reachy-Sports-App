@@ -1,38 +1,92 @@
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { TextInput, FlatList, TouchableOpacity, Text, View, Keyboard } from 'react-native';
 import styled from 'styled-components/native';
+import { useQuery, useSubscription } from "react-apollo-hooks";
 import { withNavigation } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
+import withSuspense from '../../components/withSuspense';
+import moment from 'moment';
+import gql from 'graphql-tag';
 import SportsUpdateHeader from '../../components/SportsUpdateHeader';
 
 import constants from '../../constants';
 import styles from '../../styles';
 
-const user = true;
+const NEW_COMMENT = gql`
+  subscription newComment($postId: ID!){
+    newComment(postId: $postId) {
+      id
+    }
+  }
+`;
+
+const GET_POST = gql`
+  query getPost($postId: ID!) {
+    getPost(postId: $postId) {
+      id 
+      caption 
+      category
+      description 
+      image
+      commentsCount
+      createdAt
+      comments {
+        id
+        text 
+        createdAt
+        user {
+          picture
+          fullname
+        }
+      }
+    }
+  }
+`;
+
+const user = false;
  
 const SportsUpdateDetail = ({ navigation }) => {
+  const id = navigation.getParam("id");
+  const { data: newComment } = useSubscription(NEW_COMMENT, { variables: { postId: id } });
+  const { data, refetch } = useQuery(GET_POST, { variables: { postId: id }, suspend: true });
+
   const flatListRef = useRef();
 
+    useEffect(() => {
+      refetch();
+    }, [newComment])
+
+    const _renderItem = ({ item: comment }) => {
+      return (
+        <MessageContainer>
+          <Image 
+            style={{ backgroundColor: styles.lightGrey }} 
+            source={{ uri: comment.user.picture }} 
+          />
+          <MessageDetail>
+            <Name>{`${comment.user.fullname}`}</Name>
+            <Message>{comment.text}</Message>
+            <Time>{moment(comment.createdAt).fromNow()}</Time>
+          </MessageDetail>
+        </MessageContainer>
+      )
+    }
+
+    const post = data.getPost;
+    const comments = data.getPost.comments;
+
     return (
+      post && (
       <KeyboardAvoidingView>
        <FlatList
-          ListHeaderComponent={() => <SportsUpdateHeader />}
+          ListHeaderComponent={() => <SportsUpdateHeader {...post} />}
           keyExtractor={item => item.id}
-          data={List}
+          data={comments && comments}
           ref={flatListRef}
           contentContainerStyle={{ width: constants.width }}
-          renderItem={({item}) => (
-            <MessageContainer>
-              <Image source={require('../../assets/unknown-profile.png')} />
-              <MessageDetail mine={item.mine}>
-                <Name>{item.name}</Name>
-                <Message>{item.message}</Message>
-                <Time>{item.time}</Time>
-              </MessageDetail>
-            </MessageContainer>
-          )}
+          renderItem={ _renderItem }
         />
-        <>
+        <> 
           {
             user ? (
                   <Wrapper>
@@ -78,9 +132,10 @@ const SportsUpdateDetail = ({ navigation }) => {
           }
         </>
     </KeyboardAvoidingView>
+    )
   )
 }
-
+ 
 const Wrapper = styled.View`
   position: relative;
   flex-direction: row;
@@ -136,34 +191,4 @@ const KeyboardAvoidingView = styled.KeyboardAvoidingView`
   align-items: center;
 `;
 
-const List = [{
-  id: "erreer",
-  name: "Gabriel Aniora",
-  message: "Welcome to Reachy Sports",
-  time: "2 hours ago",
-},
-{
-  id: "ggghjj", 
-  name: "Chinedu Okorie",
-  message: "A pleasure to be here they allowed him that is too hard to be seen",
-  time: "1 hour ago",
-}, {
-  id: "kdslfklksdkl",
-  name: "Joy Igbokwe",
-  message: "it is true that he was impeached but they allowed him that is too hard to be seen now I tell you brother",
-  time: "2 seconds ago",
-},
-{
-  id: "ggghkghgkhjj", 
-  name: "Chinedu Okorie",
-  message: "A pleasure to be here they allowed him that is too hard to be seen",
-  time: "1 hour ago",
-}, {
-  id: "kdslfklkhjhjhjsdkl",
-  name: "Joy Igbokwe",
-  message: "it is true that he was impeached but they allowed him that is too hard to be seen now I tell you brother",
-  time: "2 seconds ago",
-}];
-
-
-export default withNavigation(SportsUpdateDetail);
+export default withSuspense(withNavigation(SportsUpdateDetail));

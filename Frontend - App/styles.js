@@ -3,6 +3,7 @@ export default {
   teal: "teal",
   white: "white",
   grey: "#ccc",
+  ash: "#393939",
   lightGrey: "rgb(230, 230, 230)",
   darkGrey: "#999",
   black: "#000",

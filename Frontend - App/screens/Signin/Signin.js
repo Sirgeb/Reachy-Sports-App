@@ -130,7 +130,7 @@ const Signin = ({ navigation }) => {
           }}
         />
       </Picture>
-      {!loading && <Text style={{ padding: 10, color: styles.orange}}>To Join Conversation</Text>}
+      {!loading && <Text style={{ padding: 10, color: styles.orange }}>To Join Conversation</Text>}
       {
         loading ? 
           <Image 

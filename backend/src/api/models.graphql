@@ -2,10 +2,8 @@ type User {
   id: ID! 
   firstname: String!
   lastname: String!
-  email: String
+  fullname: String!
   picture: String
-  facebookID: String
-  googleID: String
   permission: Permission! 
   posts: [Post!]!
   comments: [Comment!]! 
@@ -16,9 +14,10 @@ type Post {
   image: String!
   caption: String!
   description: String!
-  user: User!
   category: Category!
+  commentsCount: Int!
   comments: [Comment!]!
+  createdAt: String!
 }
 
 type Comment {
@@ -26,6 +25,7 @@ type Comment {
   text: String!
   user: User
   post: Post
+  createdAt: String!
 }
 
 enum Category {

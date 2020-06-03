@@ -10,7 +10,7 @@ import { persistCache } from 'apollo-cache-persist';
 import SwitchNavigator from './navigation/SwitchNavigator';
 import clientConfig from './apollo';
 import { AuthProvider } from './AuthContext';
-import assets from './assets';
+import assets from './assets';   
 
 const App = () => { 
   const [loaded, setLoaded] = useState(false);

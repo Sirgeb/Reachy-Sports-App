@@ -1,30 +1,36 @@
-import React from 'react'
+import React from 'react';
+import moment from 'moment';
 import styled from 'styled-components/native';
-import styles from '../styles';
 import { View } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { EvilIcons } from '@expo/vector-icons';
+import styles from '../styles';
+import { EvilIcons, FontAwesome5 } from '@expo/vector-icons';
 
-const SportsUpdateListItem = ({ navigation, title, createdAt, postComments }) => {
+class SportsUpdateListItem extends React.Component {
 
-  return (
-    <PostContainer onPress={() => navigation.navigate('SportsUpdateDetail')}>
-      <Image 
-          source={{ uri: "https://soccernet.ng/wp-content/uploads/2019/07/ekong.jpg"}}
-      />
-      <Wrapper>
-        <PostTitle>{title}</PostTitle>
-        <View style={{ flexDirection: "row"}}>
-          <Category>Football</Category> 
-          <Time> | Posted: {createdAt}</Time>
-        </View>
-      </Wrapper>
-      <Comment> 
-        <CommentCount>{postComments}</CommentCount>
-        <EvilIcons size={26} name="comment" style={{ color: styles.white }}/>
-      </Comment>
-    </PostContainer>
-  )
+  render() {
+    const { id, navigation, caption, image, category, createdAt, commentsCount } = this.props;
+
+    return (
+      <PostContainer onPress={() => navigation.navigate('SportsUpdateDetail', { id })}>
+        <Image 
+          style={{ backgroundColor: styles.lightGrey }}
+          source={{ uri: image }}
+        />
+        <Wrapper>
+          <PostTitle numberOfLines={2}>{caption}</PostTitle>
+          <View style={{ flexDirection: "row" }}>
+            <Category>{category}</Category> 
+            <Time> | <FontAwesome5 name="clock" size={10} color={styles.ash} /> {moment(createdAt).fromNow()} </Time>
+          </View>
+        </Wrapper>
+        <Comment> 
+          <CommentCount>{commentsCount}</CommentCount>
+          <EvilIcons size={26} name="comment" style={{ color: styles.white }}/>
+        </Comment>
+      </PostContainer>
+    )
+  }
 }
 
 const Wrapper = styled.View`
@@ -58,7 +64,8 @@ const PostTitle = styled.Text`
 
 const Time = styled.Text`
   color: ${styles.dark};
-  font-size: 12px;
+  font-size: 11px;
+  padding-top: 0.5px;
 `;
 
 const CommentCount = styled.Text``;

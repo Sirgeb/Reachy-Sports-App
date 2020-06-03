@@ -7,22 +7,22 @@ import { EvilIcons } from '@expo/vector-icons';
 import constants from '../constants';
 import styles from '../styles';
 
-const SportsUpdateHeader = () => {
+const SportsUpdateHeader = ({ image, caption, commentsCount, description }) => { 
 
   return (
     <Container>
       <Image 
-        source={{ uri: "https://soccernet.ng/wp-content/uploads/2019/07/ekong.jpg" }}
+        source={{ uri: image && image }}
         style={{ height: constants.height / 3, width: constants.width }}
       />
-      <PostTitle>Super Eagles Ready For The Game</PostTitle>
+      <PostTitle>{caption}</PostTitle>
       <HTMLView
-        value={htmlContent}
+        value={description}
         stylesheet={webViewStyles}
       />
       <CommentSectionHeader>
         <EvilIcons name="comment" size={26} />
-        <CommentSectionHeaderText>36 Comments</CommentSectionHeaderText>
+        <CommentSectionHeaderText> {commentsCount} Comments </CommentSectionHeaderText>
       </CommentSectionHeader>
     </Container>
   )

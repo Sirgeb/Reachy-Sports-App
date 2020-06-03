@@ -1,68 +1,71 @@
-import React from 'react'
-import styled from 'styled-components/native';
+import React, { useEffect } from 'react';
 import { FlatList } from 'react-native';
+import styled from 'styled-components/native';
+import gql from 'graphql-tag';
+import { useQuery, useSubscription } from 'react-apollo-hooks';
 import SportsUpdateListItem from '../../components/SportsUpdateListItem';
 import styles from '../../styles';
 import constants from '../../constants';
+import withSuspense from '../../components/withSuspense';
 
-const Container = styled.View` 
-  margin: 10px;
-  background-color: ${styles.white};
+const GET_POSTS = gql` 
+  query {
+    getPosts {
+      id 
+      image 
+      caption 
+      category
+      commentsCount
+      createdAt
+    }
+  }
 `;
 
-const List = [{
-  id: '2kjl2jkj2ljlk2l',
-  title: "Super Eagles of Nigeria Ready",
-  createdAt: "4 hours ago",
-  postComments: "0"
-}, {
-  id: 'kljl32k24l2k3j4l3',
-  title: 'Italy the resume sports activities',
-  createdAt: '5 hours ago',
-  postComments: '0'
-}, {
-  id: 'kljl32k24kjkkl2k3j4l3',
-  title: 'Italy the resume sports activities',
-  createdAt: '5 hours ago',
-  postComments: '2'
-}, {
-  id: 'kljl32k24l2jkkk3j4l3',
-  title: 'Italy the resume sports activities',
-  createdAt: '5 hours ago',
-  postComments: '5'
-},
-{
-  id: 'kljl32k24l2kii3j4l3',
-  title: 'Italy the resume',
-  createdAt: '5 hours ago',
-  postComments: '3'
-}, {
-  id: 'kljk24l2k3j4l3',
-  title: 'Italy the resume sports activities',
-  createdAt: '5 hours ago',
-  postComments: '7'
-}, {
-  id: 'kljl32k24l2hjgjghk3j4l3',
-  title: 'Italy the resume sports activities',
-  createdAt: '5 hours ago',
-  postComments: '5'
-}];
+const NEW_POST = gql`
+  subscription {
+    newPost {
+      id 
+    } 
+  }
+`;
 
 const SportsUpdate = () => {
+  const { data, refetch } = useQuery(GET_POSTS, { suspend: true });
+  const { data: newPost } = useSubscription(NEW_POST);
+
+  useEffect(() => {
+    refresh();
+  }, [newPost]);
+  
+  const refresh = async () => {
+    try {
+      await refetch();
+    } catch(e) {
+      console.log(e.message);
+    }
+  }
+
+  const _renderItem = ({ item }) => (
+    <SportsUpdateListItem { ...item }/>
+  );
 
   return (
     <Container>
       <FlatList
-          showsVerticalScrollIndicator={false}
-          keyExtractor={item => item.id}
-          data={List}
-          contentContainerStyle={{ width: constants.width }}
-          renderItem={({item}) => (
-            <SportsUpdateListItem { ...item }/>
-          )}
-        />
+        showsVerticalScrollIndicator={false}
+        keyExtractor={item => item.id}
+        initialNumToRender={10}
+        data={data && data.getPosts}
+        contentContainerStyle={{ width: constants.width }}
+        renderItem={_renderItem}
+      />
     </Container>
   )
 }
 
-export default SportsUpdate;
+const Container = styled.View`   
+  margin: 10px;
+  background-color: ${styles.white};
+`;
+
+export default withSuspense(SportsUpdate);

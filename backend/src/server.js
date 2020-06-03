@@ -1,4 +1,3 @@
-// import "./env";
 import { GraphQLServer } from "graphql-yoga";
 import schema from "./schema";
 
