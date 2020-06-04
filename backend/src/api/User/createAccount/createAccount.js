@@ -7,14 +7,21 @@ export default {
       const { firstname, lastname, email, picture, facebookID, googleID } = args;
 
       const id = facebookID || googleID;
+      let source;
 
       const exists = await prisma.$exists.user({
         OR:[{ facebookID }, { googleID }]
       });
 
       const userAuthenticatedWith = (facebookID, googleID) => {
-        if (facebookID) return { facebookID };
-        if (googleID) return { googleID };
+        if (facebookID) {
+          source = 1;
+          return { facebookID };
+        }
+        if (googleID) {
+          source = 2;
+          return { googleID }
+        };
       }
 
       if (exists) {
@@ -27,7 +34,7 @@ export default {
           },
           where: userAuthenticatedWith(facebookID, googleID)
         });
-        return generateToken(id);
+        return generateToken(id, source);
       }
 
       await prisma.createUser({
@@ -35,10 +42,9 @@ export default {
         lastname,
         email,
         picture,
-        facebookID,
-        googleID
+        ...userAuthenticatedWith(facebookID, googleID)
       }); 
-      return generateToken(id);
+      return generateToken(id, source);
     }
   }
 }
