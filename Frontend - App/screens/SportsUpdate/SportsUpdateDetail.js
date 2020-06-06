@@ -1,13 +1,14 @@
-import React, { useRef, useEffect } from 'react';
-import { TextInput, FlatList, TouchableOpacity, Text, View, Keyboard } from 'react-native';
+import React, { useRef, useEffect, useState } from 'react';
+import { TextInput, FlatList, TouchableOpacity, Text, View, Keyboard, StyleSheet, ActivityIndicator } from 'react-native';
 import styled from 'styled-components/native';
-import { useQuery, useSubscription } from "react-apollo-hooks";
+import { useQuery, useSubscription, useMutation } from "react-apollo-hooks";
 import { withNavigation } from 'react-navigation';
 import { MaterialIcons } from '@expo/vector-icons';
 import withSuspense from '../../components/withSuspense';
 import moment from 'moment';
 import gql from 'graphql-tag';
 import SportsUpdateHeader from '../../components/SportsUpdateHeader';
+import { useIsLoggedIn } from '../../AuthContext';
 
 import constants from '../../constants';
 import styles from '../../styles';
@@ -15,6 +16,14 @@ import styles from '../../styles';
 const NEW_COMMENT = gql`
   subscription newComment($postId: ID!){
     newComment(postId: $postId) {
+      id
+    }
+  }
+`;
+
+const CREATE_COMMENT = gql`
+  mutation createComment($text: String!, $postId: ID!) {
+    createComment(text: $text, postId: $postId) {
       id
     }
   }
@@ -42,99 +51,120 @@ const GET_POST = gql`
     }
   }
 `;
-
-const user = false;
  
 const SportsUpdateDetail = ({ navigation }) => {
   const id = navigation.getParam("id");
   const { data: newComment } = useSubscription(NEW_COMMENT, { variables: { postId: id } });
   const { data, refetch } = useQuery(GET_POST, { variables: { postId: id }, suspend: true });
+  const [createComment, { loading }] = useMutation(CREATE_COMMENT);
+  const [text, setText] = useState("");
 
+  const isLoggedIn = useIsLoggedIn();
   const flatListRef = useRef();
 
-    useEffect(() => {
-      refetch();
-    }, [newComment])
-
-    const _renderItem = ({ item: comment }) => {
-      return (
-        <MessageContainer>
-          <Image 
-            style={{ backgroundColor: styles.lightGrey }} 
-            source={{ uri: comment.user.picture }} 
-          />
-          <MessageDetail>
-            <Name>{`${comment.user.fullname}`}</Name>
-            <Message>{comment.text}</Message>
-            <Time>{moment(comment.createdAt).fromNow()}</Time>
-          </MessageDetail>
-        </MessageContainer>
-      )
+  useEffect(() => {
+    if (newComment !== undefined) {
+      flatListRef.current.scrollToIndex({ index: 0, animated: true });
     }
+    refetch();
+  }, [newComment])
 
-    const post = data.getPost;
-    const comments = data.getPost.comments;
+  const sendComment = async () => {
+    Keyboard.dismiss();
+    try {
+      await createComment({ variables: {
+        text,
+        postId: id
+      }});
+    } catch (e) {
+      console.log(e.message);
+    } finally {
+      setText("");
+    }
+  }
 
+  const _renderItem = ({ item: comment }) => {
     return (
-      post && (
-      <KeyboardAvoidingView>
-       <FlatList
-          ListHeaderComponent={() => <SportsUpdateHeader {...post} />}
-          keyExtractor={item => item.id}
-          data={comments && comments}
-          ref={flatListRef}
-          contentContainerStyle={{ width: constants.width }}
-          renderItem={ _renderItem }
+      <MessageContainer>
+        <Image 
+          style={{ backgroundColor: styles.lightGrey }} 
+          source={{ uri: comment.user.picture }} 
         />
-        <> 
-          {
-            user ? (
-                  <Wrapper>
-                    <TextInput
-                      multiline
-                      onChangeText={(comment) => null}
-                      returnKeyType='send'
-                      placeholder='Write your comment here...'
-                      onFocus={() => flatListRef.current.scrollToEnd()}
-                      onSubmitEditing={() => null} 
-                      style={{ 
-                        alignSelf: "center",
-                        width: constants.width - 70,
-                        marginVertical: 10,
-                        marginHorizontal: 4,
-                        padding: 8,
-                        maxHeight: 70,
-                        borderColor: styles.orange,
-                        borderWidth: 1,
-                        borderRadius: 10,
-                        fontSize: 14
-                      }}
-                    />
-                  {/* {
-                    <ActivityIndicator size={25} color={styles.orange}/>
-                  } */}
-                   <SendMessageIcon onPress={() => {
-                      Keyboard.dismiss()
-                      flatListRef.current.scrollToEnd()
-                      }}>
+        <MessageDetail>
+          <Name>{`${comment.user.fullname}`}</Name>
+          <Message>{comment.text}</Message>
+          <Time>{moment(comment.createdAt).fromNow()}</Time>
+        </MessageDetail>
+      </MessageContainer>
+    )
+  }
+
+  const post = data.getPost;
+  const comments = data.getPost.comments;
+
+  return (
+    post && (
+    <KeyboardAvoidingView>
+      <FlatList
+        ListHeaderComponent={() => <SportsUpdateHeader {...post} />}
+        keyExtractor={item => item.id}
+        data={comments && comments}
+        ref={flatListRef}
+        contentContainerStyle={{ width: constants.width }}
+        renderItem={ _renderItem }
+      />
+      <> 
+        {
+          isLoggedIn ? (
+                <Wrapper>
+                  <TextInput
+                    multiline
+                    onChangeText={(text) => setText(text)}
+                    returnKeyType='send'
+                    value={text}
+                    placeholder='Have something to say? write here...'
+                    style={style.input}
+                  />
+                  {!!text.trim() && <SendMessageIcon onPress={sendComment}>
+                  {
+                    loading ? (
+                    <ActivityIndicator size={25} color={styles.white}/>
+                      ) : (
                     <MaterialIcons name="send" size={25} color={styles.white} />
-                   </SendMessageIcon>
-                </Wrapper>
-            ) : (
-              <View>
-                <TouchableOpacity 
-                  onPress={() => navigation.navigate('Signin')} 
-                  style={{ backgroundColor: styles.orange, padding: 8 }}>
-                    <Text style={{ color:styles.white }}>Sign in to write comment!</Text>
-                </TouchableOpacity>
-              </View>
-            )
-          }
-        </>
+                    )
+                  }
+                  </SendMessageIcon>}
+              </Wrapper>
+          ) : (
+            <View>
+              <TouchableOpacity 
+                onPress={() => navigation.navigate('Signin')} 
+                style={{ backgroundColor: styles.orange, padding: 8 }}>
+                  <Text style={{ color:styles.white }}>Sign in to write comment!</Text>
+              </TouchableOpacity>
+            </View>
+          )
+        }
+      </>
     </KeyboardAvoidingView>
     )
   )
 }
+
+const style = StyleSheet.create({
+  input: {
+    alignSelf: "center",
+    width: constants.width - 70,
+    marginVertical: 10,
+    marginHorizontal: 4,
+    padding: 8,
+    maxHeight: 70,
+    borderColor: styles.orange,
+    borderWidth: 1,
+    borderRadius: 10,
+    fontSize: 14
+  }
+})
  
 const Wrapper = styled.View`
   position: relative;
