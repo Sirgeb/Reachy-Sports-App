@@ -1,0 +1,8 @@
+type Mutation {
+  updatePost(
+    image: String,
+    caption: String,
+    description: String, 
+    category: String, 
+    postId: ID!): Boolean!
+}

@@ -20,6 +20,7 @@ const App = () => {
   const preLoad = async () => {
     try {
       // await AsyncStorage.clear();
+      // const token = await AsyncStorage.getItem('jwt');
       // Preload Fonts
       await Font.loadAsync({
         ...Ionicons.font,

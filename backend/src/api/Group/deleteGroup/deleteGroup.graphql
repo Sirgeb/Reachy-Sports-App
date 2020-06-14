@@ -1,0 +1,3 @@
+type Mutation {
+  deleteGroup(groupId: ID!): Boolean!
+}

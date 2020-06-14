@@ -9,6 +9,8 @@ type User {
   permission: Permission @default(value: USER)
   comments: [Comment!]! @relation(name: "CommentsOfUser", onDelete: CASCADE)
   posts: [Post!]! @relation(name: "PostsOfUser", onDelete: CASCADE)
+  groups: [Participant!]! @relation(name: "GroupParticipant", onDelete: CASCADE)
+  messages: [Message!]! @relation(name: "MessagesOfUser", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
 }
@@ -34,12 +36,40 @@ type Comment {
   updatedAt: DateTime! @updatedAt
 }
 
+type Group {
+  id: ID! @id @unique 
+  name: Category!
+  title: String!
+  icon: String!
+  route: String!
+  messages: [Message!]! @relation(name: "MessagesOfGroup", onDelete: CASCADE)
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Participant {
+  id: ID! @id @unique 
+  groupId: ID!
+  user: User! @relation(name: "GroupParticipant")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
+type Message {
+  id: ID! @id @unique 
+  text: String!
+  user: User! @relation(name: "MessagesOfUser")
+  group: Group! @relation(name: "MessagesOfGroup")
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 enum Category {
   FOOTBALL
   GOLF 
   BASKETBALL
-  BOXERS
-  RUNNERS
+  BOXING
+  RUNNING
 }
 
 enum Permission {

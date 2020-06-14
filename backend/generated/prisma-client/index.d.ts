@@ -17,6 +17,9 @@ export type Maybe<T> = T | undefined | null;
 
 export interface Exists {
   comment: (where?: CommentWhereInput) => Promise<boolean>;
+  group: (where?: GroupWhereInput) => Promise<boolean>;
+  message: (where?: MessageWhereInput) => Promise<boolean>;
+  participant: (where?: ParticipantWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
@@ -59,6 +62,65 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => CommentConnectionPromise;
+  group: (where: GroupWhereUniqueInput) => GroupNullablePromise;
+  groups: (args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Group>;
+  groupsConnection: (args?: {
+    where?: GroupWhereInput;
+    orderBy?: GroupOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => GroupConnectionPromise;
+  message: (where: MessageWhereUniqueInput) => MessageNullablePromise;
+  messages: (args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Message>;
+  messagesConnection: (args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => MessageConnectionPromise;
+  participant: (
+    where: ParticipantWhereUniqueInput
+  ) => ParticipantNullablePromise;
+  participants: (args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<Participant>;
+  participantsConnection: (args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => ParticipantConnectionPromise;
   post: (where: PostWhereUniqueInput) => PostNullablePromise;
   posts: (args?: {
     where?: PostWhereInput;
@@ -119,6 +181,56 @@ export interface Prisma {
   }) => CommentPromise;
   deleteComment: (where: CommentWhereUniqueInput) => CommentPromise;
   deleteManyComments: (where?: CommentWhereInput) => BatchPayloadPromise;
+  createGroup: (data: GroupCreateInput) => GroupPromise;
+  updateGroup: (args: {
+    data: GroupUpdateInput;
+    where: GroupWhereUniqueInput;
+  }) => GroupPromise;
+  updateManyGroups: (args: {
+    data: GroupUpdateManyMutationInput;
+    where?: GroupWhereInput;
+  }) => BatchPayloadPromise;
+  upsertGroup: (args: {
+    where: GroupWhereUniqueInput;
+    create: GroupCreateInput;
+    update: GroupUpdateInput;
+  }) => GroupPromise;
+  deleteGroup: (where: GroupWhereUniqueInput) => GroupPromise;
+  deleteManyGroups: (where?: GroupWhereInput) => BatchPayloadPromise;
+  createMessage: (data: MessageCreateInput) => MessagePromise;
+  updateMessage: (args: {
+    data: MessageUpdateInput;
+    where: MessageWhereUniqueInput;
+  }) => MessagePromise;
+  updateManyMessages: (args: {
+    data: MessageUpdateManyMutationInput;
+    where?: MessageWhereInput;
+  }) => BatchPayloadPromise;
+  upsertMessage: (args: {
+    where: MessageWhereUniqueInput;
+    create: MessageCreateInput;
+    update: MessageUpdateInput;
+  }) => MessagePromise;
+  deleteMessage: (where: MessageWhereUniqueInput) => MessagePromise;
+  deleteManyMessages: (where?: MessageWhereInput) => BatchPayloadPromise;
+  createParticipant: (data: ParticipantCreateInput) => ParticipantPromise;
+  updateParticipant: (args: {
+    data: ParticipantUpdateInput;
+    where: ParticipantWhereUniqueInput;
+  }) => ParticipantPromise;
+  updateManyParticipants: (args: {
+    data: ParticipantUpdateManyMutationInput;
+    where?: ParticipantWhereInput;
+  }) => BatchPayloadPromise;
+  upsertParticipant: (args: {
+    where: ParticipantWhereUniqueInput;
+    create: ParticipantCreateInput;
+    update: ParticipantUpdateInput;
+  }) => ParticipantPromise;
+  deleteParticipant: (where: ParticipantWhereUniqueInput) => ParticipantPromise;
+  deleteManyParticipants: (
+    where?: ParticipantWhereInput
+  ) => BatchPayloadPromise;
   createPost: (data: PostCreateInput) => PostPromise;
   updatePost: (args: {
     data: PostUpdateInput;
@@ -163,6 +275,15 @@ export interface Subscription {
   comment: (
     where?: CommentSubscriptionWhereInput
   ) => CommentSubscriptionPayloadSubscription;
+  group: (
+    where?: GroupSubscriptionWhereInput
+  ) => GroupSubscriptionPayloadSubscription;
+  message: (
+    where?: MessageSubscriptionWhereInput
+  ) => MessageSubscriptionPayloadSubscription;
+  participant: (
+    where?: ParticipantSubscriptionWhereInput
+  ) => ParticipantSubscriptionPayloadSubscription;
   post: (
     where?: PostSubscriptionWhereInput
   ) => PostSubscriptionPayloadSubscription;
@@ -185,8 +306,8 @@ export type Category =
   | "FOOTBALL"
   | "GOLF"
   | "BASKETBALL"
-  | "BOXERS"
-  | "RUNNERS";
+  | "BOXING"
+  | "RUNNING";
 
 export type CommentOrderByInput =
   | "id_ASC"
@@ -209,6 +330,42 @@ export type PostOrderByInput =
   | "description_DESC"
   | "category_ASC"
   | "category_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type ParticipantOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "groupId_ASC"
+  | "groupId_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type MessageOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "text_ASC"
+  | "text_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type GroupOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "name_ASC"
+  | "name_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "icon_ASC"
+  | "icon_DESC"
+  | "route_ASC"
+  | "route_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -403,6 +560,12 @@ export interface UserWhereInput {
   posts_every?: Maybe<PostWhereInput>;
   posts_some?: Maybe<PostWhereInput>;
   posts_none?: Maybe<PostWhereInput>;
+  groups_every?: Maybe<ParticipantWhereInput>;
+  groups_some?: Maybe<ParticipantWhereInput>;
+  groups_none?: Maybe<ParticipantWhereInput>;
+  messages_every?: Maybe<MessageWhereInput>;
+  messages_some?: Maybe<MessageWhereInput>;
+  messages_none?: Maybe<MessageWhereInput>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -510,6 +673,206 @@ export interface PostWhereInput {
   NOT?: Maybe<PostWhereInput[] | PostWhereInput>;
 }
 
+export interface ParticipantWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  groupId?: Maybe<ID_Input>;
+  groupId_not?: Maybe<ID_Input>;
+  groupId_in?: Maybe<ID_Input[] | ID_Input>;
+  groupId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  groupId_lt?: Maybe<ID_Input>;
+  groupId_lte?: Maybe<ID_Input>;
+  groupId_gt?: Maybe<ID_Input>;
+  groupId_gte?: Maybe<ID_Input>;
+  groupId_contains?: Maybe<ID_Input>;
+  groupId_not_contains?: Maybe<ID_Input>;
+  groupId_starts_with?: Maybe<ID_Input>;
+  groupId_not_starts_with?: Maybe<ID_Input>;
+  groupId_ends_with?: Maybe<ID_Input>;
+  groupId_not_ends_with?: Maybe<ID_Input>;
+  user?: Maybe<UserWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ParticipantWhereInput[] | ParticipantWhereInput>;
+  OR?: Maybe<ParticipantWhereInput[] | ParticipantWhereInput>;
+  NOT?: Maybe<ParticipantWhereInput[] | ParticipantWhereInput>;
+}
+
+export interface MessageWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  user?: Maybe<UserWhereInput>;
+  group?: Maybe<GroupWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  OR?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+  NOT?: Maybe<MessageWhereInput[] | MessageWhereInput>;
+}
+
+export interface GroupWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  name?: Maybe<Category>;
+  name_not?: Maybe<Category>;
+  name_in?: Maybe<Category[] | Category>;
+  name_not_in?: Maybe<Category[] | Category>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  icon?: Maybe<String>;
+  icon_not?: Maybe<String>;
+  icon_in?: Maybe<String[] | String>;
+  icon_not_in?: Maybe<String[] | String>;
+  icon_lt?: Maybe<String>;
+  icon_lte?: Maybe<String>;
+  icon_gt?: Maybe<String>;
+  icon_gte?: Maybe<String>;
+  icon_contains?: Maybe<String>;
+  icon_not_contains?: Maybe<String>;
+  icon_starts_with?: Maybe<String>;
+  icon_not_starts_with?: Maybe<String>;
+  icon_ends_with?: Maybe<String>;
+  icon_not_ends_with?: Maybe<String>;
+  route?: Maybe<String>;
+  route_not?: Maybe<String>;
+  route_in?: Maybe<String[] | String>;
+  route_not_in?: Maybe<String[] | String>;
+  route_lt?: Maybe<String>;
+  route_lte?: Maybe<String>;
+  route_gt?: Maybe<String>;
+  route_gte?: Maybe<String>;
+  route_contains?: Maybe<String>;
+  route_not_contains?: Maybe<String>;
+  route_starts_with?: Maybe<String>;
+  route_not_starts_with?: Maybe<String>;
+  route_ends_with?: Maybe<String>;
+  route_not_ends_with?: Maybe<String>;
+  messages_every?: Maybe<MessageWhereInput>;
+  messages_some?: Maybe<MessageWhereInput>;
+  messages_none?: Maybe<MessageWhereInput>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<GroupWhereInput[] | GroupWhereInput>;
+  OR?: Maybe<GroupWhereInput[] | GroupWhereInput>;
+  NOT?: Maybe<GroupWhereInput[] | GroupWhereInput>;
+}
+
+export type GroupWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type MessageWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export type ParticipantWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
 export type PostWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
@@ -543,6 +906,8 @@ export interface UserCreateWithoutCommentsInput {
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
   posts?: Maybe<PostCreateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantCreateManyWithoutUserInput>;
+  messages?: Maybe<MessageCreateManyWithoutUserInput>;
 }
 
 export interface PostCreateManyWithoutUserInput {
@@ -570,6 +935,44 @@ export interface CommentCreateWithoutPostInput {
   id?: Maybe<ID_Input>;
   text: String;
   user?: Maybe<UserCreateOneWithoutCommentsInput>;
+}
+
+export interface ParticipantCreateManyWithoutUserInput {
+  create?: Maybe<
+    ParticipantCreateWithoutUserInput[] | ParticipantCreateWithoutUserInput
+  >;
+  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+}
+
+export interface ParticipantCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  groupId: ID_Input;
+}
+
+export interface MessageCreateManyWithoutUserInput {
+  create?: Maybe<
+    MessageCreateWithoutUserInput[] | MessageCreateWithoutUserInput
+  >;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+}
+
+export interface MessageCreateWithoutUserInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  group: GroupCreateOneWithoutMessagesInput;
+}
+
+export interface GroupCreateOneWithoutMessagesInput {
+  create?: Maybe<GroupCreateWithoutMessagesInput>;
+  connect?: Maybe<GroupWhereUniqueInput>;
+}
+
+export interface GroupCreateWithoutMessagesInput {
+  id?: Maybe<ID_Input>;
+  name: Category;
+  title: String;
+  icon: String;
+  route: String;
 }
 
 export interface PostCreateOneWithoutCommentsInput {
@@ -601,6 +1004,8 @@ export interface UserCreateWithoutPostsInput {
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
   comments?: Maybe<CommentCreateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantCreateManyWithoutUserInput>;
+  messages?: Maybe<MessageCreateManyWithoutUserInput>;
 }
 
 export interface CommentCreateManyWithoutUserInput {
@@ -640,6 +1045,8 @@ export interface UserUpdateWithoutCommentsDataInput {
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
   posts?: Maybe<PostUpdateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantUpdateManyWithoutUserInput>;
+  messages?: Maybe<MessageUpdateManyWithoutUserInput>;
 }
 
 export interface PostUpdateManyWithoutUserInput {
@@ -873,6 +1280,224 @@ export interface PostUpdateManyDataInput {
   category?: Maybe<Category>;
 }
 
+export interface ParticipantUpdateManyWithoutUserInput {
+  create?: Maybe<
+    ParticipantCreateWithoutUserInput[] | ParticipantCreateWithoutUserInput
+  >;
+  delete?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  connect?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  set?: Maybe<ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput>;
+  disconnect?: Maybe<
+    ParticipantWhereUniqueInput[] | ParticipantWhereUniqueInput
+  >;
+  update?: Maybe<
+    | ParticipantUpdateWithWhereUniqueWithoutUserInput[]
+    | ParticipantUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | ParticipantUpsertWithWhereUniqueWithoutUserInput[]
+    | ParticipantUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<
+    ParticipantScalarWhereInput[] | ParticipantScalarWhereInput
+  >;
+  updateMany?: Maybe<
+    | ParticipantUpdateManyWithWhereNestedInput[]
+    | ParticipantUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface ParticipantUpdateWithWhereUniqueWithoutUserInput {
+  where: ParticipantWhereUniqueInput;
+  data: ParticipantUpdateWithoutUserDataInput;
+}
+
+export interface ParticipantUpdateWithoutUserDataInput {
+  groupId?: Maybe<ID_Input>;
+}
+
+export interface ParticipantUpsertWithWhereUniqueWithoutUserInput {
+  where: ParticipantWhereUniqueInput;
+  update: ParticipantUpdateWithoutUserDataInput;
+  create: ParticipantCreateWithoutUserInput;
+}
+
+export interface ParticipantScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  groupId?: Maybe<ID_Input>;
+  groupId_not?: Maybe<ID_Input>;
+  groupId_in?: Maybe<ID_Input[] | ID_Input>;
+  groupId_not_in?: Maybe<ID_Input[] | ID_Input>;
+  groupId_lt?: Maybe<ID_Input>;
+  groupId_lte?: Maybe<ID_Input>;
+  groupId_gt?: Maybe<ID_Input>;
+  groupId_gte?: Maybe<ID_Input>;
+  groupId_contains?: Maybe<ID_Input>;
+  groupId_not_contains?: Maybe<ID_Input>;
+  groupId_starts_with?: Maybe<ID_Input>;
+  groupId_not_starts_with?: Maybe<ID_Input>;
+  groupId_ends_with?: Maybe<ID_Input>;
+  groupId_not_ends_with?: Maybe<ID_Input>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+  OR?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+  NOT?: Maybe<ParticipantScalarWhereInput[] | ParticipantScalarWhereInput>;
+}
+
+export interface ParticipantUpdateManyWithWhereNestedInput {
+  where: ParticipantScalarWhereInput;
+  data: ParticipantUpdateManyDataInput;
+}
+
+export interface ParticipantUpdateManyDataInput {
+  groupId?: Maybe<ID_Input>;
+}
+
+export interface MessageUpdateManyWithoutUserInput {
+  create?: Maybe<
+    MessageCreateWithoutUserInput[] | MessageCreateWithoutUserInput
+  >;
+  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  update?: Maybe<
+    | MessageUpdateWithWhereUniqueWithoutUserInput[]
+    | MessageUpdateWithWhereUniqueWithoutUserInput
+  >;
+  upsert?: Maybe<
+    | MessageUpsertWithWhereUniqueWithoutUserInput[]
+    | MessageUpsertWithWhereUniqueWithoutUserInput
+  >;
+  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  updateMany?: Maybe<
+    | MessageUpdateManyWithWhereNestedInput[]
+    | MessageUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutUserInput {
+  where: MessageWhereUniqueInput;
+  data: MessageUpdateWithoutUserDataInput;
+}
+
+export interface MessageUpdateWithoutUserDataInput {
+  text?: Maybe<String>;
+  group?: Maybe<GroupUpdateOneRequiredWithoutMessagesInput>;
+}
+
+export interface GroupUpdateOneRequiredWithoutMessagesInput {
+  create?: Maybe<GroupCreateWithoutMessagesInput>;
+  update?: Maybe<GroupUpdateWithoutMessagesDataInput>;
+  upsert?: Maybe<GroupUpsertWithoutMessagesInput>;
+  connect?: Maybe<GroupWhereUniqueInput>;
+}
+
+export interface GroupUpdateWithoutMessagesDataInput {
+  name?: Maybe<Category>;
+  title?: Maybe<String>;
+  icon?: Maybe<String>;
+  route?: Maybe<String>;
+}
+
+export interface GroupUpsertWithoutMessagesInput {
+  update: GroupUpdateWithoutMessagesDataInput;
+  create: GroupCreateWithoutMessagesInput;
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutUserInput {
+  where: MessageWhereUniqueInput;
+  update: MessageUpdateWithoutUserDataInput;
+  create: MessageCreateWithoutUserInput;
+}
+
+export interface MessageScalarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  text?: Maybe<String>;
+  text_not?: Maybe<String>;
+  text_in?: Maybe<String[] | String>;
+  text_not_in?: Maybe<String[] | String>;
+  text_lt?: Maybe<String>;
+  text_lte?: Maybe<String>;
+  text_gt?: Maybe<String>;
+  text_gte?: Maybe<String>;
+  text_contains?: Maybe<String>;
+  text_not_contains?: Maybe<String>;
+  text_starts_with?: Maybe<String>;
+  text_not_starts_with?: Maybe<String>;
+  text_ends_with?: Maybe<String>;
+  text_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  OR?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  NOT?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+}
+
+export interface MessageUpdateManyWithWhereNestedInput {
+  where: MessageScalarWhereInput;
+  data: MessageUpdateManyDataInput;
+}
+
+export interface MessageUpdateManyDataInput {
+  text?: Maybe<String>;
+}
+
 export interface UserUpsertWithoutCommentsInput {
   update: UserUpdateWithoutCommentsDataInput;
   create: UserCreateWithoutCommentsInput;
@@ -913,6 +1538,8 @@ export interface UserUpdateWithoutPostsDataInput {
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
   comments?: Maybe<CommentUpdateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantUpdateManyWithoutUserInput>;
+  messages?: Maybe<MessageUpdateManyWithoutUserInput>;
 }
 
 export interface CommentUpdateManyWithoutUserInput {
@@ -968,6 +1595,202 @@ export interface CommentUpdateManyMutationInput {
   text?: Maybe<String>;
 }
 
+export interface GroupCreateInput {
+  id?: Maybe<ID_Input>;
+  name: Category;
+  title: String;
+  icon: String;
+  route: String;
+  messages?: Maybe<MessageCreateManyWithoutGroupInput>;
+}
+
+export interface MessageCreateManyWithoutGroupInput {
+  create?: Maybe<
+    MessageCreateWithoutGroupInput[] | MessageCreateWithoutGroupInput
+  >;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+}
+
+export interface MessageCreateWithoutGroupInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  user: UserCreateOneWithoutMessagesInput;
+}
+
+export interface UserCreateOneWithoutMessagesInput {
+  create?: Maybe<UserCreateWithoutMessagesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutMessagesInput {
+  id?: Maybe<ID_Input>;
+  firstname: String;
+  lastname: String;
+  email?: Maybe<String>;
+  picture?: Maybe<String>;
+  facebookID?: Maybe<String>;
+  googleID?: Maybe<String>;
+  permission?: Maybe<Permission>;
+  comments?: Maybe<CommentCreateManyWithoutUserInput>;
+  posts?: Maybe<PostCreateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantCreateManyWithoutUserInput>;
+}
+
+export interface GroupUpdateInput {
+  name?: Maybe<Category>;
+  title?: Maybe<String>;
+  icon?: Maybe<String>;
+  route?: Maybe<String>;
+  messages?: Maybe<MessageUpdateManyWithoutGroupInput>;
+}
+
+export interface MessageUpdateManyWithoutGroupInput {
+  create?: Maybe<
+    MessageCreateWithoutGroupInput[] | MessageCreateWithoutGroupInput
+  >;
+  delete?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  connect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  set?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  disconnect?: Maybe<MessageWhereUniqueInput[] | MessageWhereUniqueInput>;
+  update?: Maybe<
+    | MessageUpdateWithWhereUniqueWithoutGroupInput[]
+    | MessageUpdateWithWhereUniqueWithoutGroupInput
+  >;
+  upsert?: Maybe<
+    | MessageUpsertWithWhereUniqueWithoutGroupInput[]
+    | MessageUpsertWithWhereUniqueWithoutGroupInput
+  >;
+  deleteMany?: Maybe<MessageScalarWhereInput[] | MessageScalarWhereInput>;
+  updateMany?: Maybe<
+    | MessageUpdateManyWithWhereNestedInput[]
+    | MessageUpdateManyWithWhereNestedInput
+  >;
+}
+
+export interface MessageUpdateWithWhereUniqueWithoutGroupInput {
+  where: MessageWhereUniqueInput;
+  data: MessageUpdateWithoutGroupDataInput;
+}
+
+export interface MessageUpdateWithoutGroupDataInput {
+  text?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutMessagesInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutMessagesInput {
+  create?: Maybe<UserCreateWithoutMessagesInput>;
+  update?: Maybe<UserUpdateWithoutMessagesDataInput>;
+  upsert?: Maybe<UserUpsertWithoutMessagesInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutMessagesDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  picture?: Maybe<String>;
+  facebookID?: Maybe<String>;
+  googleID?: Maybe<String>;
+  permission?: Maybe<Permission>;
+  comments?: Maybe<CommentUpdateManyWithoutUserInput>;
+  posts?: Maybe<PostUpdateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantUpdateManyWithoutUserInput>;
+}
+
+export interface UserUpsertWithoutMessagesInput {
+  update: UserUpdateWithoutMessagesDataInput;
+  create: UserCreateWithoutMessagesInput;
+}
+
+export interface MessageUpsertWithWhereUniqueWithoutGroupInput {
+  where: MessageWhereUniqueInput;
+  update: MessageUpdateWithoutGroupDataInput;
+  create: MessageCreateWithoutGroupInput;
+}
+
+export interface GroupUpdateManyMutationInput {
+  name?: Maybe<Category>;
+  title?: Maybe<String>;
+  icon?: Maybe<String>;
+  route?: Maybe<String>;
+}
+
+export interface MessageCreateInput {
+  id?: Maybe<ID_Input>;
+  text: String;
+  user: UserCreateOneWithoutMessagesInput;
+  group: GroupCreateOneWithoutMessagesInput;
+}
+
+export interface MessageUpdateInput {
+  text?: Maybe<String>;
+  user?: Maybe<UserUpdateOneRequiredWithoutMessagesInput>;
+  group?: Maybe<GroupUpdateOneRequiredWithoutMessagesInput>;
+}
+
+export interface MessageUpdateManyMutationInput {
+  text?: Maybe<String>;
+}
+
+export interface ParticipantCreateInput {
+  id?: Maybe<ID_Input>;
+  groupId: ID_Input;
+  user: UserCreateOneWithoutGroupsInput;
+}
+
+export interface UserCreateOneWithoutGroupsInput {
+  create?: Maybe<UserCreateWithoutGroupsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserCreateWithoutGroupsInput {
+  id?: Maybe<ID_Input>;
+  firstname: String;
+  lastname: String;
+  email?: Maybe<String>;
+  picture?: Maybe<String>;
+  facebookID?: Maybe<String>;
+  googleID?: Maybe<String>;
+  permission?: Maybe<Permission>;
+  comments?: Maybe<CommentCreateManyWithoutUserInput>;
+  posts?: Maybe<PostCreateManyWithoutUserInput>;
+  messages?: Maybe<MessageCreateManyWithoutUserInput>;
+}
+
+export interface ParticipantUpdateInput {
+  groupId?: Maybe<ID_Input>;
+  user?: Maybe<UserUpdateOneRequiredWithoutGroupsInput>;
+}
+
+export interface UserUpdateOneRequiredWithoutGroupsInput {
+  create?: Maybe<UserCreateWithoutGroupsInput>;
+  update?: Maybe<UserUpdateWithoutGroupsDataInput>;
+  upsert?: Maybe<UserUpsertWithoutGroupsInput>;
+  connect?: Maybe<UserWhereUniqueInput>;
+}
+
+export interface UserUpdateWithoutGroupsDataInput {
+  firstname?: Maybe<String>;
+  lastname?: Maybe<String>;
+  email?: Maybe<String>;
+  picture?: Maybe<String>;
+  facebookID?: Maybe<String>;
+  googleID?: Maybe<String>;
+  permission?: Maybe<Permission>;
+  comments?: Maybe<CommentUpdateManyWithoutUserInput>;
+  posts?: Maybe<PostUpdateManyWithoutUserInput>;
+  messages?: Maybe<MessageUpdateManyWithoutUserInput>;
+}
+
+export interface UserUpsertWithoutGroupsInput {
+  update: UserUpdateWithoutGroupsDataInput;
+  create: UserCreateWithoutGroupsInput;
+}
+
+export interface ParticipantUpdateManyMutationInput {
+  groupId?: Maybe<ID_Input>;
+}
+
 export interface PostCreateInput {
   id?: Maybe<ID_Input>;
   image: String;
@@ -1005,6 +1828,8 @@ export interface UserCreateInput {
   permission?: Maybe<Permission>;
   comments?: Maybe<CommentCreateManyWithoutUserInput>;
   posts?: Maybe<PostCreateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantCreateManyWithoutUserInput>;
+  messages?: Maybe<MessageCreateManyWithoutUserInput>;
 }
 
 export interface UserUpdateInput {
@@ -1017,6 +1842,8 @@ export interface UserUpdateInput {
   permission?: Maybe<Permission>;
   comments?: Maybe<CommentUpdateManyWithoutUserInput>;
   posts?: Maybe<PostUpdateManyWithoutUserInput>;
+  groups?: Maybe<ParticipantUpdateManyWithoutUserInput>;
+  messages?: Maybe<MessageUpdateManyWithoutUserInput>;
 }
 
 export interface UserUpdateManyMutationInput {
@@ -1038,6 +1865,45 @@ export interface CommentSubscriptionWhereInput {
   AND?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
   OR?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
   NOT?: Maybe<CommentSubscriptionWhereInput[] | CommentSubscriptionWhereInput>;
+}
+
+export interface GroupSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<GroupWhereInput>;
+  AND?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
+  OR?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
+  NOT?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
+}
+
+export interface MessageSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<MessageWhereInput>;
+  AND?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+  OR?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+  NOT?: Maybe<MessageSubscriptionWhereInput[] | MessageSubscriptionWhereInput>;
+}
+
+export interface ParticipantSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<ParticipantWhereInput>;
+  AND?: Maybe<
+    ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    ParticipantSubscriptionWhereInput[] | ParticipantSubscriptionWhereInput
+  >;
 }
 
 export interface PostSubscriptionWhereInput {
@@ -1144,6 +2010,24 @@ export interface UserPromise extends Promise<User>, Fragmentable {
     first?: Int;
     last?: Int;
   }) => T;
+  groups: <T = FragmentableArray<Participant>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -1177,6 +2061,24 @@ export interface UserSubscription
     first?: Int;
     last?: Int;
   }) => T;
+  groups: <T = Promise<AsyncIterator<ParticipantSubscription>>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  messages: <T = Promise<AsyncIterator<MessageSubscription>>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1204,6 +2106,24 @@ export interface UserNullablePromise
   posts: <T = FragmentableArray<Post>>(args?: {
     where?: PostWhereInput;
     orderBy?: PostOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  groups: <T = FragmentableArray<Participant>>(args?: {
+    where?: ParticipantWhereInput;
+    orderBy?: ParticipantOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
     skip?: Int;
     after?: String;
     before?: String;
@@ -1288,6 +2208,150 @@ export interface PostNullablePromise
   updatedAt: () => Promise<DateTimeOutput>;
 }
 
+export interface Participant {
+  id: ID_Output;
+  groupId: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ParticipantPromise extends Promise<Participant>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  groupId: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ParticipantSubscription
+  extends Promise<AsyncIterator<Participant>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  groupId: () => Promise<AsyncIterator<ID_Output>>;
+  user: <T = UserSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ParticipantNullablePromise
+  extends Promise<Participant | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  groupId: () => Promise<ID_Output>;
+  user: <T = UserPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface Message {
+  id: ID_Output;
+  text: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface MessagePromise extends Promise<Message>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  group: <T = GroupPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface MessageSubscription
+  extends Promise<AsyncIterator<Message>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  user: <T = UserSubscription>() => T;
+  group: <T = GroupSubscription>() => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface MessageNullablePromise
+  extends Promise<Message | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  user: <T = UserPromise>() => T;
+  group: <T = GroupPromise>() => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface Group {
+  id: ID_Output;
+  name: Category;
+  title: String;
+  icon: String;
+  route: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface GroupPromise extends Promise<Group>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<Category>;
+  title: () => Promise<String>;
+  icon: () => Promise<String>;
+  route: () => Promise<String>;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface GroupSubscription
+  extends Promise<AsyncIterator<Group>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<Category>>;
+  title: () => Promise<AsyncIterator<String>>;
+  icon: () => Promise<AsyncIterator<String>>;
+  route: () => Promise<AsyncIterator<String>>;
+  messages: <T = Promise<AsyncIterator<MessageSubscription>>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface GroupNullablePromise
+  extends Promise<Group | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<Category>;
+  title: () => Promise<String>;
+  icon: () => Promise<String>;
+  route: () => Promise<String>;
+  messages: <T = FragmentableArray<Message>>(args?: {
+    where?: MessageWhereInput;
+    orderBy?: MessageOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => T;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
 export interface CommentConnection {
   pageInfo: PageInfo;
   edges: CommentEdge[];
@@ -1361,6 +2425,170 @@ export interface AggregateCommentPromise
 
 export interface AggregateCommentSubscription
   extends Promise<AsyncIterator<AggregateComment>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface GroupConnection {
+  pageInfo: PageInfo;
+  edges: GroupEdge[];
+}
+
+export interface GroupConnectionPromise
+  extends Promise<GroupConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<GroupEdge>>() => T;
+  aggregate: <T = AggregateGroupPromise>() => T;
+}
+
+export interface GroupConnectionSubscription
+  extends Promise<AsyncIterator<GroupConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<GroupEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateGroupSubscription>() => T;
+}
+
+export interface GroupEdge {
+  node: Group;
+  cursor: String;
+}
+
+export interface GroupEdgePromise extends Promise<GroupEdge>, Fragmentable {
+  node: <T = GroupPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface GroupEdgeSubscription
+  extends Promise<AsyncIterator<GroupEdge>>,
+    Fragmentable {
+  node: <T = GroupSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateGroup {
+  count: Int;
+}
+
+export interface AggregateGroupPromise
+  extends Promise<AggregateGroup>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateGroupSubscription
+  extends Promise<AsyncIterator<AggregateGroup>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface MessageConnection {
+  pageInfo: PageInfo;
+  edges: MessageEdge[];
+}
+
+export interface MessageConnectionPromise
+  extends Promise<MessageConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<MessageEdge>>() => T;
+  aggregate: <T = AggregateMessagePromise>() => T;
+}
+
+export interface MessageConnectionSubscription
+  extends Promise<AsyncIterator<MessageConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<MessageEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateMessageSubscription>() => T;
+}
+
+export interface MessageEdge {
+  node: Message;
+  cursor: String;
+}
+
+export interface MessageEdgePromise extends Promise<MessageEdge>, Fragmentable {
+  node: <T = MessagePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface MessageEdgeSubscription
+  extends Promise<AsyncIterator<MessageEdge>>,
+    Fragmentable {
+  node: <T = MessageSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateMessage {
+  count: Int;
+}
+
+export interface AggregateMessagePromise
+  extends Promise<AggregateMessage>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateMessageSubscription
+  extends Promise<AsyncIterator<AggregateMessage>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
+export interface ParticipantConnection {
+  pageInfo: PageInfo;
+  edges: ParticipantEdge[];
+}
+
+export interface ParticipantConnectionPromise
+  extends Promise<ParticipantConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<ParticipantEdge>>() => T;
+  aggregate: <T = AggregateParticipantPromise>() => T;
+}
+
+export interface ParticipantConnectionSubscription
+  extends Promise<AsyncIterator<ParticipantConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<ParticipantEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateParticipantSubscription>() => T;
+}
+
+export interface ParticipantEdge {
+  node: Participant;
+  cursor: String;
+}
+
+export interface ParticipantEdgePromise
+  extends Promise<ParticipantEdge>,
+    Fragmentable {
+  node: <T = ParticipantPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface ParticipantEdgeSubscription
+  extends Promise<AsyncIterator<ParticipantEdge>>,
+    Fragmentable {
+  node: <T = ParticipantSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateParticipant {
+  count: Int;
+}
+
+export interface AggregateParticipantPromise
+  extends Promise<AggregateParticipant>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateParticipantSubscription
+  extends Promise<AsyncIterator<AggregateParticipant>>,
     Fragmentable {
   count: () => Promise<AsyncIterator<Int>>;
 }
@@ -1535,6 +2763,165 @@ export interface CommentPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   text: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface GroupSubscriptionPayload {
+  mutation: MutationType;
+  node: Group;
+  updatedFields: String[];
+  previousValues: GroupPreviousValues;
+}
+
+export interface GroupSubscriptionPayloadPromise
+  extends Promise<GroupSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = GroupPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = GroupPreviousValuesPromise>() => T;
+}
+
+export interface GroupSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<GroupSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = GroupSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = GroupPreviousValuesSubscription>() => T;
+}
+
+export interface GroupPreviousValues {
+  id: ID_Output;
+  name: Category;
+  title: String;
+  icon: String;
+  route: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface GroupPreviousValuesPromise
+  extends Promise<GroupPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  name: () => Promise<Category>;
+  title: () => Promise<String>;
+  icon: () => Promise<String>;
+  route: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface GroupPreviousValuesSubscription
+  extends Promise<AsyncIterator<GroupPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  name: () => Promise<AsyncIterator<Category>>;
+  title: () => Promise<AsyncIterator<String>>;
+  icon: () => Promise<AsyncIterator<String>>;
+  route: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface MessageSubscriptionPayload {
+  mutation: MutationType;
+  node: Message;
+  updatedFields: String[];
+  previousValues: MessagePreviousValues;
+}
+
+export interface MessageSubscriptionPayloadPromise
+  extends Promise<MessageSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = MessagePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = MessagePreviousValuesPromise>() => T;
+}
+
+export interface MessageSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<MessageSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = MessageSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = MessagePreviousValuesSubscription>() => T;
+}
+
+export interface MessagePreviousValues {
+  id: ID_Output;
+  text: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface MessagePreviousValuesPromise
+  extends Promise<MessagePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  text: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface MessagePreviousValuesSubscription
+  extends Promise<AsyncIterator<MessagePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  text: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface ParticipantSubscriptionPayload {
+  mutation: MutationType;
+  node: Participant;
+  updatedFields: String[];
+  previousValues: ParticipantPreviousValues;
+}
+
+export interface ParticipantSubscriptionPayloadPromise
+  extends Promise<ParticipantSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = ParticipantPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = ParticipantPreviousValuesPromise>() => T;
+}
+
+export interface ParticipantSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<ParticipantSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = ParticipantSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = ParticipantPreviousValuesSubscription>() => T;
+}
+
+export interface ParticipantPreviousValues {
+  id: ID_Output;
+  groupId: ID_Output;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface ParticipantPreviousValuesPromise
+  extends Promise<ParticipantPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  groupId: () => Promise<ID_Output>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface ParticipantPreviousValuesSubscription
+  extends Promise<AsyncIterator<ParticipantPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  groupId: () => Promise<AsyncIterator<ID_Output>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -1714,6 +3101,18 @@ export const models: Model[] = [
   },
   {
     name: "Comment",
+    embedded: false
+  },
+  {
+    name: "Group",
+    embedded: false
+  },
+  {
+    name: "Participant",
+    embedded: false
+  },
+  {
+    name: "Message",
     embedded: false
   },
   {

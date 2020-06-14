@@ -1,12 +1,12 @@
 import { prisma } from '../../../../generated/prisma-client';
-import { userAuthenticatedWith } from '../../../utils';
 
 export default {
   Mutation: {
-    createPost: async (_, args, { request, isAuthenticated }) => {
+    createPost: async (_, args, { request, isAuthenticated, isAdmin }) => {
       isAuthenticated(request);
+      isAdmin(request);
+
       const { image, caption, description, category } = args;
-      const { permission, facebookID, googleID } = request.user;
 
       await prisma.createPost({
         image,
@@ -14,7 +14,9 @@ export default {
         description,
         category,
         user: {
-          connect: userAuthenticatedWith(facebookID, googleID)
+          connect: {
+            id: request.user.id
+          }
         }
       });
 

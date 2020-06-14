@@ -6,7 +6,7 @@ type User {
   picture: String
   permission: Permission! 
   posts: [Post!]!
-  comments: [Comment!]! 
+  groups: [Participant!]!
 }
 
 type Post {
@@ -25,6 +25,34 @@ type Comment {
   text: String!
   user: User
   post: Post
+  isAdmin: Boolean!
+  createdAt: String!
+}
+
+type Group {
+  id: ID! 
+  name: Category!
+  title: String!
+  icon: String!
+  route: String!
+  messages: [Message!]!
+  isParticipant: Boolean!
+  createdAt: String!
+}
+
+type Participant {
+  id: ID! 
+  groupId: ID!
+  user: User!
+  createdAt: String!
+}
+
+type Message {
+  id: ID! 
+  text: String!
+  user: User!
+  isMine: String!
+  group: Group!
   createdAt: String!
 }
 
@@ -32,8 +60,8 @@ enum Category {
   FOOTBALL
   GOLF 
   BASKETBALL
-  BOXERS
-  RUNNERS
+  BOXING
+  RUNNING
 }
 
 enum Permission {

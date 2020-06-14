@@ -1,0 +1,3 @@
+type Mutation {
+  createGroup(name: Category!, title: String!, icon: String!, route: String!): Boolean!
+}

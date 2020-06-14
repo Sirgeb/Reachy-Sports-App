@@ -4,4 +4,3 @@ datamodel: datamodel.graphql
 generate:
   - generator: javascript-client
     output: ./generated/prisma-client/
-    

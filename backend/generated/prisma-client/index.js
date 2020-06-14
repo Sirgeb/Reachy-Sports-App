@@ -17,6 +17,18 @@ var models = [
     embedded: false
   },
   {
+    name: "Group",
+    embedded: false
+  },
+  {
+    name: "Participant",
+    embedded: false
+  },
+  {
+    name: "Message",
+    embedded: false
+  },
+  {
     name: "Category",
     embedded: false
   },
