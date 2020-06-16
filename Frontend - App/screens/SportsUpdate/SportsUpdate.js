@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import gql from 'graphql-tag';
@@ -32,6 +32,7 @@ const NEW_POST = gql`
 const SportsUpdate = () => {
   const { data, refetch } = useQuery(GET_POSTS, { suspend: true });
   const { data: newPost } = useSubscription(NEW_POST);
+  const [ refreshing, setRefreshing ] = useState(false);
 
   useEffect(() => {
     refresh();
@@ -39,9 +40,12 @@ const SportsUpdate = () => {
   
   const refresh = async () => {
     try {
+      setRefreshing(true);
       await refetch();
     } catch(e) {
       console.log(e.message);
+    } finally {
+      setRefreshing(false);
     }
   }
 
@@ -58,6 +62,8 @@ const SportsUpdate = () => {
         data={data && data.getPosts}
         contentContainerStyle={{ width: constants.width }}
         renderItem={_renderItem}
+        refreshing={refreshing}
+        onRefresh={refresh}
       />
     </Container>
   )

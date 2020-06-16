@@ -47,7 +47,7 @@ const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant,
             style={style.image}
           />
           <View> 
-            <Text style={style.title}>{title.toUpperCase()}</Text>
+            <Text style={style.title}>{title}</Text>
           </View>
           <Feather name="users" size={25} style={{ color: styles.orange, marginHorizontal: 22 }} />
       </TouchableOpacity>
@@ -60,7 +60,7 @@ const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant,
           style={style.image}
         />
         <View> 
-          <Text style={style.title}>{title.toUpperCase()}</Text>
+          <Text style={style.title}>{title}</Text>
         </View>
         <TouchableOpacity style={style.joinButton} onPress={() => handleJoinChat(id, route, refetch)}>
           {
@@ -100,7 +100,8 @@ const style = StyleSheet.create({
   },
   title: {
     alignSelf: "center",
-    color: styles.orange
+    color: styles.orange,
+    fontSize: 15
   },
   joinBtnText: {
     color: styles.white
