@@ -1,57 +1,65 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import styled from 'styled-components/native';
+import { FlatList } from 'react-native';
+import gql from 'graphql-tag';
+import { useQuery } from 'react-apollo-hooks';
 import SportsChatListItem from '../../components/SportsChatListItem';
 import styles from '../../styles';
-import { FlatList } from 'react-native';
-import constants from '../../constants';
+import constants from '../../constants'; 
+import withSuspense from '../../components/withSuspense';
+import { useIsLoggedIn } from '../../AuthContext';
 
-const Container = styled.View` 
-  margin: 10px;
-  background-color: ${styles.white};
+const GET_GROUPS = gql`
+  query GET_GROUPS {
+    getGroups {
+      id
+      name
+      title
+      icon
+      route
+      isParticipant
+    }
+  }
 `;
 
-const List = [{
-  id: "0",
-  title: "Football",
-  source: require("../../assets/sports-chat/football-player.png"),
-  route: "FootballChat"
-}, {
-  id: "1",
-  title: "Golf",
-  source: require("../../assets/sports-chat/golf.png"),
-  route: "GolfChat"
-},{
-  id: "2",
-  title: "Basket Ball",
-  source: require("../../assets/sports-chat/basketball-player.png"),
-  route: "BasketballChat"
-}, {
-  id: "3",
-  title: "Boxers",
-  source: require("../../assets/sports-chat/boxing-gloves.png"),
-  route: "BoxersChat"
-}, {
-  id: "4",
-  title: "Runners",
-  source: require("../../assets/sports-chat/exercise.png"),
-  route: "RunnersChat"
-}]
+const _GET_GROUPS = gql`
+  query _GET_GROUPS {
+    getGroups {
+      id
+      name
+      title
+      icon
+      route
+    }
+  }
+`;
 
 const SportsChat = () => {
+  const isLoggedIn = useIsLoggedIn();
+  const { data, refetch } = useQuery(isLoggedIn ? GET_GROUPS : _GET_GROUPS, { suspend: true });
+
+  useEffect(() => {
+    refetch()
+  }, []);
 
   return (
     <Container>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
-        data={List}
+        data={data && data.getGroups}
         contentContainerStyle={{ width: constants.width }}
         renderItem={({item}) => (
-          <SportsChatListItem {...item} />
+          <SportsChatListItem {...item} refetch={refetch} />
         )}
       />
     </Container>
   )
 }
 
-export default SportsChat;
+const Container = styled.View` 
+  margin: 10px;
+  background-color: ${styles.white};
+`;
+
+export default withSuspense(SportsChat);

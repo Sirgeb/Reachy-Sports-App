@@ -35,6 +35,8 @@ const Signin = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [createAccount] = useMutation(CREATE_ACCOUNT);
   const logIn = useLogIn();
+  const nextRoute = navigation.getParam('nextRoute');
+  const groupId = navigation.getParam('groupId');
 
   const facebookLogin = async () => {
     try {
@@ -57,7 +59,7 @@ const Signin = ({ navigation }) => {
         const { data: { createAccount: jwtToken } } = await createAccount({
           variables: {
             firstname: first_name,
-            lastname: last_name,
+            lastname: last_name, 
             email,
             picture: profile_picture,
             facebookID: id
@@ -65,8 +67,7 @@ const Signin = ({ navigation }) => {
         });
 
         await logIn(jwtToken);
-
-        navigation.navigate('SportsUpdate');
+        navigation.navigate(nextRoute, { groupId });
 
       } else { 
         return
@@ -105,8 +106,7 @@ const Signin = ({ navigation }) => {
         });
 
         await logIn(jwtToken);
-
-        navigation.navigate('SportsUpdate');
+        navigation.navigate(nextRoute, { groupId });
 
       } else {
         return { cancelled: true };

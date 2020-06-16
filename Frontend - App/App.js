@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { ApolloProvider } from 'react-apollo-hooks';
 import { AppLoading } from 'expo';
-import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5, EvilIcons, MaterialCommunityIcons } from '@expo/vector-icons';
+import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5, EvilIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import { Asset } from 'expo-asset';
 import { AsyncStorage } from 'react-native';
@@ -21,6 +21,7 @@ const App = () => {
     try {
       // await AsyncStorage.clear();
       // const token = await AsyncStorage.getItem('jwt');
+      // console.log(token);
       // Preload Fonts
       await Font.loadAsync({
         ...Ionicons.font,
@@ -28,6 +29,7 @@ const App = () => {
         ...MaterialIcons.font,
         ...AntDesign.font,
         ...FontAwesome.font,
+        ...Feather.font,
         ...FontAwesome5.font,
         ...MaterialCommunityIcons.font
       });

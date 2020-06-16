@@ -23,9 +23,7 @@ const NEW_COMMENT = gql`
 
 const CREATE_COMMENT = gql`
   mutation createComment($text: String!, $postId: ID!) {
-    createComment(text: $text, postId: $postId) {
-      id
-    }
+    createComment(text: $text, postId: $postId)
   }
 `;
 
@@ -138,7 +136,7 @@ const SportsUpdateDetail = ({ navigation }) => {
           ) : (
             <View>
               <TouchableOpacity 
-                onPress={() => navigation.navigate('Signin')} 
+                onPress={() => navigation.navigate('Signin', { nextRoute: "SportsUpdate" })} 
                 style={{ backgroundColor: styles.orange, padding: 8 }}>
                   <Text style={{ color:styles.white }}>Sign in to write comment!</Text>
               </TouchableOpacity>

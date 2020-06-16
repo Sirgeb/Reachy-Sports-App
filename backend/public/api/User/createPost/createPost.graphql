@@ -1,8 +1,0 @@
-type Mutation {
-  createPost(
-    image: String!
-    caption: String!
-    description: String!
-    category: Category!
-  ): Boolean!
-}
