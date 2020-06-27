@@ -1,9 +1,11 @@
+# import * from "../../generated/prisma-client/index.js"
 type User {
   id: ID! 
+  _id: Int!
   firstname: String!
   lastname: String!
-  fullname: String!
-  picture: String
+  name: String!
+  avatar: String
   permission: Permission! 
   posts: [Post!]!
   groups: [Participant!]!
@@ -48,10 +50,11 @@ type Participant {
 }
 
 type Message {
-  id: ID! 
+  _id: ID! 
   text: String!
+  sent: Boolean!
+  senderInfo: String!
   user: User!
-  isMine: String!
   group: Group!
   createdAt: String!
 }

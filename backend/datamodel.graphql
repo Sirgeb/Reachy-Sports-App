@@ -3,7 +3,7 @@ type User {
   firstname: String!
   lastname: String!
   email: String @unique
-  picture: String
+  avatar: String
   facebookID: String @unique
   googleID: String @unique
   permission: Permission @default(value: USER)
@@ -40,7 +40,7 @@ type Group {
   id: ID! @id @unique 
   name: Category!
   title: String!
-  icon: String!
+  icon: String
   route: String!
   messages: [Message!]! @relation(name: "MessagesOfGroup", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
@@ -56,7 +56,7 @@ type Participant {
 }
 
 type Message {
-  id: ID! @id @unique 
+  _id: ID! @id @unique 
   text: String!
   user: User! @relation(name: "MessagesOfUser")
   group: Group! @relation(name: "MessagesOfGroup")

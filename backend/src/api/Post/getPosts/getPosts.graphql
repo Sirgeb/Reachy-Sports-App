@@ -1,3 +1,9 @@
 type Query {
-  getPosts: [Post!]!
+  getPosts(
+    skip: Int 
+    after: String 
+    before: String 
+    first: Int 
+    last: Int 
+  ): [Post!]!
 }

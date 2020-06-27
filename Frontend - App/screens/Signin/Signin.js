@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useMutation } from 'react-apollo-hooks';
 import styled from 'styled-components/native';
 import * as Facebook from 'expo-facebook';
@@ -9,14 +9,14 @@ import { facebookAppID, googleClientID } from '../../config';
 import AuthButton from '../../components/AuthButton';
 import styles from '../../styles';
 import constants from '../../constants';
-import { useLogIn } from '../../AuthContext';
+import { AuthContext } from '../../AuthContext';
 
 const CREATE_ACCOUNT = gql`  
   mutation createAccount(
     $firstname: String!
     $lastname: String! 
     $email: String 
-    $picture: String
+    $avatar: String
     $facebookID: String 
     $googleID: String
   ) {
@@ -24,19 +24,26 @@ const CREATE_ACCOUNT = gql`
       firstname: $firstname  
       lastname: $lastname 
       email: $email 
-      picture: $picture  
+      avatar: $avatar  
       facebookID: $facebookID  
       googleID: $googleID
-    )
+    ) {
+      token
+      userId
+    }
   }
 `;
 
 const Signin = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [createAccount] = useMutation(CREATE_ACCOUNT);
-  const logIn = useLogIn();
-  const nextRoute = navigation.getParam('nextRoute');
+  const { logUserIn, setUserId } = useContext(AuthContext);
+  let nextRoute = navigation.getParam('nextRoute');
   const groupId = navigation.getParam('groupId');
+
+  if (!navigation.getParam('nextRoute')) {
+    nextRoute = "SportsUpdate"
+  }
 
   const facebookLogin = async () => {
     try {
@@ -48,25 +55,24 @@ const Signin = ({ navigation }) => {
       });
 
       if (type === 'success') {
-        const response = await fetch(
+        const userProfile = await fetch(
           `https://graph.facebook.com/me?access_token=${token}&fields=id,email,first_name,last_name,picture`
         );
-
         const { 
           id, email, first_name, last_name, picture: { data : { url: profile_picture } } 
-        } = await response.json();
-
-        const { data: { createAccount: jwtToken } } = await createAccount({
+        } = await userProfile.json();
+        const { data: { createAccount: { token, userId } } } = await createAccount({
           variables: {
             firstname: first_name,
             lastname: last_name, 
             email,
-            picture: profile_picture,
+            avatar: profile_picture,
             facebookID: id
           }
         });
 
-        await logIn(jwtToken);
+        await logUserIn(token);
+        await setUserId(userId);
         navigation.navigate(nextRoute, { groupId });
 
       } else { 
@@ -89,23 +95,22 @@ const Signin = ({ navigation }) => {
       });
   
       if (result.type === 'success') {
-        const user = await fetch('https://www.googleapis.com/userinfo/v2/me', {
+        const userProfile = await fetch('https://www.googleapis.com/userinfo/v2/me', {
           headers: { Authorization: `Bearer ${result.accessToken}` },
         });
-
-        const { id, email, family_name, given_name, picture } = await user.json();
-
-        const { data: { createAccount: jwtToken } } = await createAccount({
+        const { id, email, family_name, given_name, picture } = await userProfile.json();
+        const { data: { createAccount: { token, userId } } } = await createAccount({
           variables: {
             firstname: given_name,
             lastname: family_name,
             email,
-            picture,
+            avatar: picture,
             googleID: id
           }
         });
 
-        await logIn(jwtToken);
+        await logUserIn(token);
+        await setUserId(userId);
         navigation.navigate(nextRoute, { groupId });
 
       } else {
@@ -146,7 +151,7 @@ const Signin = ({ navigation }) => {
             onPress={facebookLogin}
             text="Sign in with Facebook"
             bgColor={styles.facebook}
-          />
+          /> 
           <AuthButton
             onPress={googleLogin}
             text="Sign in with Google"

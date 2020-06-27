@@ -311,7 +311,7 @@ type Group {
   id: ID!
   name: Category!
   title: String!
-  icon: String!
+  icon: String
   route: String!
   messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   createdAt: DateTime!
@@ -328,7 +328,7 @@ input GroupCreateInput {
   id: ID
   name: Category!
   title: String!
-  icon: String!
+  icon: String
   route: String!
   messages: MessageCreateManyWithoutGroupInput
 }
@@ -342,7 +342,7 @@ input GroupCreateWithoutMessagesInput {
   id: ID
   name: Category!
   title: String!
-  icon: String!
+  icon: String
   route: String!
 }
 
@@ -372,7 +372,7 @@ type GroupPreviousValues {
   id: ID!
   name: Category!
   title: String!
-  icon: String!
+  icon: String
   route: String!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -522,7 +522,7 @@ input GroupWhereUniqueInput {
 scalar Long
 
 type Message {
-  id: ID!
+  _id: ID!
   text: String!
   user: User!
   group: Group!
@@ -537,7 +537,7 @@ type MessageConnection {
 }
 
 input MessageCreateInput {
-  id: ID
+  _id: ID
   text: String!
   user: UserCreateOneWithoutMessagesInput!
   group: GroupCreateOneWithoutMessagesInput!
@@ -554,13 +554,13 @@ input MessageCreateManyWithoutUserInput {
 }
 
 input MessageCreateWithoutGroupInput {
-  id: ID
+  _id: ID
   text: String!
   user: UserCreateOneWithoutMessagesInput!
 }
 
 input MessageCreateWithoutUserInput {
-  id: ID
+  _id: ID
   text: String!
   group: GroupCreateOneWithoutMessagesInput!
 }
@@ -571,8 +571,8 @@ type MessageEdge {
 }
 
 enum MessageOrderByInput {
-  id_ASC
-  id_DESC
+  _id_ASC
+  _id_DESC
   text_ASC
   text_DESC
   createdAt_ASC
@@ -582,27 +582,27 @@ enum MessageOrderByInput {
 }
 
 type MessagePreviousValues {
-  id: ID!
+  _id: ID!
   text: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 input MessageScalarWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
   text: String
   text_not: String
   text_in: [String!]
@@ -732,20 +732,20 @@ input MessageUpsertWithWhereUniqueWithoutUserInput {
 }
 
 input MessageWhereInput {
-  id: ID
-  id_not: ID
-  id_in: [ID!]
-  id_not_in: [ID!]
-  id_lt: ID
-  id_lte: ID
-  id_gt: ID
-  id_gte: ID
-  id_contains: ID
-  id_not_contains: ID
-  id_starts_with: ID
-  id_not_starts_with: ID
-  id_ends_with: ID
-  id_not_ends_with: ID
+  _id: ID
+  _id_not: ID
+  _id_in: [ID!]
+  _id_not_in: [ID!]
+  _id_lt: ID
+  _id_lte: ID
+  _id_gt: ID
+  _id_gte: ID
+  _id_contains: ID
+  _id_not_contains: ID
+  _id_starts_with: ID
+  _id_not_starts_with: ID
+  _id_ends_with: ID
+  _id_not_ends_with: ID
   text: String
   text_not: String
   text_in: [String!]
@@ -784,7 +784,7 @@ input MessageWhereInput {
 }
 
 input MessageWhereUniqueInput {
-  id: ID
+  _id: ID
 }
 
 type Mutation {
@@ -1464,7 +1464,7 @@ type User {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1487,7 +1487,7 @@ input UserCreateInput {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1522,7 +1522,7 @@ input UserCreateWithoutCommentsInput {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1536,7 +1536,7 @@ input UserCreateWithoutGroupsInput {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1550,7 +1550,7 @@ input UserCreateWithoutMessagesInput {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1564,7 +1564,7 @@ input UserCreateWithoutPostsInput {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1587,8 +1587,8 @@ enum UserOrderByInput {
   lastname_DESC
   email_ASC
   email_DESC
-  picture_ASC
-  picture_DESC
+  avatar_ASC
+  avatar_DESC
   facebookID_ASC
   facebookID_DESC
   googleID_ASC
@@ -1606,7 +1606,7 @@ type UserPreviousValues {
   firstname: String!
   lastname: String!
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1636,7 +1636,7 @@ input UserUpdateInput {
   firstname: String
   lastname: String
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1650,7 +1650,7 @@ input UserUpdateManyMutationInput {
   firstname: String
   lastname: String
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1692,7 +1692,7 @@ input UserUpdateWithoutCommentsDataInput {
   firstname: String
   lastname: String
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1705,7 +1705,7 @@ input UserUpdateWithoutGroupsDataInput {
   firstname: String
   lastname: String
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1718,7 +1718,7 @@ input UserUpdateWithoutMessagesDataInput {
   firstname: String
   lastname: String
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1731,7 +1731,7 @@ input UserUpdateWithoutPostsDataInput {
   firstname: String
   lastname: String
   email: String
-  picture: String
+  avatar: String
   facebookID: String
   googleID: String
   permission: Permission
@@ -1817,20 +1817,20 @@ input UserWhereInput {
   email_not_starts_with: String
   email_ends_with: String
   email_not_ends_with: String
-  picture: String
-  picture_not: String
-  picture_in: [String!]
-  picture_not_in: [String!]
-  picture_lt: String
-  picture_lte: String
-  picture_gt: String
-  picture_gte: String
-  picture_contains: String
-  picture_not_contains: String
-  picture_starts_with: String
-  picture_not_starts_with: String
-  picture_ends_with: String
-  picture_not_ends_with: String
+  avatar: String
+  avatar_not: String
+  avatar_in: [String!]
+  avatar_not_in: [String!]
+  avatar_lt: String
+  avatar_lte: String
+  avatar_gt: String
+  avatar_gte: String
+  avatar_contains: String
+  avatar_not_contains: String
+  avatar_starts_with: String
+  avatar_not_starts_with: String
+  avatar_ends_with: String
+  avatar_not_ends_with: String
   facebookID: String
   facebookID_not: String
   facebookID_in: [String!]

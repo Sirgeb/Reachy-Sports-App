@@ -1,5 +1,5 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { TextInput, FlatList, TouchableOpacity, Text, View, Keyboard, StyleSheet, ActivityIndicator } from 'react-native';
+import { TextInput, FlatList, TouchableOpacity, Text, View, Keyboard, StyleSheet, ActivityIndicator, Alert } from 'react-native';
 import styled from 'styled-components/native';
 import { useQuery, useSubscription, useMutation } from "react-apollo-hooks";
 import { withNavigation } from 'react-navigation';
@@ -42,8 +42,8 @@ const GET_POST = gql`
         text 
         createdAt
         user {
-          picture
-          fullname
+          avatar
+          name
         }
       }
     }
@@ -61,10 +61,18 @@ const SportsUpdateDetail = ({ navigation }) => {
   const flatListRef = useRef();
 
   useEffect(() => {
-    if (newComment !== undefined) {
-      flatListRef.current.scrollToIndex({ index: 0, animated: true });
+    const referesh = async () => {
+      await refetch();
     }
-    refetch();
+    referesh();
+    if (newComment !== undefined) {
+      if (data.getPost.commentsCount === 0) {
+        Alert.alert("Welcome, I'm glad! You're the first to comment... 😎🎈✨🎉");
+      } else {
+        Alert.alert("Your comment is noted... 😎");
+        flatListRef.current.scrollToIndex({ index: 0, animated: true });
+      }
+    }
   }, [newComment])
 
   const sendComment = async () => {
@@ -86,10 +94,10 @@ const SportsUpdateDetail = ({ navigation }) => {
       <MessageContainer>
         <Image 
           style={{ backgroundColor: styles.lightGrey }} 
-          source={{ uri: comment.user.picture }} 
+          source={{ uri: comment.user.avatar }} 
         />
         <MessageDetail>
-          <Name>{`${comment.user.fullname}`}</Name>
+          <Name>{`${comment.user.name}`}</Name>
           <Message>{comment.text}</Message>
           <Time>{moment(comment.createdAt).fromNow()}</Time>
         </MessageDetail>
@@ -98,7 +106,7 @@ const SportsUpdateDetail = ({ navigation }) => {
   }
 
   const post = data.getPost;
-  const comments = data.getPost.comments;
+  const comments = data.getPost.comments || [];
 
   return (
     post && (

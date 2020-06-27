@@ -1,0 +1,31 @@
+type Query {
+  postsConnection(
+    skip: Int 
+    after: String 
+    before: String 
+    first: Int 
+    last: Int 
+  ): PostConnection!
+}
+
+type PostConnection {
+  pageInfo: PageInfo!
+  edges: [PostEdge]!
+  aggregate: AggregatePost!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type PostEdge {
+  node: Post!
+  cursor: String!
+}
+
+type AggregatePost {
+  count: Int!
+}

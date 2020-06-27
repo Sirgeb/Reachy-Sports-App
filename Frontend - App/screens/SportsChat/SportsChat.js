@@ -36,14 +36,14 @@ const _GET_GROUPS = gql`
 
 const SportsChat = () => {
   const isLoggedIn = useIsLoggedIn();
-  const { data, refetch } = useQuery(isLoggedIn ? GET_GROUPS : _GET_GROUPS, { suspend: true });
+  const { data, refetch } = useQuery(!!isLoggedIn ? GET_GROUPS : _GET_GROUPS, { suspend: true });
 
-  useEffect(() => {
+  useEffect(() => { 
     refetch()
   }, []);
 
   return (
-    <Container>
+    <Container> 
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}

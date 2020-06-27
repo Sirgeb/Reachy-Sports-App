@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Image, View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native'
+import React, { useState } from 'react';
+import { Image, View, Text, StyleSheet, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { useMutation } from 'react-apollo-hooks';
 import { withNavigation } from "react-navigation";
 import gql from 'graphql-tag';
@@ -42,14 +42,14 @@ const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant,
         style={style.container} 
         onPress={() => navigation.navigate(route, { groupId: id })}
       >
-          <Image 
-            source={{uri: icon}}
-            style={style.image}
-          />
-          <View> 
-            <Text style={style.title}>{title}</Text>
-          </View>
-          <Feather name="users" size={25} style={{ color: styles.orange, marginHorizontal: 22 }} />
+        <Image 
+          source={{uri: icon}}
+          style={style.image}
+        />
+        <View> 
+          <Text style={style.title}>{title}</Text>
+        </View>
+        <Feather name="users" size={25} style={{ color: styles.orange, marginHorizontal: 22 }} />
       </TouchableOpacity>
     )
   } else {

@@ -21,7 +21,7 @@ const App = () => {
     try {
       // await AsyncStorage.clear();
       // const token = await AsyncStorage.getItem('jwt');
-      // console.log(token);
+
       // Preload Fonts
       await Font.loadAsync({
         ...Ionicons.font,

@@ -1,10 +1,13 @@
-import React from 'react'
+import React from 'react';
+import { withNavigation } from 'react-navigation';
 import GroupChat from '../../../components/GroupChat';
 
-const BoxersChat = () => {
+const BoxersChat = ({ navigation }) => {
+  const groupId = navigation.getParam("groupId");
+
   return (
-    <GroupChat />
+    <GroupChat groupId={groupId} />
   )
 }
 
-export default BoxersChat;
+export default withNavigation(BoxersChat);

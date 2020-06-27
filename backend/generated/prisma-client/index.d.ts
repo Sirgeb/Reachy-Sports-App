@@ -346,8 +346,8 @@ export type ParticipantOrderByInput =
   | "updatedAt_DESC";
 
 export type MessageOrderByInput =
-  | "id_ASC"
-  | "id_DESC"
+  | "_id_ASC"
+  | "_id_DESC"
   | "text_ASC"
   | "text_DESC"
   | "createdAt_ASC"
@@ -380,8 +380,8 @@ export type UserOrderByInput =
   | "lastname_DESC"
   | "email_ASC"
   | "email_DESC"
-  | "picture_ASC"
-  | "picture_DESC"
+  | "avatar_ASC"
+  | "avatar_DESC"
   | "facebookID_ASC"
   | "facebookID_DESC"
   | "googleID_ASC"
@@ -508,20 +508,20 @@ export interface UserWhereInput {
   email_not_starts_with?: Maybe<String>;
   email_ends_with?: Maybe<String>;
   email_not_ends_with?: Maybe<String>;
-  picture?: Maybe<String>;
-  picture_not?: Maybe<String>;
-  picture_in?: Maybe<String[] | String>;
-  picture_not_in?: Maybe<String[] | String>;
-  picture_lt?: Maybe<String>;
-  picture_lte?: Maybe<String>;
-  picture_gt?: Maybe<String>;
-  picture_gte?: Maybe<String>;
-  picture_contains?: Maybe<String>;
-  picture_not_contains?: Maybe<String>;
-  picture_starts_with?: Maybe<String>;
-  picture_not_starts_with?: Maybe<String>;
-  picture_ends_with?: Maybe<String>;
-  picture_not_ends_with?: Maybe<String>;
+  avatar?: Maybe<String>;
+  avatar_not?: Maybe<String>;
+  avatar_in?: Maybe<String[] | String>;
+  avatar_not_in?: Maybe<String[] | String>;
+  avatar_lt?: Maybe<String>;
+  avatar_lte?: Maybe<String>;
+  avatar_gt?: Maybe<String>;
+  avatar_gte?: Maybe<String>;
+  avatar_contains?: Maybe<String>;
+  avatar_not_contains?: Maybe<String>;
+  avatar_starts_with?: Maybe<String>;
+  avatar_not_starts_with?: Maybe<String>;
+  avatar_ends_with?: Maybe<String>;
+  avatar_not_ends_with?: Maybe<String>;
   facebookID?: Maybe<String>;
   facebookID_not?: Maybe<String>;
   facebookID_in?: Maybe<String[] | String>;
@@ -725,20 +725,20 @@ export interface ParticipantWhereInput {
 }
 
 export interface MessageWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
   text?: Maybe<String>;
   text_not?: Maybe<String>;
   text_in?: Maybe<String[] | String>;
@@ -866,7 +866,7 @@ export type GroupWhereUniqueInput = AtLeastOne<{
 }>;
 
 export type MessageWhereUniqueInput = AtLeastOne<{
-  id: Maybe<ID_Input>;
+  _id: Maybe<ID_Input>;
 }>;
 
 export type ParticipantWhereUniqueInput = AtLeastOne<{
@@ -901,7 +901,7 @@ export interface UserCreateWithoutCommentsInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -957,7 +957,7 @@ export interface MessageCreateManyWithoutUserInput {
 }
 
 export interface MessageCreateWithoutUserInput {
-  id?: Maybe<ID_Input>;
+  _id?: Maybe<ID_Input>;
   text: String;
   group: GroupCreateOneWithoutMessagesInput;
 }
@@ -971,7 +971,7 @@ export interface GroupCreateWithoutMessagesInput {
   id?: Maybe<ID_Input>;
   name: Category;
   title: String;
-  icon: String;
+  icon?: Maybe<String>;
   route: String;
 }
 
@@ -999,7 +999,7 @@ export interface UserCreateWithoutPostsInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1040,7 +1040,7 @@ export interface UserUpdateWithoutCommentsDataInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1440,20 +1440,20 @@ export interface MessageUpsertWithWhereUniqueWithoutUserInput {
 }
 
 export interface MessageScalarWhereInput {
-  id?: Maybe<ID_Input>;
-  id_not?: Maybe<ID_Input>;
-  id_in?: Maybe<ID_Input[] | ID_Input>;
-  id_not_in?: Maybe<ID_Input[] | ID_Input>;
-  id_lt?: Maybe<ID_Input>;
-  id_lte?: Maybe<ID_Input>;
-  id_gt?: Maybe<ID_Input>;
-  id_gte?: Maybe<ID_Input>;
-  id_contains?: Maybe<ID_Input>;
-  id_not_contains?: Maybe<ID_Input>;
-  id_starts_with?: Maybe<ID_Input>;
-  id_not_starts_with?: Maybe<ID_Input>;
-  id_ends_with?: Maybe<ID_Input>;
-  id_not_ends_with?: Maybe<ID_Input>;
+  _id?: Maybe<ID_Input>;
+  _id_not?: Maybe<ID_Input>;
+  _id_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  _id_lt?: Maybe<ID_Input>;
+  _id_lte?: Maybe<ID_Input>;
+  _id_gt?: Maybe<ID_Input>;
+  _id_gte?: Maybe<ID_Input>;
+  _id_contains?: Maybe<ID_Input>;
+  _id_not_contains?: Maybe<ID_Input>;
+  _id_starts_with?: Maybe<ID_Input>;
+  _id_not_starts_with?: Maybe<ID_Input>;
+  _id_ends_with?: Maybe<ID_Input>;
+  _id_not_ends_with?: Maybe<ID_Input>;
   text?: Maybe<String>;
   text_not?: Maybe<String>;
   text_in?: Maybe<String[] | String>;
@@ -1533,7 +1533,7 @@ export interface UserUpdateWithoutPostsDataInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1599,7 +1599,7 @@ export interface GroupCreateInput {
   id?: Maybe<ID_Input>;
   name: Category;
   title: String;
-  icon: String;
+  icon?: Maybe<String>;
   route: String;
   messages?: Maybe<MessageCreateManyWithoutGroupInput>;
 }
@@ -1612,7 +1612,7 @@ export interface MessageCreateManyWithoutGroupInput {
 }
 
 export interface MessageCreateWithoutGroupInput {
-  id?: Maybe<ID_Input>;
+  _id?: Maybe<ID_Input>;
   text: String;
   user: UserCreateOneWithoutMessagesInput;
 }
@@ -1627,7 +1627,7 @@ export interface UserCreateWithoutMessagesInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1688,7 +1688,7 @@ export interface UserUpdateWithoutMessagesDataInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1716,7 +1716,7 @@ export interface GroupUpdateManyMutationInput {
 }
 
 export interface MessageCreateInput {
-  id?: Maybe<ID_Input>;
+  _id?: Maybe<ID_Input>;
   text: String;
   user: UserCreateOneWithoutMessagesInput;
   group: GroupCreateOneWithoutMessagesInput;
@@ -1748,7 +1748,7 @@ export interface UserCreateWithoutGroupsInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1773,7 +1773,7 @@ export interface UserUpdateWithoutGroupsDataInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1822,7 +1822,7 @@ export interface UserCreateInput {
   firstname: String;
   lastname: String;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1836,7 +1836,7 @@ export interface UserUpdateInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1850,7 +1850,7 @@ export interface UserUpdateManyMutationInput {
   firstname?: Maybe<String>;
   lastname?: Maybe<String>;
   email?: Maybe<String>;
-  picture?: Maybe<String>;
+  avatar?: Maybe<String>;
   facebookID?: Maybe<String>;
   googleID?: Maybe<String>;
   permission?: Maybe<Permission>;
@@ -1975,7 +1975,7 @@ export interface User {
   firstname: String;
   lastname: String;
   email?: String;
-  picture?: String;
+  avatar?: String;
   facebookID?: String;
   googleID?: String;
   permission?: Permission;
@@ -1988,7 +1988,7 @@ export interface UserPromise extends Promise<User>, Fragmentable {
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
   email: () => Promise<String>;
-  picture: () => Promise<String>;
+  avatar: () => Promise<String>;
   facebookID: () => Promise<String>;
   googleID: () => Promise<String>;
   permission: () => Promise<Permission>;
@@ -2039,7 +2039,7 @@ export interface UserSubscription
   firstname: () => Promise<AsyncIterator<String>>;
   lastname: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  picture: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
   facebookID: () => Promise<AsyncIterator<String>>;
   googleID: () => Promise<AsyncIterator<String>>;
   permission: () => Promise<AsyncIterator<Permission>>;
@@ -2090,7 +2090,7 @@ export interface UserNullablePromise
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
   email: () => Promise<String>;
-  picture: () => Promise<String>;
+  avatar: () => Promise<String>;
   facebookID: () => Promise<String>;
   googleID: () => Promise<String>;
   permission: () => Promise<Permission>;
@@ -2244,14 +2244,14 @@ export interface ParticipantNullablePromise
 }
 
 export interface Message {
-  id: ID_Output;
+  _id: ID_Output;
   text: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
 
 export interface MessagePromise extends Promise<Message>, Fragmentable {
-  id: () => Promise<ID_Output>;
+  _id: () => Promise<ID_Output>;
   text: () => Promise<String>;
   user: <T = UserPromise>() => T;
   group: <T = GroupPromise>() => T;
@@ -2262,7 +2262,7 @@ export interface MessagePromise extends Promise<Message>, Fragmentable {
 export interface MessageSubscription
   extends Promise<AsyncIterator<Message>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  _id: () => Promise<AsyncIterator<ID_Output>>;
   text: () => Promise<AsyncIterator<String>>;
   user: <T = UserSubscription>() => T;
   group: <T = GroupSubscription>() => T;
@@ -2273,7 +2273,7 @@ export interface MessageSubscription
 export interface MessageNullablePromise
   extends Promise<Message | null>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  _id: () => Promise<ID_Output>;
   text: () => Promise<String>;
   user: <T = UserPromise>() => T;
   group: <T = GroupPromise>() => T;
@@ -2285,7 +2285,7 @@ export interface Group {
   id: ID_Output;
   name: Category;
   title: String;
-  icon: String;
+  icon?: String;
   route: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2796,7 +2796,7 @@ export interface GroupPreviousValues {
   id: ID_Output;
   name: Category;
   title: String;
-  icon: String;
+  icon?: String;
   route: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2852,7 +2852,7 @@ export interface MessageSubscriptionPayloadSubscription
 }
 
 export interface MessagePreviousValues {
-  id: ID_Output;
+  _id: ID_Output;
   text: String;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
@@ -2861,7 +2861,7 @@ export interface MessagePreviousValues {
 export interface MessagePreviousValuesPromise
   extends Promise<MessagePreviousValues>,
     Fragmentable {
-  id: () => Promise<ID_Output>;
+  _id: () => Promise<ID_Output>;
   text: () => Promise<String>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
@@ -2870,7 +2870,7 @@ export interface MessagePreviousValuesPromise
 export interface MessagePreviousValuesSubscription
   extends Promise<AsyncIterator<MessagePreviousValues>>,
     Fragmentable {
-  id: () => Promise<AsyncIterator<ID_Output>>;
+  _id: () => Promise<AsyncIterator<ID_Output>>;
   text: () => Promise<AsyncIterator<String>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -3015,7 +3015,7 @@ export interface UserPreviousValues {
   firstname: String;
   lastname: String;
   email?: String;
-  picture?: String;
+  avatar?: String;
   facebookID?: String;
   googleID?: String;
   permission?: Permission;
@@ -3030,7 +3030,7 @@ export interface UserPreviousValuesPromise
   firstname: () => Promise<String>;
   lastname: () => Promise<String>;
   email: () => Promise<String>;
-  picture: () => Promise<String>;
+  avatar: () => Promise<String>;
   facebookID: () => Promise<String>;
   googleID: () => Promise<String>;
   permission: () => Promise<Permission>;
@@ -3045,7 +3045,7 @@ export interface UserPreviousValuesSubscription
   firstname: () => Promise<AsyncIterator<String>>;
   lastname: () => Promise<AsyncIterator<String>>;
   email: () => Promise<AsyncIterator<String>>;
-  picture: () => Promise<AsyncIterator<String>>;
+  avatar: () => Promise<AsyncIterator<String>>;
   facebookID: () => Promise<AsyncIterator<String>>;
   googleID: () => Promise<AsyncIterator<String>>;
   permission: () => Promise<AsyncIterator<Permission>>;

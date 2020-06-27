@@ -6,11 +6,10 @@ import { withNavigation } from 'react-navigation';
 import styles from '../styles';
 import { EvilIcons, FontAwesome5 } from '@expo/vector-icons';
 
-class SportsUpdateListItem extends React.Component {
+class SportsUpdateListItem extends React.PureComponent {
 
   render() {
     const { id, navigation, caption, image, category, createdAt, commentsCount } = this.props;
-
     return (
       <PostContainer onPress={() => navigation.navigate('SportsUpdateDetail', { id })}>
         <Image 

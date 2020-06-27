@@ -7,11 +7,10 @@ export default {
       isAuthenticated(request);
 
       return prisma.messages({ where: { 
-          group: {
-            id: groupId
-          }
-        },  
-        orderBy: "createdAt_DESC" }).$fragment(MESSAGE_FRAGMENT);
+        group: {
+          id: groupId
+        }
+      }}).$fragment(MESSAGE_FRAGMENT);
     }
   }
 };

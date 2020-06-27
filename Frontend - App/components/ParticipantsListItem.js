@@ -1,18 +1,19 @@
-import React from 'react'
-import { Image } from 'react-native'
+import React from 'react';
+import { Image } from 'react-native';
 import styled from 'styled-components/native';
 import styles from '../styles';
 import { AntDesign } from '@expo/vector-icons';
 
-const ParticipantsListItem = ({ fullname }) => {
+const ParticipantsListItem = ({ user }) => {
+
   return (
     <Container>
       <Image 
-        source={require('../assets/unknown-profile.png')}
+        source={{ uri: user.avatar }}
         style={{ height: 70, width: 70}}
-      />
+      /> 
       <Wrapper>
-        <Name>{fullname}</Name>
+        <Name>{user.name}</Name>
         <AntDesign 
           name="user" 
           style={{ color: styles.orange, paddingHorizontal: 12 }} 

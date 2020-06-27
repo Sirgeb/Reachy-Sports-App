@@ -3,7 +3,7 @@ export const USER_FRAGMENT = `
     id 
     firstname
     lastname
-    picture
+    avatar
     facebookID
     googleID
     permission
@@ -28,7 +28,7 @@ export const POST_FRAGMENT = `
       createdAt
       user {
         id 
-        picture
+        avatar
         firstname 
         lastname
       }
@@ -44,13 +44,13 @@ export const GROUP_FRAGMENT = `
     icon
     route
     createdAt
-    messages(orderBy: createdAt_DESC) {
-      id 
+    messages {
+      _id 
       text 
       createdAt
       user {
         id 
-        picture
+        avatar
         firstname 
         lastname
       }
@@ -64,7 +64,7 @@ export const PARTICIPANT_FRAGMENT = `
     groupId
     user {
       id 
-      picture
+      avatar
       firstname 
       lastname
     }
@@ -73,7 +73,7 @@ export const PARTICIPANT_FRAGMENT = `
 
 export const MESSAGE_FRAGMENT = `
   fragment MessageData on Message {
-    id 
+    _id 
     text
     createdAt
     group{
@@ -84,7 +84,7 @@ export const MESSAGE_FRAGMENT = `
       id
       firstname 
       lastname
-      picture
+      avatar
     }
   } 
 `;

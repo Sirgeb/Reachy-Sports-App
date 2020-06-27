@@ -3,9 +3,14 @@ type Mutation {
     firstname: String!
     lastname: String!
     email: String
-    picture: String
+    avatar: String
     facebookID: String
     googleID: String
     permission: Permission
-  ): String!
+  ): userPayload!
+}
+
+type userPayload {
+  token: String!
+  userId: ID!
 }

@@ -1,29 +1,35 @@
-import React from 'react'
+import React from 'react';
 import styled from 'styled-components/native';
 import { FlatList } from 'react-native';
+import { useQuery } from 'react-apollo-hooks';
+import { withNavigation } from 'react-navigation';
+import gql from 'graphql-tag';
 import ParticipantsListItem from '../../../components/ParticipantsListItem';
+import withSuspense from '../../../components/withSuspense';
 import styles from '../../../styles';
 import constants from '../../../constants';
 
-const Container = styled.View` 
-  margin: 10px;
-  background-color: ${styles.white};
+const GET_PARTICIPANTS = gql`
+  query GET_PARTICIPANTS($groupId: ID!) {
+    getParticipants(groupId: $groupId) {
+      id 
+      user {
+        name
+        avatar
+      }
+    }
+  }
 `;
 
-const People = [{
-  id: "0",
-  fullname: "Chinedu Orji"
-}, {
-  id: "1",
-  fullname: "ifeanyi Okorie"
-}]
+const Participants = ({ navigation }) => {
+  const groupId = navigation.getParam('groupId');
+  const { data } = useQuery(GET_PARTICIPANTS, { variables: { groupId }, suspend: true });
 
-const Participants = () => {
-  return (
+  return ( 
     <Container>
       <FlatList
         keyExtractor={item => item.id}
-        data={People}
+        data={data.getParticipants}
         contentContainerStyle={{ width: constants.width }}
         renderItem={({item}) => (
           <ParticipantsListItem {...item} />
@@ -33,5 +39,9 @@ const Participants = () => {
   )
 }
 
-export default Participants;
+const Container = styled.View` 
+  margin: 10px;
+  background-color: ${styles.white};
+`;
 
+export default withSuspense(withNavigation(Participants));

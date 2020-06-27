@@ -1,7 +1,6 @@
 import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import styles from '../styles';
-import ProfileLink from '../components/ProfileLink';
 import MenuLink from '../components/MenuLink';
 import HeaderTitle from '../components/HeaderTitle';
 import { Feather } from "@expo/vector-icons";
@@ -30,8 +29,8 @@ const ChatNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerTitle: "Football Chat",
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Participants')}>
-          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 15 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Participants', { groupId: navigation.getParam('groupId')})}>
+          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 20 }} />
         </TouchableOpacity>
       )
     })
@@ -41,8 +40,8 @@ const ChatNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerTitle: "Golf Chat",
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Participants')}>
-          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 15 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Participants', { groupId: navigation.getParam('groupId')})}>
+          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 20 }} />
         </TouchableOpacity>
       )
     })
@@ -52,8 +51,8 @@ const ChatNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerTitle: "Basketball Chat",
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Participants')}>
-          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 15 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Participants', { groupId: navigation.getParam('groupId')})}>
+          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 20 }} />
         </TouchableOpacity>
       )
     })
@@ -63,8 +62,8 @@ const ChatNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerTitle: "Boxers Chat",
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Participants')}>
-          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 15 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Participants', { groupId: navigation.getParam('groupId')})}>
+          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 20 }} />
         </TouchableOpacity>
       )
     })
@@ -74,8 +73,8 @@ const ChatNavigator = createStackNavigator({
     navigationOptions: ({ navigation }) => ({
       headerTitle: "Runners Chat",
       headerRight: () => (
-        <TouchableOpacity onPress={() => navigation.navigate('Participants')}>
-          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 15 }} />
+        <TouchableOpacity onPress={() => navigation.navigate('Participants', { groupId: navigation.getParam('groupId')})}>
+          <Feather name="users" size={25} style={{ color: styles.white, marginHorizontal: 20 }} />
         </TouchableOpacity>
       )
     })

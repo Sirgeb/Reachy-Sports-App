@@ -4,10 +4,11 @@ import { generateToken } from '../../../utils';
 export default {
   Mutation: {
     createAccount: async (_, args) => {
-      const { firstname, lastname, email, picture, facebookID, googleID } = args;
+      const { firstname, lastname, email, avatar, facebookID, googleID } = args;
 
       const id = facebookID || googleID;
       let source;
+      let user;
 
       const exists = await prisma.$exists.user({
         OR:[{ facebookID }, { googleID }]
@@ -25,26 +26,32 @@ export default {
       }
 
       if (exists) {
-        await prisma.updateUser({
+        user = await prisma.updateUser({
           data: {
             firstname,
             lastname,
             email,
-            picture
+            avatar
           },
           where: userAuthenticatedWith(facebookID, googleID)
         });
-        return generateToken(id, source);
+        return {
+          token: generateToken(id, source),
+          userId: user.id 
+        }
       }
 
-      await prisma.createUser({
+      user = await prisma.createUser({
         firstname,
         lastname,
         email,
-        picture,
+        avatar, 
         ...userAuthenticatedWith(facebookID, googleID)
       }); 
-      return generateToken(id, source);
+      return {
+        token: generateToken(id, source),
+        userId: user.id 
+      }
     }
   }
 }
