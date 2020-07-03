@@ -1,0 +1,32 @@
+type Query {
+  commentsConnection(
+    postId: ID!
+    skip: Int 
+    after: String 
+    before: String 
+    first: Int 
+    last: Int 
+  ): CommentConnection!
+}
+
+type CommentConnection {
+  pageInfo: PageInfo!
+  edges: [CommentEdge]!
+  aggregate: AggregateComment!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type CommentEdge {
+  node: Comment!
+  cursor: String!
+}
+
+type AggregateComment {
+  count: Int!
+}

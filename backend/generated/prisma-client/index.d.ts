@@ -326,10 +326,14 @@ export type PostOrderByInput =
   | "image_DESC"
   | "caption_ASC"
   | "caption_DESC"
+  | "overview_ASC"
+  | "overview_DESC"
   | "description_ASC"
   | "description_DESC"
   | "category_ASC"
   | "category_DESC"
+  | "isFeatured_ASC"
+  | "isFeatured_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -630,6 +634,20 @@ export interface PostWhereInput {
   caption_not_starts_with?: Maybe<String>;
   caption_ends_with?: Maybe<String>;
   caption_not_ends_with?: Maybe<String>;
+  overview?: Maybe<String>;
+  overview_not?: Maybe<String>;
+  overview_in?: Maybe<String[] | String>;
+  overview_not_in?: Maybe<String[] | String>;
+  overview_lt?: Maybe<String>;
+  overview_lte?: Maybe<String>;
+  overview_gt?: Maybe<String>;
+  overview_gte?: Maybe<String>;
+  overview_contains?: Maybe<String>;
+  overview_not_contains?: Maybe<String>;
+  overview_starts_with?: Maybe<String>;
+  overview_not_starts_with?: Maybe<String>;
+  overview_ends_with?: Maybe<String>;
+  overview_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -648,6 +666,8 @@ export interface PostWhereInput {
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
+  isFeatured?: Maybe<Boolean>;
+  isFeatured_not?: Maybe<Boolean>;
   comments_every?: Maybe<CommentWhereInput>;
   comments_some?: Maybe<CommentWhereInput>;
   comments_none?: Maybe<CommentWhereInput>;
@@ -919,8 +939,10 @@ export interface PostCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   image: String;
   caption: String;
+  overview?: Maybe<String>;
   description: String;
   category: Category;
+  isFeatured?: Maybe<Boolean>;
   comments?: Maybe<CommentCreateManyWithoutPostInput>;
 }
 
@@ -984,8 +1006,10 @@ export interface PostCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
   image: String;
   caption: String;
+  overview?: Maybe<String>;
   description: String;
   category: Category;
+  isFeatured?: Maybe<Boolean>;
   user?: Maybe<UserCreateOneWithoutPostsInput>;
 }
 
@@ -1077,8 +1101,10 @@ export interface PostUpdateWithWhereUniqueWithoutUserInput {
 export interface PostUpdateWithoutUserDataInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
+  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
+  isFeatured?: Maybe<Boolean>;
   comments?: Maybe<CommentUpdateManyWithoutPostInput>;
 }
 
@@ -1229,6 +1255,20 @@ export interface PostScalarWhereInput {
   caption_not_starts_with?: Maybe<String>;
   caption_ends_with?: Maybe<String>;
   caption_not_ends_with?: Maybe<String>;
+  overview?: Maybe<String>;
+  overview_not?: Maybe<String>;
+  overview_in?: Maybe<String[] | String>;
+  overview_not_in?: Maybe<String[] | String>;
+  overview_lt?: Maybe<String>;
+  overview_lte?: Maybe<String>;
+  overview_gt?: Maybe<String>;
+  overview_gte?: Maybe<String>;
+  overview_contains?: Maybe<String>;
+  overview_not_contains?: Maybe<String>;
+  overview_starts_with?: Maybe<String>;
+  overview_not_starts_with?: Maybe<String>;
+  overview_ends_with?: Maybe<String>;
+  overview_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -1247,6 +1287,8 @@ export interface PostScalarWhereInput {
   category_not?: Maybe<Category>;
   category_in?: Maybe<Category[] | Category>;
   category_not_in?: Maybe<Category[] | Category>;
+  isFeatured?: Maybe<Boolean>;
+  isFeatured_not?: Maybe<Boolean>;
   createdAt?: Maybe<DateTimeInput>;
   createdAt_not?: Maybe<DateTimeInput>;
   createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -1276,8 +1318,10 @@ export interface PostUpdateManyWithWhereNestedInput {
 export interface PostUpdateManyDataInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
+  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
+  isFeatured?: Maybe<Boolean>;
 }
 
 export interface ParticipantUpdateManyWithoutUserInput {
@@ -1515,8 +1559,10 @@ export interface PostUpdateOneWithoutCommentsInput {
 export interface PostUpdateWithoutCommentsDataInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
+  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
+  isFeatured?: Maybe<Boolean>;
   user?: Maybe<UserUpdateOneWithoutPostsInput>;
 }
 
@@ -1795,8 +1841,10 @@ export interface PostCreateInput {
   id?: Maybe<ID_Input>;
   image: String;
   caption: String;
+  overview?: Maybe<String>;
   description: String;
   category: Category;
+  isFeatured?: Maybe<Boolean>;
   comments?: Maybe<CommentCreateManyWithoutPostInput>;
   user?: Maybe<UserCreateOneWithoutPostsInput>;
 }
@@ -1804,8 +1852,10 @@ export interface PostCreateInput {
 export interface PostUpdateInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
+  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
+  isFeatured?: Maybe<Boolean>;
   comments?: Maybe<CommentUpdateManyWithoutPostInput>;
   user?: Maybe<UserUpdateOneWithoutPostsInput>;
 }
@@ -1813,8 +1863,10 @@ export interface PostUpdateInput {
 export interface PostUpdateManyMutationInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
+  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
+  isFeatured?: Maybe<Boolean>;
 }
 
 export interface UserCreateInput {
@@ -2138,8 +2190,10 @@ export interface Post {
   id: ID_Output;
   image: String;
   caption: String;
+  overview?: String;
   description: String;
   category: Category;
+  isFeatured?: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -2148,8 +2202,10 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
   caption: () => Promise<String>;
+  overview: () => Promise<String>;
   description: () => Promise<String>;
   category: () => Promise<Category>;
+  isFeatured: () => Promise<Boolean>;
   comments: <T = FragmentableArray<Comment>>(args?: {
     where?: CommentWhereInput;
     orderBy?: CommentOrderByInput;
@@ -2170,8 +2226,10 @@ export interface PostSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
   caption: () => Promise<AsyncIterator<String>>;
+  overview: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
+  isFeatured: () => Promise<AsyncIterator<Boolean>>;
   comments: <T = Promise<AsyncIterator<CommentSubscription>>>(args?: {
     where?: CommentWhereInput;
     orderBy?: CommentOrderByInput;
@@ -2192,8 +2250,10 @@ export interface PostNullablePromise
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
   caption: () => Promise<String>;
+  overview: () => Promise<String>;
   description: () => Promise<String>;
   category: () => Promise<Category>;
+  isFeatured: () => Promise<Boolean>;
   comments: <T = FragmentableArray<Comment>>(args?: {
     where?: CommentWhereInput;
     orderBy?: CommentOrderByInput;
@@ -2955,8 +3015,10 @@ export interface PostPreviousValues {
   id: ID_Output;
   image: String;
   caption: String;
+  overview?: String;
   description: String;
   category: Category;
+  isFeatured?: Boolean;
   createdAt: DateTimeOutput;
   updatedAt: DateTimeOutput;
 }
@@ -2967,8 +3029,10 @@ export interface PostPreviousValuesPromise
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
   caption: () => Promise<String>;
+  overview: () => Promise<String>;
   description: () => Promise<String>;
   category: () => Promise<Category>;
+  isFeatured: () => Promise<Boolean>;
   createdAt: () => Promise<DateTimeOutput>;
   updatedAt: () => Promise<DateTimeOutput>;
 }
@@ -2979,8 +3043,10 @@ export interface PostPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
   caption: () => Promise<AsyncIterator<String>>;
+  overview: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
+  isFeatured: () => Promise<AsyncIterator<Boolean>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
@@ -3065,6 +3131,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -3078,11 +3149,6 @@ export type DateTimeOutput = string;
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 export type Long = string;
 

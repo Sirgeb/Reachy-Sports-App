@@ -1,4 +1,5 @@
 import { prisma } from '../../../../generated/prisma-client';
+import { MESSAGE_FRAGMENT } from '../../../fragments';
 
 export default {
   Mutation: { 
@@ -16,7 +17,7 @@ export default {
       
       if (!isParticipant) throw new Error("Oops, you ain't a member of this group");
 
-      await prisma.createMessage({
+      return prisma.createMessage({
         text,
         user: {
           connect: {
@@ -28,9 +29,7 @@ export default {
             id: groupId
           }
         }
-      });
-
-      return true;
+      }).$fragment(MESSAGE_FRAGMENT);
     }
   }
 }

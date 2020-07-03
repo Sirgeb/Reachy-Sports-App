@@ -6,13 +6,15 @@ export default {
       isAuthenticated(request);
       isAdmin(request);
 
-      const { image, caption, description, category } = args;
+      const { image, caption, overview, description, isFeatured, category } = args;
 
       await prisma.createPost({
         image,
         caption,
+        overview,
         description,
         category,
+        isFeatured,
         user: {
           connect: {
             id: request.user.id

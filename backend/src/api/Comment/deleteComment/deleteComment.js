@@ -5,8 +5,7 @@ export default {
     deleteComment: async (_, { commentId }, { request, isAuthenticated, isAdmin }) => {
       isAuthenticated(request);
       isAdmin(request);
-      await prisma.deleteComment({ id: commentId });
-      return true;
+      return prisma.deleteComment({ id: commentId });
     }
   }
 };

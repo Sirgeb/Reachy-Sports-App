@@ -1,34 +1,27 @@
-import React, { useRef, useEffect, useState } from 'react';
-import { TextInput, FlatList, TouchableOpacity, Text, View, Keyboard, StyleSheet, ActivityIndicator, Alert } from 'react-native';
+import React, { useRef, useEffect } from 'react';
+import { FlatList, ActivityIndicator, Alert } from 'react-native';
 import styled from 'styled-components/native';
-import { useQuery, useSubscription, useMutation } from "react-apollo-hooks";
+import { useQuery, useSubscription } from "react-apollo-hooks";
 import { withNavigation } from 'react-navigation';
-import { MaterialIcons } from '@expo/vector-icons';
-import withSuspense from '../../components/withSuspense';
-import moment from 'moment';
 import gql from 'graphql-tag';
-import SportsUpdateHeader from '../../components/SportsUpdateHeader';
-import { useIsLoggedIn } from '../../AuthContext';
 
+import SportsUpdateHeader from '../../components/SportsUpdateHeader';
+import CommentsListOfPost from '../../components/CommentsListOfPost';
+import WriteCommentSectionOfPost from '../../components/WriteCommentSectionOfPost';
+import withSuspense from '../../components/withSuspense';
 import constants from '../../constants';
 import styles from '../../styles';
 
 const NEW_COMMENT = gql`
-  subscription newComment($postId: ID!){
+  subscription NEW_COMMENT($postId: ID!){
     newComment(postId: $postId) {
       id
     }
   }
 `;
 
-const CREATE_COMMENT = gql`
-  mutation createComment($text: String!, $postId: ID!) {
-    createComment(text: $text, postId: $postId)
-  }
-`;
-
-const GET_POST = gql`
-  query getPost($postId: ID!) {
+const GET_POST_AND_COMMENTS = gql` 
+  query GET_POST_AND_COMMENTS($postId: ID!, $first: Int, $after: String) {
     getPost(postId: $postId) {
       id 
       caption 
@@ -37,13 +30,22 @@ const GET_POST = gql`
       image
       commentsCount
       createdAt
-      comments {
-        id
-        text 
-        createdAt
-        user {
-          avatar
-          name
+    }
+    commentsConnection(postId: $postId, first: $first, after: $after) {
+      pageInfo {
+        hasNextPage
+        endCursor
+      }
+      edges{
+        node {
+          id
+          text 
+          createdAt
+          user {
+            id
+            name 
+            avatar
+          }
         }
       }
     }
@@ -53,12 +55,9 @@ const GET_POST = gql`
 const SportsUpdateDetail = ({ navigation }) => {
   const id = navigation.getParam("id");
   const { data: newComment } = useSubscription(NEW_COMMENT, { variables: { postId: id } });
-  const { data, refetch } = useQuery(GET_POST, { variables: { postId: id }, suspend: true });
-  const [createComment, { loading }] = useMutation(CREATE_COMMENT);
-  const [text, setText] = useState("");
-
-  const isLoggedIn = useIsLoggedIn();
+  const { data, refetch, fetchMore } = useQuery(GET_POST_AND_COMMENTS, { variables: { postId: id, first: 10 }, suspend: true });
   const flatListRef = useRef();
+  const commentsMap = {};
 
   useEffect(() => {
     const referesh = async () => {
@@ -66,161 +65,78 @@ const SportsUpdateDetail = ({ navigation }) => {
     }
     referesh();
     if (newComment !== undefined) {
-      if (data.getPost.commentsCount === 0) {
-        Alert.alert("Welcome, I'm glad! You're the first to comment... 😎🎈✨🎉");
+      if (data.commentsConnection.edges.length !== 0) {
+         Alert.alert("Your comment is noted 😎 :)")
+         flatListRef.current.scrollToIndex({ index: 0, animated: true });
       } else {
-        Alert.alert("Your comment is noted... 😎");
-        flatListRef.current.scrollToIndex({ index: 0, animated: true });
+        Alert.alert("Welcome to Reachy Sports, Your comment is noted. 🎉🎉🎉😎")
       }
     }
   }, [newComment])
 
-  const sendComment = async () => {
-    Keyboard.dismiss();
-    try {
-      await createComment({ variables: {
-        text,
-        postId: id
-      }});
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-      setText("");
-    }
-  }
+  const post = data.getPost;
+  const comments = data.commentsConnection.edges || [];
 
   const _renderItem = ({ item: comment }) => {
     return (
-      <MessageContainer>
-        <Image 
-          style={{ backgroundColor: styles.lightGrey }} 
-          source={{ uri: comment.user.avatar }} 
-        />
-        <MessageDetail>
-          <Name>{`${comment.user.name}`}</Name>
-          <Message>{comment.text}</Message>
-          <Time>{moment(comment.createdAt).fromNow()}</Time>
-        </MessageDetail>
-      </MessageContainer>
+      <CommentsListOfPost comment={comment} />
     )
   }
 
-  const post = data.getPost;
-  const comments = data.getPost.comments || [];
-
-  return (
+  return (    
     post && (
     <KeyboardAvoidingView>
       <FlatList
         ListHeaderComponent={() => <SportsUpdateHeader {...post} />}
         keyExtractor={item => item.id}
-        data={comments && comments}
+        data={comments && comments.map(comment => ({
+          ...comment.node
+        })).filter(c => {
+          if (commentsMap[c.id]) {
+            return false;
+          }
+          commentsMap[c.id] = 1;
+          return true;
+        })}
         ref={flatListRef}
         contentContainerStyle={{ width: constants.width }}
         renderItem={ _renderItem }
-      />
-      <> 
-        {
-          isLoggedIn ? (
-                <Wrapper>
-                  <TextInput
-                    multiline
-                    onChangeText={(text) => setText(text)}
-                    returnKeyType='send'
-                    value={text}
-                    placeholder='Have something to say? write here...'
-                    style={style.input}
-                  />
-                  {!!text.trim() && <SendMessageIcon onPress={sendComment}>
-                  {
-                    loading ? (
-                    <ActivityIndicator size={25} color={styles.white}/>
-                      ) : (
-                    <MaterialIcons name="send" size={25} color={styles.white} />
-                    )
+        onEndReachedThreshold={1}
+        onEndReached={() => {
+          if (data.commentsConnection.pageInfo.hasNextPage) {
+            fetchMore({
+              variables: {
+                after: data.commentsConnection.pageInfo.endCursor
+              }, 
+              updateQuery: (previousResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult ) return previousResult;
+                return {
+                  getPost: {
+                    __typename: "getPost",
+                    ...fetchMoreResult.getPost
+                  },
+                  commentsConnection: {
+                    __typename: 'commentsConnection',
+                    pageInfo: fetchMoreResult.commentsConnection.pageInfo,
+                    edges: [
+                      ...previousResult.commentsConnection.edges,
+                      ...fetchMoreResult.commentsConnection.edges,
+                    ]
                   }
-                  </SendMessageIcon>}
-              </Wrapper>
-          ) : (
-            <View>
-              <TouchableOpacity 
-                onPress={() => navigation.navigate('Signin', { nextRoute: "SportsUpdate" })} 
-                style={{ backgroundColor: styles.orange, padding: 8 }}>
-                  <Text style={{ color:styles.white }}>Sign in to write comment!</Text>
-              </TouchableOpacity>
-            </View>
-          )
-        }
-      </>
+                }
+              }
+            });
+          }
+        }}
+        ListFooterComponent={() => data.commentsConnection.pageInfo.hasNextPage ? (
+          <ActivityIndicator color={styles.orange} size={25} /> 
+        ) : null}
+      />
+      <WriteCommentSectionOfPost postId={id} navigation={navigation} />
     </KeyboardAvoidingView>
     )
   )
 }
-
-const style = StyleSheet.create({
-  input: {
-    alignSelf: "center",
-    width: constants.width - 70,
-    marginVertical: 10,
-    marginHorizontal: 4,
-    padding: 8,
-    maxHeight: 70,
-    borderColor: styles.orange,
-    borderWidth: 1,
-    borderRadius: 10,
-    fontSize: 14
-  }
-})
- 
-const Wrapper = styled.View`
-  position: relative;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-`;
-
-const Name = styled.Text` 
-  margin: 0px 10px;
-  font-size: 10px;
-`;
-
-const Message = styled.Text` 
-  margin: 10px;
-`;
-
-const Image = styled.Image`
-  width: 40px;
-  height: 40px;
-  border-radius: 20px;
-  margin: 5px;
-  background-color: #adadad;
-`;
-
-const Time = styled.Text` 
-  margin: 0px 10px;
-  font-size: 10px;
-`;
-
-const MessageContainer = styled.View`
-  width: ${`${constants.width}px`};
-  padding: 10px;
-  align-items: flex-end;
-  height: auto;
-  flex-direction: ${props => !!props.mine ? "row-reverse" : "row" };
-`;
-
-const MessageDetail = styled.View`
-  width: ${`${constants.width - 70}px`};
-  background-color: ${styles.lightGrey};
-  border-radius: 5px;
-  padding: 10px;
-`;
-
-const SendMessageIcon = styled.TouchableOpacity`
-  background-color: ${styles.orange};
-  border-radius: 20px;
-  padding: 5px;
-`;
 
 const KeyboardAvoidingView = styled.KeyboardAvoidingView`
   flex: 1;

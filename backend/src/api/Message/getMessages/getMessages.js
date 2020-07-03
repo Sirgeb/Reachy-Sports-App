@@ -6,11 +6,14 @@ export default {
     getMessages: async (_, { groupId }, { request, isAuthenticated }) => {
       isAuthenticated(request);
 
-      return prisma.messages({ where: { 
-        group: {
-          id: groupId
-        }
-      }}).$fragment(MESSAGE_FRAGMENT);
+      return prisma.messages({ 
+        where: { 
+          group: {
+            id: groupId
+          },
+        },
+        orderBy: "createdAt_DESC"
+    }).$fragment(MESSAGE_FRAGMENT);
     }
   }
 };

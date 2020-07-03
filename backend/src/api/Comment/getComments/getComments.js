@@ -1,4 +1,5 @@
 import { prisma } from "../../../../generated/prisma-client";
+import { COMMENT_FRAGMENT } from '../../../fragments';
 
 export default {
   Query: {
@@ -8,7 +9,7 @@ export default {
             id: postId
           }
         }, 
-        orderBy: "createdAt_DESC" });
+        orderBy: "createdAt_DESC" }).$fragment(COMMENT_FRAGMENT);
     }
   }
 };

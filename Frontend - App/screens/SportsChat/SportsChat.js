@@ -40,7 +40,7 @@ const SportsChat = () => {
 
   useEffect(() => { 
     refetch()
-  }, []);
+  });
 
   return (
     <Container> 

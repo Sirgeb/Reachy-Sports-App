@@ -36,6 +36,54 @@ export const POST_FRAGMENT = `
   }
 `;
 
+export const COMMENT_FRAGMENT = `
+  fragment CommentData on Comment {
+    id 
+    text
+    createdAt
+    user {
+      id 
+      avatar
+      firstname 
+      lastname
+    }
+    post {
+      id 
+      caption 
+      image
+      description
+      category
+      createdAt 
+    }
+  }
+`;
+export const COMMENTS_CONNECTION_FRAGMENT = `
+  fragment CommentsConnectionData on Comment {
+    edges {
+      node {
+        id 
+        text
+        createdAt
+        user {
+          id 
+          avatar
+          firstname 
+          lastname
+        }
+      }
+    }
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    aggregate {
+      count
+    }
+  }
+`;
+
 export const GROUP_FRAGMENT = `
   fragment GroupData on Group {
     id 

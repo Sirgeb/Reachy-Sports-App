@@ -6,10 +6,17 @@ import { useQuery, useSubscription } from 'react-apollo-hooks';
 import SportsUpdateListItem from '../../components/SportsUpdateListItem';
 import styles from '../../styles';
 import constants from '../../constants';
+import FeaturedPosts from '../../components/FeaturedPosts';
 import withSuspense from '../../components/withSuspense';
 
-const POSTS_CONNECTION = gql` 
-  query POSTS_CONNECTION($first: Int, $after: String) {
+const GET_FEATURED_POSTS_AND_POST_CONNECTION = gql` 
+  query GET_FEATURED_POSTS_AND_POST_CONNECTION($first: Int, $after: String) {
+    featuredPosts {
+      id 
+      caption 
+      overview
+      image
+    }
     postsConnection(first: $first, after: $after) {
       pageInfo {
         hasNextPage
@@ -38,7 +45,8 @@ const NEW_POST = gql`
 `;
 
 const SportsUpdate = () => {
-  const { data, refetch, fetchMore } = useQuery(POSTS_CONNECTION, { variables: { first: 10 }, suspend: true });
+  const { data, error, refetch, fetchMore } = useQuery(
+    GET_FEATURED_POSTS_AND_POST_CONNECTION, { variables: { first: 10 }, suspend: true });
   const { data: newPost } = useSubscription(NEW_POST);
   const [ refreshing, setRefreshing ] = useState(false);
   const postsMap = {};
@@ -66,30 +74,8 @@ const SportsUpdate = () => {
     <Container>
       <FlatList
         showsVerticalScrollIndicator={false}
+        ListHeaderComponent={() => <FeaturedPosts data={data && data.featuredPosts} />}
         ListFooterComponent={() => data.postsConnection.pageInfo.hasNextPage ? <ActivityIndicator color={styles.orange} size={25} /> : null}
-        onEndReachedThreshold={1}
-        onEndReached={() => {
-          if (data.postsConnection.pageInfo.hasNextPage) {
-            fetchMore({
-              variables: {
-                after: data.postsConnection.pageInfo.endCursor
-              }, 
-              updateQuery: (previousResult, { fetchMoreResult }) => {
-                if (!fetchMoreResult ) return previousResult;
-                return {
-                  postsConnection: {
-                    __typename: 'postsConnection',
-                    pageInfo: fetchMoreResult.postsConnection.pageInfo,
-                    edges: [
-                      ...previousResult.postsConnection.edges,
-                      ...fetchMoreResult.postsConnection.edges,
-                    ]
-                  }
-                }
-              }
-            });
-          }
-        }}
         keyExtractor={item => item.id}
         data={data && data.postsConnection.edges.map(post => ({
           ...post.node
@@ -104,6 +90,32 @@ const SportsUpdate = () => {
         renderItem={_renderItem}
         refreshing={refreshing}
         onRefresh={refresh}
+        onEndReachedThreshold={1}
+        onEndReached={() => {
+          if (data.postsConnection.pageInfo.hasNextPage) {
+            fetchMore({
+              variables: {
+                after: data.postsConnection.pageInfo.endCursor
+              }, 
+              updateQuery: (previousResult, { fetchMoreResult }) => {
+                if (!fetchMoreResult ) return previousResult;
+                return {
+                  featuredPosts: [
+                    ...fetchMoreResult.featuredPosts
+                  ],
+                  postsConnection: {
+                    __typename: 'postsConnection',
+                    pageInfo: fetchMoreResult.postsConnection.pageInfo,
+                    edges: [
+                      ...previousResult.postsConnection.edges,
+                      ...fetchMoreResult.postsConnection.edges,
+                    ]
+                  }
+                }
+              }
+            });
+          }
+        }}
       />
     </Container>
   )

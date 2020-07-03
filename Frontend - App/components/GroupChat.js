@@ -15,7 +15,17 @@ const NEW_MESSAGE = gql`
 
 const SEND_MESSAGE = gql`
   mutation SEND_MESSAGE($text: String!, $groupId: ID!) {
-    sendMessage(text: $text, groupId: $groupId)
+    sendMessage(text: $text, groupId: $groupId) {
+      _id 
+      text
+      sent
+      createdAt
+      user {
+        _id 
+        name
+        avatar
+      }
+    }
   }
 `;
 
@@ -37,15 +47,16 @@ const GET_MESSAGES = gql`
 
 const GroupChat = ({ groupId }) => {
   const [messages, setMessages] = useState([]);
-  const { data, loading, refetch } = useQuery(GET_MESSAGES, { variables: { groupId }, fetchPolicy: "network-only" });
+  const [typing, setTyping] = useState(true);
+  const { data, loading, refetch } = useQuery(GET_MESSAGES, { variables: { groupId }});
   const { data: newMsg } = useSubscription(NEW_MESSAGE, { variables: { groupId }});
   const [sendMessage] = useMutation(SEND_MESSAGE);  
 
   useEffect(() => {
     refetch();
     setMessages(() => {
-      const msgs = !!data ? [...data.getMessages] : [];
-      return GiftedChat.append([], msgs.reverse()); 
+      const msgs = !!data ? data.getMessages : [];
+      return GiftedChat.append([], msgs); 
     });
   }, [data, newMsg]); 
 
@@ -59,7 +70,17 @@ const GroupChat = ({ groupId }) => {
       await sendMessage({ variables: {
         text: message[0].text, 
         groupId
-      }});
+      },
+      update: (cache, { data: { sendMessage: msg }}) => {
+        const { getMessages } = cache.readQuery({ query: GET_MESSAGES, variables: { groupId } });
+        cache.writeQuery({
+          query: GET_MESSAGES,
+          data: {
+            getMessages: [msg, ...getMessages]
+          }
+        });
+      }
+    });
     } catch (e) {
       console.log(e.message);
     }
@@ -67,6 +88,7 @@ const GroupChat = ({ groupId }) => {
 
   return (
     <GiftedChat
+      isTyping={typing}
       messages={messages}
       renderUsernameOnMessage={true}
       onSend={message => onSend(message)}

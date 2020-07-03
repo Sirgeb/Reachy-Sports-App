@@ -1073,8 +1073,10 @@ type Post {
   id: ID!
   image: String!
   caption: String!
+  overview: String
   description: String!
   category: Category!
+  isFeatured: Boolean
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   user: User
   createdAt: DateTime!
@@ -1091,8 +1093,10 @@ input PostCreateInput {
   id: ID
   image: String!
   caption: String!
+  overview: String
   description: String!
   category: Category!
+  isFeatured: Boolean
   comments: CommentCreateManyWithoutPostInput
   user: UserCreateOneWithoutPostsInput
 }
@@ -1111,8 +1115,10 @@ input PostCreateWithoutCommentsInput {
   id: ID
   image: String!
   caption: String!
+  overview: String
   description: String!
   category: Category!
+  isFeatured: Boolean
   user: UserCreateOneWithoutPostsInput
 }
 
@@ -1120,8 +1126,10 @@ input PostCreateWithoutUserInput {
   id: ID
   image: String!
   caption: String!
+  overview: String
   description: String!
   category: Category!
+  isFeatured: Boolean
   comments: CommentCreateManyWithoutPostInput
 }
 
@@ -1137,10 +1145,14 @@ enum PostOrderByInput {
   image_DESC
   caption_ASC
   caption_DESC
+  overview_ASC
+  overview_DESC
   description_ASC
   description_DESC
   category_ASC
   category_DESC
+  isFeatured_ASC
+  isFeatured_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -1151,8 +1163,10 @@ type PostPreviousValues {
   id: ID!
   image: String!
   caption: String!
+  overview: String
   description: String!
   category: Category!
+  isFeatured: Boolean
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -1200,6 +1214,20 @@ input PostScalarWhereInput {
   caption_not_starts_with: String
   caption_ends_with: String
   caption_not_ends_with: String
+  overview: String
+  overview_not: String
+  overview_in: [String!]
+  overview_not_in: [String!]
+  overview_lt: String
+  overview_lte: String
+  overview_gt: String
+  overview_gte: String
+  overview_contains: String
+  overview_not_contains: String
+  overview_starts_with: String
+  overview_not_starts_with: String
+  overview_ends_with: String
+  overview_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -1218,6 +1246,8 @@ input PostScalarWhereInput {
   category_not: Category
   category_in: [Category!]
   category_not_in: [Category!]
+  isFeatured: Boolean
+  isFeatured_not: Boolean
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -1260,8 +1290,10 @@ input PostSubscriptionWhereInput {
 input PostUpdateInput {
   image: String
   caption: String
+  overview: String
   description: String
   category: Category
+  isFeatured: Boolean
   comments: CommentUpdateManyWithoutPostInput
   user: UserUpdateOneWithoutPostsInput
 }
@@ -1269,15 +1301,19 @@ input PostUpdateInput {
 input PostUpdateManyDataInput {
   image: String
   caption: String
+  overview: String
   description: String
   category: Category
+  isFeatured: Boolean
 }
 
 input PostUpdateManyMutationInput {
   image: String
   caption: String
+  overview: String
   description: String
   category: Category
+  isFeatured: Boolean
 }
 
 input PostUpdateManyWithoutUserInput {
@@ -1309,16 +1345,20 @@ input PostUpdateOneWithoutCommentsInput {
 input PostUpdateWithoutCommentsDataInput {
   image: String
   caption: String
+  overview: String
   description: String
   category: Category
+  isFeatured: Boolean
   user: UserUpdateOneWithoutPostsInput
 }
 
 input PostUpdateWithoutUserDataInput {
   image: String
   caption: String
+  overview: String
   description: String
   category: Category
+  isFeatured: Boolean
   comments: CommentUpdateManyWithoutPostInput
 }
 
@@ -1381,6 +1421,20 @@ input PostWhereInput {
   caption_not_starts_with: String
   caption_ends_with: String
   caption_not_ends_with: String
+  overview: String
+  overview_not: String
+  overview_in: [String!]
+  overview_not_in: [String!]
+  overview_lt: String
+  overview_lte: String
+  overview_gt: String
+  overview_gte: String
+  overview_contains: String
+  overview_not_contains: String
+  overview_starts_with: String
+  overview_not_starts_with: String
+  overview_ends_with: String
+  overview_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -1399,6 +1453,8 @@ input PostWhereInput {
   category_not: Category
   category_in: [Category!]
   category_not_in: [Category!]
+  isFeatured: Boolean
+  isFeatured_not: Boolean
   comments_every: CommentWhereInput
   comments_some: CommentWhereInput
   comments_none: CommentWhereInput

@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\MR GABRIEL\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Users\MR GABRIEL\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-web-sniper
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\MR GABRIEL\bin;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\Program Files\Git\cmd;C:\WINDOWS\System32\OpenSSH;C:\Program Files\nodejs;C:\Users\MR GABRIEL\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\MR GABRIEL\AppData\Local\Programs\Python\Python37-32;C:\Users\MR GABRIEL\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Program Files\Docker Toolbox;C:\Android\sdk\platform-tools;C:\Android\sdk\tools;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\MR GABRIEL\AppData\Local\Programs\Microsoft VS Code\bin;C:\Users\MR GABRIEL\AppData\Roaming\npm
@@ -14,8 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: getaddrinfo ENOTFOUND github.com
-      at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:64:26)
+  Error: https://registry.yarnpkg.com/react-native-web-sniper: Not found
+      at Request.params.callback [as _callback] (C:\Users\MR GABRIEL\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66987:18)
+      at Request.self.callback (C:\Users\MR GABRIEL\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:310:20)
+      at Request.<anonymous> (C:\Users\MR GABRIEL\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:310:20)
+      at IncomingMessage.<anonymous> (C:\Users\MR GABRIEL\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:416:28)
+      at IncomingMessage.emit (events.js:322:22)
+      at endReadableNT (_stream_readable.js:1187:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -51,13 +60,14 @@ npm manifest:
       "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
       "react-native-app-intro-slider": "^4.0.2",
       "react-native-gesture-handler": "~1.6.0",
-      "react-native-gifted-chat": "^0.16.1",
+      "react-native-gifted-chat": "^0.16.3",
       "react-native-htmlview": "^0.15.0",
       "react-native-keyboard-aware-scroll-view": "^0.9.1",
       "react-native-reanimated": "~1.7.0",
       "react-native-safe-area-context": "0.7.3",
       "react-native-screens": "~2.2.0",
       "react-native-tab-view-viewpager-adapter": "^1.0.7",
+      "react-native-typing-animation": "^0.1.7",
       "react-native-web": "~0.11.7",
       "react-navigation": "^4.3.7",
       "react-navigation-drawer": "^2.4.11",
@@ -1340,9 +1350,9 @@ Lockfile:
     integrity sha512-lhbQXx9HKZAPgBkISrBcmAcMpZsmpe/Cd/hY7LGZS5OfkySUBItnPZHgQPssWYUET8elF+yCFBbP1Q0RZPTdaw==
   
   "@types/react@*":
-    version "16.9.38"
-    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.38.tgz#868405dace93a4095d3e054f4c4a1de7a1ac0680"
-    integrity sha512-pHAeZbjjNRa/hxyNuLrvbxhhnKyKNiLC6I5fRF2Zr/t/S6zS41MiyzH4+c+1I9vVfvuRt1VS2Lodjr4ZWnxrdA==
+    version "16.9.41"
+    resolved "https://registry.yarnpkg.com/@types/react/-/react-16.9.41.tgz#925137ee4d2ff406a0ecf29e8e9237390844002e"
+    integrity sha512-6cFei7F7L4wwuM+IND/Q2cV1koQUvJ8iSV+Gwn0c3kvABZ691g7sp3hfEQHOUBJtccl1gPi+EyNjMIl9nGA0ug==
     dependencies:
       "@types/prop-types" "*"
       csstype "^2.2.0"
@@ -2340,19 +2350,19 @@ Lockfile:
       postcss-value-parser "^4.0.2"
   
   csstype@^2.2.0:
-    version "2.6.10"
-    resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.10.tgz#e63af50e66d7c266edb6b32909cfd0aabe03928b"
-    integrity sha512-D34BqZU4cIlMCY93rZHbrq9pjTAQJ3U8S8rfBqjwHxkGPThWFjzZDQpgMJY0QViLxth6ZKYiwFBo14RdN44U/w==
-  
-  dayjs@1.8.26:
-    version "1.8.26"
-    resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.26.tgz#c6d62ccdf058ca72a8d14bb93a23501058db9f1e"
-    integrity sha512-KqtAuIfdNfZR5sJY1Dixr2Is4ZvcCqhb0dZpCOt5dGEFiMzoIbjkTSzUb4QKTCsP+WNpGwUjAFIZrnZvUxxkhw==
+    version "2.6.11"
+    resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.6.11.tgz#452f4d024149ecf260a852b025e36562a253ffc5"
+    integrity sha512-l8YyEC9NBkSm783PFTvh0FmJy7s5pFKrDp49ZL7zBGX3fWkO+N4EEyan1qqp8cwPLDcD0OSdyY6hAMoxp34JFw==
   
   dayjs@^1.8.15:
     version "1.8.23"
     resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.23.tgz#07b5a8e759c4d75ae07bdd0ad6977f851c01e510"
     integrity sha512-NmYHMFONftoZbeOhVz6jfiXI4zSiPN6NoVWJgC0aZQfYVwzy/ZpESPHuCcI0B8BUMpSJQ08zenHDbofOLKq8hQ==
+  
+  dayjs@^1.8.26:
+    version "1.8.28"
+    resolved "https://registry.yarnpkg.com/dayjs/-/dayjs-1.8.28.tgz#37aa6201df483d089645cb6c8f6cef6f0c4dbc07"
+    integrity sha512-ccnYgKC0/hPSGXxj7Ju6AV/BP4HUkXC2u15mikXT5mX9YorEaoi1bEKOmAqdkJHN4EEkmAf97SpH66Try5Mbeg==
   
   debounce@^1.2.0:
     version "1.2.0"
@@ -4662,7 +4672,7 @@ Lockfile:
     dependencies:
       asap "~2.0.3"
   
-  prop-types@^15.5.10, prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2:
+  prop-types@^15.6.0, prop-types@^15.6.1, prop-types@^15.6.2, prop-types@^15.7.2, prop-types@^15.7.x:
     version "15.7.2"
     resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
     integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==
@@ -4763,18 +4773,18 @@ Lockfile:
       invariant "^2.2.4"
       prop-types "^15.7.2"
   
-  react-native-gifted-chat@^0.16.1:
-    version "0.16.1"
-    resolved "https://registry.yarnpkg.com/react-native-gifted-chat/-/react-native-gifted-chat-0.16.1.tgz#2ffc346aa8858b005abf77b104ce433e6ed993ef"
-    integrity sha512-PF4NIcw3xqhAWc15bgebQ6OvUveJdVi92nPu4v9e8FDALdTi2T2YiVe/EuoC7ddsmb8a00UGytpfwEylwy+m6g==
+  react-native-gifted-chat@^0.16.3:
+    version "0.16.3"
+    resolved "https://registry.yarnpkg.com/react-native-gifted-chat/-/react-native-gifted-chat-0.16.3.tgz#eea98290bfcf72b36d2aaf002edddd90353aa6ec"
+    integrity sha512-7EJKQPzzg1yIbLFNq9n5bGJWZ7Woi2bTeT7M4EVSChmFF/qyNos+gFxEcafPkEihEeIxeOne6hBQlYNKmDABgA==
     dependencies:
       "@expo/react-native-action-sheet" "^3.6.0"
-      dayjs "1.8.26"
+      dayjs "^1.8.26"
       prop-types "^15.7.2"
       react-native-communications "^2.2.1"
       react-native-iphone-x-helper "^1.2.1"
       react-native-lightbox "^0.8.1"
-      react-native-parsed-text EvanBacon/react-native-parsed-text
+      react-native-parsed-text "0.0.22"
       react-native-typing-animation "^0.1.7"
       uuid "3.4.0"
   
@@ -4806,11 +4816,12 @@ Lockfile:
     dependencies:
       prop-types "^15.7.2"
   
-  "react-native-parsed-text@github:EvanBacon/react-native-parsed-text":
+  react-native-parsed-text@0.0.22:
     version "0.0.22"
-    resolved "https://codeload.github.com/EvanBacon/react-native-parsed-text/tar.gz/c909f64ee437796fd1b047edd73146fc89edb796"
+    resolved "https://registry.yarnpkg.com/react-native-parsed-text/-/react-native-parsed-text-0.0.22.tgz#a23c756eaa5d6724296814755085127f9072e5f5"
+    integrity sha512-hfD83RDXZf9Fvth3DowR7j65fMnlqM9PpxZBGWkzVcUTFtqe6/yPcIoIAgrJbKn6YmtzkivmhWE2MCE4JKBXrQ==
     dependencies:
-      prop-types "^15.5.10"
+      prop-types "^15.7.x"
   
   react-native-reanimated@~1.7.0:
     version "1.7.1"

@@ -1,11 +1,12 @@
 import { prisma } from '../../../../generated/prisma-client';
+import { COMMENT_FRAGMENT } from '../../../fragments';
 
 export default {
   Mutation: {
     createComment: async (_, args, { request, isAuthenticated }) => {
       isAuthenticated(request);
       const { text, postId } = args;
-      await prisma.createComment({
+      return prisma.createComment({
         text,
         user: {
           connect: {
@@ -17,8 +18,7 @@ export default {
             id: postId
           }
         }
-      });
-      return true;
+      }).$fragment(COMMENT_FRAGMENT);
     }
   }
 }
