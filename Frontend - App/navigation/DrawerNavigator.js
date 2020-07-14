@@ -5,7 +5,7 @@ import SportsUpdateNavigator from './SportsUpdateNavigator';
 import SportsChatNavigator from './SportsChatNavigator';
 import CustomDrawerContent from '../components/CustomDrawerContent';
 import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
-import MatchesNavigator from './MatchesNavigator';
+import CompetitionsNavigator from './CompetitionsNavigator';
 import AuthNavigator from './AuthNavigator';
 import HallOfFameNavigator from './HallOfFameNavigator';
 import styles from '../styles';
@@ -40,10 +40,10 @@ const DrawerNavigator = createDrawerNavigator({
       ),
     }
   },
-  Matches: {
-    screen: MatchesNavigator,
+  Competitions: {
+    screen: CompetitionsNavigator,
     navigationOptions: {
-      title: 'Matches',
+      title: 'Competitions',
       drawerIcon: ({ focused }) => (
       <FontAwesome 
         name="trophy" 

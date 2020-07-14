@@ -58,6 +58,7 @@ const SportsChat = () => {
 }
 
 const Container = styled.View` 
+  flex: 1;
   margin: 10px;
   background-color: ${styles.white};
 `;

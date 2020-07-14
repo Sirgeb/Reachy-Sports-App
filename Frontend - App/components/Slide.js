@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/native";
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, TouchableOpacity } from "react-native";
 import { withNavigation } from 'react-navigation';
 import { trimText } from '../utils';
 import styles from '../styles';
@@ -15,9 +15,9 @@ const Slide = ({ postId, caption, overview, postImage, navigation }) => {
         <Data>
           <Text style={style.caption}>{trimText(caption, 40)}</Text>
           <Text style={[style.caption, style.overview]}>{trimText(overview, 80)}</Text>
-          <Button onPress={() => navigation.navigate("SportsUpdateDetail", { id: postId })}>
+          <TouchableOpacity style={style.readOnBtn} onPress={() => navigation.navigate("SportsUpdateDetail", { id: postId })}>
             <ButtonText>Read On...</ButtonText>
-          </Button>
+          </TouchableOpacity>
         </Data>
       </Content>
     </Container>
@@ -36,6 +36,20 @@ const style = StyleSheet.create({
   overview: {
     fontSize: 14,
     fontWeight: '500'
+  },
+  readOnBtn: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+    marginTop: 10,
+    backgroundColor: styles.orange,
+    padding: 7,
+    borderRadius: 3
   }
 });
 
@@ -61,14 +75,6 @@ const Content = styled.View`
 const Data = styled.View`
   width: 50%;
   align-items: flex-start;
-`;
-
-const Button = styled.TouchableOpacity`
-  margin-top: 10px;
-  background-color: ${styles.orange};
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
-  padding: 7px 10px;
-  border-radius: 3px;
 `;
 
 const ButtonText = styled.Text`

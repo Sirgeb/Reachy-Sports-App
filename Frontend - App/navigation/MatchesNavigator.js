@@ -1,29 +1,35 @@
-import React from 'react';
-import { createStackNavigator } from "react-navigation-stack";
-import Matches from '../screens/Matches/Matches';
+import { createMaterialTopTabNavigator } from 'react-navigation-tabs';
+import RecentMatches from '../screens/Competitions/Matches/RecentMatches';
+import UpcomingMatches from '../screens/Competitions/Matches/UpcomingMatches';
+import Standings from '../screens/Competitions/Matches/Standings';
 import styles from '../styles';
-import ProfileLink from '../components/ProfileLink';
-import MenuLink from '../components/MenuLink';
-import HeaderTitle from '../components/HeaderTitle';
 
-const MatchesNavigator = createStackNavigator({
-  Matches: {
-    screen: Matches,
+const MatchesNavigator = createMaterialTopTabNavigator({
+  RecentMatches: {
+    screen: RecentMatches,
     navigationOptions: {
-      headerLeft: () => <MenuLink />,
-      headerTitle: () => (
-        <HeaderTitle title="Matches" />
-      )
+      title: "Matches"
     }
+  },
+  UpcomingMatches: {
+    screen: UpcomingMatches,
+    navigationOptions: {
+      title: "Upcoming"
+    }
+  },
+  Standings: {
+    screen: Standings,
   }
 }, {
-  initialRouteName: "Matches",
-  mode: "modal",
-  defaultNavigationOptions: {
-    headerStyle: {
-      backgroundColor: styles.orange,
+  initialRouteName: "RecentMatches",
+  tabBarOptions: {
+    upperCaseLabel: false,
+    indicatorStyle: {
+      backgroundColor: styles.white
     },
-    headerTintColor: styles.white,
+    style: {
+      backgroundColor: styles.orange
+    }
   }
 });
 

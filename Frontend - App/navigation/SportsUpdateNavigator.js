@@ -22,7 +22,7 @@ const SportsNavigator = createStackNavigator({
     screen: SportsUpdateDetail,
     navigationOptions: {
       headerTitle: () => (
-        <HeaderTitle title="Football Update" />
+        <HeaderTitle title="Sports Update" />
       )
     }
   }

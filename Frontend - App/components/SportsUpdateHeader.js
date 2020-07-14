@@ -13,7 +13,11 @@ const SportsUpdateHeader = ({ image, caption, commentsCount, description }) => {
     <Container>
       <Image 
         source={{ uri: image && image }}
-        style={{ height: constants.height / 3, width: constants.width }}
+        style={{ 
+          height: constants.height / 3, 
+          width: constants.width, 
+          backgroundColor: styles.lightGrey 
+        }}
       />
       <PostTitle>{caption}</PostTitle>
       <HTMLView
