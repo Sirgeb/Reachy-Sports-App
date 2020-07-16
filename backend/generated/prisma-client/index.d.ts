@@ -21,6 +21,7 @@ export interface Exists {
   message: (where?: MessageWhereInput) => Promise<boolean>;
   participant: (where?: ParticipantWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
+  superStar: (where?: SuperStarWhereInput) => Promise<boolean>;
   user: (where?: UserWhereInput) => Promise<boolean>;
 }
 
@@ -140,6 +141,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => PostConnectionPromise;
+  superStar: (where: SuperStarWhereUniqueInput) => SuperStarNullablePromise;
+  superStars: (args?: {
+    where?: SuperStarWhereInput;
+    orderBy?: SuperStarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<SuperStar>;
+  superStarsConnection: (args?: {
+    where?: SuperStarWhereInput;
+    orderBy?: SuperStarOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => SuperStarConnectionPromise;
   user: (where: UserWhereUniqueInput) => UserNullablePromise;
   users: (args?: {
     where?: UserWhereInput;
@@ -247,6 +267,22 @@ export interface Prisma {
   }) => PostPromise;
   deletePost: (where: PostWhereUniqueInput) => PostPromise;
   deleteManyPosts: (where?: PostWhereInput) => BatchPayloadPromise;
+  createSuperStar: (data: SuperStarCreateInput) => SuperStarPromise;
+  updateSuperStar: (args: {
+    data: SuperStarUpdateInput;
+    where: SuperStarWhereUniqueInput;
+  }) => SuperStarPromise;
+  updateManySuperStars: (args: {
+    data: SuperStarUpdateManyMutationInput;
+    where?: SuperStarWhereInput;
+  }) => BatchPayloadPromise;
+  upsertSuperStar: (args: {
+    where: SuperStarWhereUniqueInput;
+    create: SuperStarCreateInput;
+    update: SuperStarUpdateInput;
+  }) => SuperStarPromise;
+  deleteSuperStar: (where: SuperStarWhereUniqueInput) => SuperStarPromise;
+  deleteManySuperStars: (where?: SuperStarWhereInput) => BatchPayloadPromise;
   createUser: (data: UserCreateInput) => UserPromise;
   updateUser: (args: {
     data: UserUpdateInput;
@@ -287,6 +323,9 @@ export interface Subscription {
   post: (
     where?: PostSubscriptionWhereInput
   ) => PostSubscriptionPayloadSubscription;
+  superStar: (
+    where?: SuperStarSubscriptionWhereInput
+  ) => SuperStarSubscriptionPayloadSubscription;
   user: (
     where?: UserSubscriptionWhereInput
   ) => UserSubscriptionPayloadSubscription;
@@ -307,7 +346,8 @@ export type Category =
   | "GOLF"
   | "BASKETBALL"
   | "BOXING"
-  | "RUNNING";
+  | "TENNIS"
+  | "ATHLETICS";
 
 export type CommentOrderByInput =
   | "id_ASC"
@@ -370,6 +410,28 @@ export type GroupOrderByInput =
   | "icon_DESC"
   | "route_ASC"
   | "route_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type SuperStarOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "fullname_ASC"
+  | "fullname_DESC"
+  | "title_ASC"
+  | "title_DESC"
+  | "image_ASC"
+  | "image_DESC"
+  | "dateOfBirth_ASC"
+  | "dateOfBirth_DESC"
+  | "location_ASC"
+  | "location_DESC"
+  | "bio_ASC"
+  | "bio_DESC"
+  | "category_ASC"
+  | "category_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -896,6 +958,134 @@ export type ParticipantWhereUniqueInput = AtLeastOne<{
 export type PostWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export type SuperStarWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface SuperStarWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  fullname?: Maybe<String>;
+  fullname_not?: Maybe<String>;
+  fullname_in?: Maybe<String[] | String>;
+  fullname_not_in?: Maybe<String[] | String>;
+  fullname_lt?: Maybe<String>;
+  fullname_lte?: Maybe<String>;
+  fullname_gt?: Maybe<String>;
+  fullname_gte?: Maybe<String>;
+  fullname_contains?: Maybe<String>;
+  fullname_not_contains?: Maybe<String>;
+  fullname_starts_with?: Maybe<String>;
+  fullname_not_starts_with?: Maybe<String>;
+  fullname_ends_with?: Maybe<String>;
+  fullname_not_ends_with?: Maybe<String>;
+  title?: Maybe<String>;
+  title_not?: Maybe<String>;
+  title_in?: Maybe<String[] | String>;
+  title_not_in?: Maybe<String[] | String>;
+  title_lt?: Maybe<String>;
+  title_lte?: Maybe<String>;
+  title_gt?: Maybe<String>;
+  title_gte?: Maybe<String>;
+  title_contains?: Maybe<String>;
+  title_not_contains?: Maybe<String>;
+  title_starts_with?: Maybe<String>;
+  title_not_starts_with?: Maybe<String>;
+  title_ends_with?: Maybe<String>;
+  title_not_ends_with?: Maybe<String>;
+  image?: Maybe<String>;
+  image_not?: Maybe<String>;
+  image_in?: Maybe<String[] | String>;
+  image_not_in?: Maybe<String[] | String>;
+  image_lt?: Maybe<String>;
+  image_lte?: Maybe<String>;
+  image_gt?: Maybe<String>;
+  image_gte?: Maybe<String>;
+  image_contains?: Maybe<String>;
+  image_not_contains?: Maybe<String>;
+  image_starts_with?: Maybe<String>;
+  image_not_starts_with?: Maybe<String>;
+  image_ends_with?: Maybe<String>;
+  image_not_ends_with?: Maybe<String>;
+  dateOfBirth?: Maybe<String>;
+  dateOfBirth_not?: Maybe<String>;
+  dateOfBirth_in?: Maybe<String[] | String>;
+  dateOfBirth_not_in?: Maybe<String[] | String>;
+  dateOfBirth_lt?: Maybe<String>;
+  dateOfBirth_lte?: Maybe<String>;
+  dateOfBirth_gt?: Maybe<String>;
+  dateOfBirth_gte?: Maybe<String>;
+  dateOfBirth_contains?: Maybe<String>;
+  dateOfBirth_not_contains?: Maybe<String>;
+  dateOfBirth_starts_with?: Maybe<String>;
+  dateOfBirth_not_starts_with?: Maybe<String>;
+  dateOfBirth_ends_with?: Maybe<String>;
+  dateOfBirth_not_ends_with?: Maybe<String>;
+  location?: Maybe<String>;
+  location_not?: Maybe<String>;
+  location_in?: Maybe<String[] | String>;
+  location_not_in?: Maybe<String[] | String>;
+  location_lt?: Maybe<String>;
+  location_lte?: Maybe<String>;
+  location_gt?: Maybe<String>;
+  location_gte?: Maybe<String>;
+  location_contains?: Maybe<String>;
+  location_not_contains?: Maybe<String>;
+  location_starts_with?: Maybe<String>;
+  location_not_starts_with?: Maybe<String>;
+  location_ends_with?: Maybe<String>;
+  location_not_ends_with?: Maybe<String>;
+  bio?: Maybe<String>;
+  bio_not?: Maybe<String>;
+  bio_in?: Maybe<String[] | String>;
+  bio_not_in?: Maybe<String[] | String>;
+  bio_lt?: Maybe<String>;
+  bio_lte?: Maybe<String>;
+  bio_gt?: Maybe<String>;
+  bio_gte?: Maybe<String>;
+  bio_contains?: Maybe<String>;
+  bio_not_contains?: Maybe<String>;
+  bio_starts_with?: Maybe<String>;
+  bio_not_starts_with?: Maybe<String>;
+  bio_ends_with?: Maybe<String>;
+  bio_not_ends_with?: Maybe<String>;
+  category?: Maybe<Category>;
+  category_not?: Maybe<Category>;
+  category_in?: Maybe<Category[] | Category>;
+  category_not_in?: Maybe<Category[] | Category>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<SuperStarWhereInput[] | SuperStarWhereInput>;
+  OR?: Maybe<SuperStarWhereInput[] | SuperStarWhereInput>;
+  NOT?: Maybe<SuperStarWhereInput[] | SuperStarWhereInput>;
+}
 
 export type UserWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
@@ -1869,6 +2059,37 @@ export interface PostUpdateManyMutationInput {
   isFeatured?: Maybe<Boolean>;
 }
 
+export interface SuperStarCreateInput {
+  id?: Maybe<ID_Input>;
+  fullname: String;
+  title: String;
+  image: String;
+  dateOfBirth?: Maybe<String>;
+  location?: Maybe<String>;
+  bio: String;
+  category: Category;
+}
+
+export interface SuperStarUpdateInput {
+  fullname?: Maybe<String>;
+  title?: Maybe<String>;
+  image?: Maybe<String>;
+  dateOfBirth?: Maybe<String>;
+  location?: Maybe<String>;
+  bio?: Maybe<String>;
+  category?: Maybe<Category>;
+}
+
+export interface SuperStarUpdateManyMutationInput {
+  fullname?: Maybe<String>;
+  title?: Maybe<String>;
+  image?: Maybe<String>;
+  dateOfBirth?: Maybe<String>;
+  location?: Maybe<String>;
+  bio?: Maybe<String>;
+  category?: Maybe<Category>;
+}
+
 export interface UserCreateInput {
   id?: Maybe<ID_Input>;
   firstname: String;
@@ -1967,6 +2188,23 @@ export interface PostSubscriptionWhereInput {
   AND?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
   OR?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
   NOT?: Maybe<PostSubscriptionWhereInput[] | PostSubscriptionWhereInput>;
+}
+
+export interface SuperStarSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<SuperStarWhereInput>;
+  AND?: Maybe<
+    SuperStarSubscriptionWhereInput[] | SuperStarSubscriptionWhereInput
+  >;
+  OR?: Maybe<
+    SuperStarSubscriptionWhereInput[] | SuperStarSubscriptionWhereInput
+  >;
+  NOT?: Maybe<
+    SuperStarSubscriptionWhereInput[] | SuperStarSubscriptionWhereInput
+  >;
 }
 
 export interface UserSubscriptionWhereInput {
@@ -2707,6 +2945,118 @@ export interface AggregatePostSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface SuperStar {
+  id: ID_Output;
+  fullname: String;
+  title: String;
+  image: String;
+  dateOfBirth?: String;
+  location?: String;
+  bio: String;
+  category: Category;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface SuperStarPromise extends Promise<SuperStar>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  fullname: () => Promise<String>;
+  title: () => Promise<String>;
+  image: () => Promise<String>;
+  dateOfBirth: () => Promise<String>;
+  location: () => Promise<String>;
+  bio: () => Promise<String>;
+  category: () => Promise<Category>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface SuperStarSubscription
+  extends Promise<AsyncIterator<SuperStar>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  fullname: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  dateOfBirth: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  bio: () => Promise<AsyncIterator<String>>;
+  category: () => Promise<AsyncIterator<Category>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface SuperStarNullablePromise
+  extends Promise<SuperStar | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  fullname: () => Promise<String>;
+  title: () => Promise<String>;
+  image: () => Promise<String>;
+  dateOfBirth: () => Promise<String>;
+  location: () => Promise<String>;
+  bio: () => Promise<String>;
+  category: () => Promise<Category>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface SuperStarConnection {
+  pageInfo: PageInfo;
+  edges: SuperStarEdge[];
+}
+
+export interface SuperStarConnectionPromise
+  extends Promise<SuperStarConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<SuperStarEdge>>() => T;
+  aggregate: <T = AggregateSuperStarPromise>() => T;
+}
+
+export interface SuperStarConnectionSubscription
+  extends Promise<AsyncIterator<SuperStarConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<SuperStarEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateSuperStarSubscription>() => T;
+}
+
+export interface SuperStarEdge {
+  node: SuperStar;
+  cursor: String;
+}
+
+export interface SuperStarEdgePromise
+  extends Promise<SuperStarEdge>,
+    Fragmentable {
+  node: <T = SuperStarPromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface SuperStarEdgeSubscription
+  extends Promise<AsyncIterator<SuperStarEdge>>,
+    Fragmentable {
+  node: <T = SuperStarSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateSuperStar {
+  count: Int;
+}
+
+export interface AggregateSuperStarPromise
+  extends Promise<AggregateSuperStar>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateSuperStarSubscription
+  extends Promise<AsyncIterator<AggregateSuperStar>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface UserConnection {
   pageInfo: PageInfo;
   edges: UserEdge[];
@@ -3051,6 +3401,74 @@ export interface PostPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface SuperStarSubscriptionPayload {
+  mutation: MutationType;
+  node: SuperStar;
+  updatedFields: String[];
+  previousValues: SuperStarPreviousValues;
+}
+
+export interface SuperStarSubscriptionPayloadPromise
+  extends Promise<SuperStarSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = SuperStarPromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = SuperStarPreviousValuesPromise>() => T;
+}
+
+export interface SuperStarSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<SuperStarSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = SuperStarSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = SuperStarPreviousValuesSubscription>() => T;
+}
+
+export interface SuperStarPreviousValues {
+  id: ID_Output;
+  fullname: String;
+  title: String;
+  image: String;
+  dateOfBirth?: String;
+  location?: String;
+  bio: String;
+  category: Category;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface SuperStarPreviousValuesPromise
+  extends Promise<SuperStarPreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  fullname: () => Promise<String>;
+  title: () => Promise<String>;
+  image: () => Promise<String>;
+  dateOfBirth: () => Promise<String>;
+  location: () => Promise<String>;
+  bio: () => Promise<String>;
+  category: () => Promise<Category>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface SuperStarPreviousValuesSubscription
+  extends Promise<AsyncIterator<SuperStarPreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  fullname: () => Promise<AsyncIterator<String>>;
+  title: () => Promise<AsyncIterator<String>>;
+  image: () => Promise<AsyncIterator<String>>;
+  dateOfBirth: () => Promise<AsyncIterator<String>>;
+  location: () => Promise<AsyncIterator<String>>;
+  bio: () => Promise<AsyncIterator<String>>;
+  category: () => Promise<AsyncIterator<Category>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface UserSubscriptionPayload {
   mutation: MutationType;
   node: User;
@@ -3159,6 +3577,10 @@ export type Long = string;
 export const models: Model[] = [
   {
     name: "User",
+    embedded: false
+  },
+  {
+    name: "SuperStar",
     embedded: false
   },
   {

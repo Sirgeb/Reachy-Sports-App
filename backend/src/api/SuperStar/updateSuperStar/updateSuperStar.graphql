@@ -1,0 +1,12 @@
+type Mutation {
+  updateSuperStar(
+    superStarId: ID!,
+    fullname: String
+    title: String
+    image: String
+    category: Category
+    dateOfBirth: String
+    location: String 
+    bio: String
+  ): SuperStar!
+}

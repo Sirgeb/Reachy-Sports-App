@@ -1,4 +1,3 @@
-# import * from "../../generated/prisma-client/index.js"
 type User {
   id: ID! 
   _id: Int!
@@ -9,6 +8,18 @@ type User {
   permission: Permission! 
   posts: [Post!]!
   groups: [Participant!]!
+}
+
+type SuperStar {
+  id: ID!
+  fullname: String!
+  title: String!
+  image: String!
+  dateOfBirth: String
+  location: String 
+  category: Category!
+  bio: String!
+  updatedAt: String!
 }
 
 type Post {
@@ -66,7 +77,8 @@ enum Category {
   GOLF 
   BASKETBALL
   BOXING
-  RUNNING
+  TENNIS
+  ATHLETICS
 }
 
 enum Permission {

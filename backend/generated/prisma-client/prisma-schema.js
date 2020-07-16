@@ -23,6 +23,10 @@ type AggregatePost {
   count: Int!
 }
 
+type AggregateSuperStar {
+  count: Int!
+}
+
 type AggregateUser {
   count: Int!
 }
@@ -36,7 +40,8 @@ enum Category {
   GOLF
   BASKETBALL
   BOXING
-  RUNNING
+  TENNIS
+  ATHLETICS
 }
 
 type Comment {
@@ -818,6 +823,12 @@ type Mutation {
   upsertPost(where: PostWhereUniqueInput!, create: PostCreateInput!, update: PostUpdateInput!): Post!
   deletePost(where: PostWhereUniqueInput!): Post
   deleteManyPosts(where: PostWhereInput): BatchPayload!
+  createSuperStar(data: SuperStarCreateInput!): SuperStar!
+  updateSuperStar(data: SuperStarUpdateInput!, where: SuperStarWhereUniqueInput!): SuperStar
+  updateManySuperStars(data: SuperStarUpdateManyMutationInput!, where: SuperStarWhereInput): BatchPayload!
+  upsertSuperStar(where: SuperStarWhereUniqueInput!, create: SuperStarCreateInput!, update: SuperStarUpdateInput!): SuperStar!
+  deleteSuperStar(where: SuperStarWhereUniqueInput!): SuperStar
+  deleteManySuperStars(where: SuperStarWhereInput): BatchPayload!
   createUser(data: UserCreateInput!): User!
   updateUser(data: UserUpdateInput!, where: UserWhereUniqueInput!): User
   updateManyUsers(data: UserUpdateManyMutationInput!, where: UserWhereInput): BatchPayload!
@@ -1500,6 +1511,9 @@ type Query {
   post(where: PostWhereUniqueInput!): Post
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post]!
   postsConnection(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): PostConnection!
+  superStar(where: SuperStarWhereUniqueInput!): SuperStar
+  superStars(where: SuperStarWhereInput, orderBy: SuperStarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [SuperStar]!
+  superStarsConnection(where: SuperStarWhereInput, orderBy: SuperStarOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): SuperStarConnection!
   user(where: UserWhereUniqueInput!): User
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   usersConnection(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): UserConnection!
@@ -1512,7 +1526,245 @@ type Subscription {
   message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload
+  superStar(where: SuperStarSubscriptionWhereInput): SuperStarSubscriptionPayload
   user(where: UserSubscriptionWhereInput): UserSubscriptionPayload
+}
+
+type SuperStar {
+  id: ID!
+  fullname: String!
+  title: String!
+  image: String!
+  dateOfBirth: String
+  location: String
+  bio: String!
+  category: Category!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SuperStarConnection {
+  pageInfo: PageInfo!
+  edges: [SuperStarEdge]!
+  aggregate: AggregateSuperStar!
+}
+
+input SuperStarCreateInput {
+  id: ID
+  fullname: String!
+  title: String!
+  image: String!
+  dateOfBirth: String
+  location: String
+  bio: String!
+  category: Category!
+}
+
+type SuperStarEdge {
+  node: SuperStar!
+  cursor: String!
+}
+
+enum SuperStarOrderByInput {
+  id_ASC
+  id_DESC
+  fullname_ASC
+  fullname_DESC
+  title_ASC
+  title_DESC
+  image_ASC
+  image_DESC
+  dateOfBirth_ASC
+  dateOfBirth_DESC
+  location_ASC
+  location_DESC
+  bio_ASC
+  bio_DESC
+  category_ASC
+  category_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type SuperStarPreviousValues {
+  id: ID!
+  fullname: String!
+  title: String!
+  image: String!
+  dateOfBirth: String
+  location: String
+  bio: String!
+  category: Category!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type SuperStarSubscriptionPayload {
+  mutation: MutationType!
+  node: SuperStar
+  updatedFields: [String!]
+  previousValues: SuperStarPreviousValues
+}
+
+input SuperStarSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: SuperStarWhereInput
+  AND: [SuperStarSubscriptionWhereInput!]
+  OR: [SuperStarSubscriptionWhereInput!]
+  NOT: [SuperStarSubscriptionWhereInput!]
+}
+
+input SuperStarUpdateInput {
+  fullname: String
+  title: String
+  image: String
+  dateOfBirth: String
+  location: String
+  bio: String
+  category: Category
+}
+
+input SuperStarUpdateManyMutationInput {
+  fullname: String
+  title: String
+  image: String
+  dateOfBirth: String
+  location: String
+  bio: String
+  category: Category
+}
+
+input SuperStarWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  fullname: String
+  fullname_not: String
+  fullname_in: [String!]
+  fullname_not_in: [String!]
+  fullname_lt: String
+  fullname_lte: String
+  fullname_gt: String
+  fullname_gte: String
+  fullname_contains: String
+  fullname_not_contains: String
+  fullname_starts_with: String
+  fullname_not_starts_with: String
+  fullname_ends_with: String
+  fullname_not_ends_with: String
+  title: String
+  title_not: String
+  title_in: [String!]
+  title_not_in: [String!]
+  title_lt: String
+  title_lte: String
+  title_gt: String
+  title_gte: String
+  title_contains: String
+  title_not_contains: String
+  title_starts_with: String
+  title_not_starts_with: String
+  title_ends_with: String
+  title_not_ends_with: String
+  image: String
+  image_not: String
+  image_in: [String!]
+  image_not_in: [String!]
+  image_lt: String
+  image_lte: String
+  image_gt: String
+  image_gte: String
+  image_contains: String
+  image_not_contains: String
+  image_starts_with: String
+  image_not_starts_with: String
+  image_ends_with: String
+  image_not_ends_with: String
+  dateOfBirth: String
+  dateOfBirth_not: String
+  dateOfBirth_in: [String!]
+  dateOfBirth_not_in: [String!]
+  dateOfBirth_lt: String
+  dateOfBirth_lte: String
+  dateOfBirth_gt: String
+  dateOfBirth_gte: String
+  dateOfBirth_contains: String
+  dateOfBirth_not_contains: String
+  dateOfBirth_starts_with: String
+  dateOfBirth_not_starts_with: String
+  dateOfBirth_ends_with: String
+  dateOfBirth_not_ends_with: String
+  location: String
+  location_not: String
+  location_in: [String!]
+  location_not_in: [String!]
+  location_lt: String
+  location_lte: String
+  location_gt: String
+  location_gte: String
+  location_contains: String
+  location_not_contains: String
+  location_starts_with: String
+  location_not_starts_with: String
+  location_ends_with: String
+  location_not_ends_with: String
+  bio: String
+  bio_not: String
+  bio_in: [String!]
+  bio_not_in: [String!]
+  bio_lt: String
+  bio_lte: String
+  bio_gt: String
+  bio_gte: String
+  bio_contains: String
+  bio_not_contains: String
+  bio_starts_with: String
+  bio_not_starts_with: String
+  bio_ends_with: String
+  bio_not_ends_with: String
+  category: Category
+  category_not: Category
+  category_in: [Category!]
+  category_not_in: [Category!]
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [SuperStarWhereInput!]
+  OR: [SuperStarWhereInput!]
+  NOT: [SuperStarWhereInput!]
+}
+
+input SuperStarWhereUniqueInput {
+  id: ID
 }
 
 type User {

@@ -1,0 +1,32 @@
+type Query {
+  superStarsConnection(
+    skip: Int 
+    after: String 
+    before: String 
+    first: Int 
+    last: Int 
+    category: String
+  ): SuperStarsConnection!
+}
+
+type SuperStarsConnection {
+  pageInfo: PageInfo!
+  edges: [SuperStarEdge]!
+  aggregate: AggregateSuperStar!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+
+type SuperStarEdge {
+  node: SuperStar!
+  cursor: String!
+}
+
+type AggregateSuperStar {
+  count: Int!
+}

@@ -1,0 +1,4 @@
+type Mutation {
+  deleteSuperStar(superStarId: ID!): SuperStar!
+}
+

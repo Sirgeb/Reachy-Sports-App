@@ -15,6 +15,19 @@ type User {
   updatedAt: DateTime! @updatedAt
 }
 
+type SuperStar {
+  id: ID! @id @unique 
+  fullname: String!
+  title: String!
+  image: String!
+  dateOfBirth: String
+  location: String 
+  bio: String!
+  category: Category!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 type Post {
   id: ID! @id @unique
   image: String!
@@ -71,7 +84,8 @@ enum Category {
   GOLF 
   BASKETBALL
   BOXING
-  RUNNING
+  TENNIS
+  ATHLETICS
 }
 
 enum Permission {

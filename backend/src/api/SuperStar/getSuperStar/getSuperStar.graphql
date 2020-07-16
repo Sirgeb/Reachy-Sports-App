@@ -1,0 +1,3 @@
+type Query {
+  getSuperStar(superStarId: ID!): SuperStar!
+}
