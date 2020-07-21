@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, ActivityIndicator } from 'react-native';
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import ListItemOfMatches from '../../../components/ListItemOfMatches';
 import { getUpcomingLeagueFixtures } from '../../../rapidApi/apiCalls';
+import Loader from '../../../components/Loader';
+import Status from '../../../components/Status';
 import styles from '../../../styles';
 import constants from '../../../constants';
 
 const UpcomingMatches = ({ navigation }) => {
 
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const leagueId = navigation.getParam("id");
 
@@ -33,18 +35,11 @@ const UpcomingMatches = ({ navigation }) => {
   }
 
   return (
-    loading ? (
-      <ActivityIndicator 
-        size={30} 
-        style={{ 
-          flex: 1, 
-          justifyContent: 'center',
-          alignItems: 'center'
-        }} 
-        color={styles.orange} 
-      /> 
-    )
-     : 
+    loading || matches === undefined ? (
+      <Loader />
+    ) : matches[0] === undefined ?
+       <Status message="Oops! No fixture yet" />
+      : 
     (
       <FlatListContainer>
         <FlatList
@@ -63,6 +58,5 @@ const FlatListContainer = styled.View`
   flex: 1;
   background-color: ${styles.white};
 `;
-const Text = styled.Text``;
 
 export default UpcomingMatches;

@@ -8,6 +8,7 @@ const assets = [
   require('./assets/sports-chat.jpg'),
   require('./assets/sports-update.jpg'),
   require('./assets/texting.gif'),
+  require('./assets/not-available.gif'),
   require('./assets/unknown-profile.png'),
   require('./assets/basketball-player.jpg'),
   require('./assets/football-player.jpg'),

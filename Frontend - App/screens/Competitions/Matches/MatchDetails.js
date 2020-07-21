@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, ActivityIndicator } from 'react-native';
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { getMatchStatistics, getMatchEvents } from '../../../rapidApi/apiCalls';
 import ListItemOfFixtureEvents from '../../../components/ListItemOfFixtureEvents';
 import MatchDetailsHeader from '../../../components/MatchDetailsHeader';
 import MatchDetailsFooter from '../../../components/MatchDetailsFooter';
+import Loader from '../../../components/Loader';
 import constants from '../../../constants';
 import styles from '../../../styles';
 
@@ -37,20 +38,12 @@ const MatchDetails = ({ navigation }) => {
   }
 
   return (
-    loading || events === undefined || stats === undefined || stats === {} ? (
-      <ActivityIndicator 
-        size={30} 
-        style={{ 
-          flex: 1, 
-          justifyContent: 'center',
-          alignItems: 'center'
-        }} 
-        color={styles.orange} 
-      /> 
+    loading || events === undefined || stats === undefined ? (
+      <Loader />
     )
      : 
     ( 
-      !!events && !!stats && ( 
+      events && stats && ( 
         <FlatListContainer>
           <FlatList
             showsVerticalScrollIndicator={false}
@@ -58,6 +51,11 @@ const MatchDetails = ({ navigation }) => {
               return <MatchDetailsHeader { ...navigation.getParam("fixture") } />
             }}
             ListFooterComponent={() => {
+              if (Object.keys(stats).length === 0) {
+                return <EmptyStatContainer>
+                  <Text>Match data is not available</Text>
+                </EmptyStatContainer>
+              }
               return <MatchDetailsFooter stats={{ ...stats }} />
             }}
             keyExtractor={(item, index) => index.toString()}
@@ -75,5 +73,13 @@ const FlatListContainer = styled.View`
   flex: 1;
   background-color: ${styles.white};
 `;
+
+const EmptyStatContainer = styled.View`
+  flex: 1; 
+  justify-content: center; 
+  align-items: center;
+`;
+
+const Text = styled.Text``;
 
 export default MatchDetails;

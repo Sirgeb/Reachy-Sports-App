@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { FlatList, ActivityIndicator, Text, View } from 'react-native';
+import { FlatList, Text, View } from 'react-native';
 import styled from 'styled-components/native';
 import { getStandings } from '../../../rapidApi/apiCalls';
 import ListItemOfLeagueTable from '../../../components/ListItemOfLeagueTable';
+import Status from '../../../components/Status';
+import Loader from '../../../components/Loader';
 import styles from '../../../styles';
 import constants from '../../../constants';
 
 const Standings = ({ navigation }) => {
-  const [leagueTable, setLeagueTable] = useState([]);
+  const [leagueTable, setLeagueTable] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const leagueId = navigation.getParam("id");
 
@@ -28,18 +30,12 @@ const Standings = ({ navigation }) => {
   }, []);
 
   return (
-    loading ? (
-      <ActivityIndicator 
-        size={30} 
-        style={{ 
-          flex: 1, 
-          justifyContent: 'center',
-          alignItems: 'center'
-        }} 
-        color={styles.orange} 
-      /> )
-       : 
-      (
+    loading || leagueTable === undefined ? (
+      <Loader />
+    ) : leagueTable[0] === undefined ?
+       <Status message="Oops! Not available yet" />
+      :
+    (
       <FlatListContainer>
         <FlatList
           showsVerticalScrollIndicator={false}

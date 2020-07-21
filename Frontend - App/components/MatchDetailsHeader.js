@@ -17,7 +17,7 @@ const MatchDetailsHeader = ({
       </TeamInfoWrapper>
       <MatchInfo>
         <Elapsed>{elapsed + "'"}</Elapsed>
-        <Score>{`${ goalsHomeTeam } - ${ goalsAwayTeam }`}</Score> 
+        <Score>{`${ !goalsHomeTeam ? "0" : goalsHomeTeam } - ${ !goalsAwayTeam ? "0" : goalsAwayTeam }`}</Score> 
       </MatchInfo>
       <TeamInfoWrapper align="right">
         <TeamLogo source={{ uri: awayTeam.logo }} />

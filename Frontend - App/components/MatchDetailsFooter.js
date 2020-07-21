@@ -69,6 +69,11 @@ const MatchDetailsFooter = ({ stats }) => {
   )
 }
 
+const EmptyStatContainer = styled.View`
+  flex: 1; 
+  justify-content: center; 
+  align-items: center;
+`;
 const Row = styled.View`
   flex: 1;
   flex-direction: row;

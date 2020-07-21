@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
-import { FlatList, ActivityIndicator } from 'react-native';
+import { FlatList } from 'react-native';
 import styled from 'styled-components/native';
 import { getRecentLeagueFixtures } from '../../../rapidApi/apiCalls';
 import ListItemOfMatches from '../../../components/ListItemOfMatches';
+import Loader from '../../../components/Loader';
+import Status from '../../../components/Status';
 import constants from '../../../constants';
 import styles from '../../../styles';
 
 const RecentMatches = ({ navigation }) => {
-  const [matches, setMatches] = useState([]);
+  const [matches, setMatches] = useState(undefined);
   const [loading, setLoading] = useState(false);
   const leagueId = navigation.getParam("id");
 
@@ -32,17 +34,11 @@ const RecentMatches = ({ navigation }) => {
   }
 
   return (
-    loading ? (
-    <ActivityIndicator 
-      size={30} 
-      style={{ 
-        flex: 1, 
-        justifyContent: 'center',
-        alignItems: 'center'
-      }} 
-      color={styles.orange} 
-    /> )
-     : 
+    loading || matches === undefined ? (
+      <Loader />
+    ) : matches[0] === undefined ?
+       <Status message="Oops! No fixture yet" />
+      : 
     (
       <FlatListContainer>
         <FlatList
