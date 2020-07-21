@@ -1533,10 +1533,9 @@ type Subscription {
 type SuperStar {
   id: ID!
   fullname: String!
-  title: String!
   image: String!
   dateOfBirth: String
-  location: String
+  country: String
   bio: String!
   category: Category!
   createdAt: DateTime!
@@ -1552,10 +1551,9 @@ type SuperStarConnection {
 input SuperStarCreateInput {
   id: ID
   fullname: String!
-  title: String!
   image: String!
   dateOfBirth: String
-  location: String
+  country: String
   bio: String!
   category: Category!
 }
@@ -1570,14 +1568,12 @@ enum SuperStarOrderByInput {
   id_DESC
   fullname_ASC
   fullname_DESC
-  title_ASC
-  title_DESC
   image_ASC
   image_DESC
   dateOfBirth_ASC
   dateOfBirth_DESC
-  location_ASC
-  location_DESC
+  country_ASC
+  country_DESC
   bio_ASC
   bio_DESC
   category_ASC
@@ -1591,10 +1587,9 @@ enum SuperStarOrderByInput {
 type SuperStarPreviousValues {
   id: ID!
   fullname: String!
-  title: String!
   image: String!
   dateOfBirth: String
-  location: String
+  country: String
   bio: String!
   category: Category!
   createdAt: DateTime!
@@ -1621,20 +1616,18 @@ input SuperStarSubscriptionWhereInput {
 
 input SuperStarUpdateInput {
   fullname: String
-  title: String
   image: String
   dateOfBirth: String
-  location: String
+  country: String
   bio: String
   category: Category
 }
 
 input SuperStarUpdateManyMutationInput {
   fullname: String
-  title: String
   image: String
   dateOfBirth: String
-  location: String
+  country: String
   bio: String
   category: Category
 }
@@ -1668,20 +1661,6 @@ input SuperStarWhereInput {
   fullname_not_starts_with: String
   fullname_ends_with: String
   fullname_not_ends_with: String
-  title: String
-  title_not: String
-  title_in: [String!]
-  title_not_in: [String!]
-  title_lt: String
-  title_lte: String
-  title_gt: String
-  title_gte: String
-  title_contains: String
-  title_not_contains: String
-  title_starts_with: String
-  title_not_starts_with: String
-  title_ends_with: String
-  title_not_ends_with: String
   image: String
   image_not: String
   image_in: [String!]
@@ -1710,20 +1689,20 @@ input SuperStarWhereInput {
   dateOfBirth_not_starts_with: String
   dateOfBirth_ends_with: String
   dateOfBirth_not_ends_with: String
-  location: String
-  location_not: String
-  location_in: [String!]
-  location_not_in: [String!]
-  location_lt: String
-  location_lte: String
-  location_gt: String
-  location_gte: String
-  location_contains: String
-  location_not_contains: String
-  location_starts_with: String
-  location_not_starts_with: String
-  location_ends_with: String
-  location_not_ends_with: String
+  country: String
+  country_not: String
+  country_in: [String!]
+  country_not_in: [String!]
+  country_lt: String
+  country_lte: String
+  country_gt: String
+  country_gte: String
+  country_contains: String
+  country_not_contains: String
+  country_starts_with: String
+  country_not_starts_with: String
+  country_ends_with: String
+  country_not_ends_with: String
   bio: String
   bio_not: String
   bio_in: [String!]

@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList } from 'react-native';
+import { Text, View } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import styled from 'styled-components/native';
-import HallOfFameListItem from '../../../components/HallOfFameListItem';
+import SuperStarSearchPresenter from '../../../components/SuperStarSearchPresenter';
 import SearchBar from '../../../components/SearchBar';
 import styles from '../../../styles';
 import constants from '../../../constants';
-
-const People = [{
-  id: "0",
-  fullname: "Chinedu Orji"
-}, {
-  id: "1",
-  fullname: "ifeanyi Okorie"
-}]
 
 class Search extends Component {
   static navigationOptions = ({ navigation }) => ({
@@ -38,25 +30,44 @@ class Search extends Component {
     )
   }); 
 
-  render() {
-    const search = false;
+  constructor(props) { 
+    super(props);
+    const { navigation } = props; 
+    this.state = {
+      term: "", 
+      shouldFetch: false
+    }
+    navigation.setParams({
+      term: this.state.term,
+      onChange: this.onChange,
+      onSubmit: this.onSubmit
+    });
+  }
 
+  onChange = text => {
+    const { navigation } = this.props;
+    this.setState({ 
+      term: text,
+      shouldFetch: false
+    });
+    navigation.setParams({
+      term: text
+    });
+  }
+
+  onSubmit = () => {
+    this.setState({ shouldFetch: true });
+  }
+
+  render() {
+    const { term, shouldFetch } = this.state;
     return (
-        search ? (
-          <Container search>
-            <FlatList
-              keyExtractor={item => item.id}
-              data={People}
-              contentContainerStyle={{ width: constants.width }}
-              renderItem={({item}) => (
-                <HallOfFameListItem {...item} />
-              )}
-            />
-        </Container>
+        shouldFetch ? (
+          <SuperStarSearchPresenter keyword={term} shouldFetch={shouldFetch} />
         ) : (
           <Container>
             <Image resizeMode="contain" source={require('../../../assets/file.png')} />
-            <Text style={{ fontSize: 14, color: styles.darkGrey }}>Search for a Profile </Text>
+            <Text style={{ fontSize: 14, color: styles.darkGrey }}>Search for a Superstar</Text>
           </Container>
         )
     )
@@ -72,8 +83,9 @@ const Container = styled.View`
 
 const Image = styled.Image`
   width: ${`${constants.width - 40}px`};
-  height: ${`${constants.height / 3.5}px`};
+  height: ${`${constants.height / 4}px`};
   opacity: 0.5;
+  margin-bottom: 20px;
 `;
 
 export default Search;

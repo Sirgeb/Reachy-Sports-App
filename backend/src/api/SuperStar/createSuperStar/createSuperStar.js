@@ -3,12 +3,13 @@ import { prisma } from '../../../../generated/prisma-client';
 export default {
   Mutation: {
     createSuperStar: async (_, args, { request, isAuthenticated, isAdmin }) => {
-      const { fullname, title, image, category, dateOfBirth, location, bio } = args;
+      const { fullname, image, category, dateOfBirth, bio, country } = args;
       isAuthenticated(request);
       isAdmin(request);
+      const name = fullname.toLowerCase();
 
       const exists = await prisma.$exists.superStar({
-        AND: [{ fullname }, { title }, { category }]
+        AND: [{ fullname: name }, { country }, { category }]
       });
 
       if (exists) {
@@ -16,12 +17,11 @@ export default {
       }
 
       return prisma.createSuperStar({
-        fullname,
-        title,
+        fullname: name,
         image, 
         category,
         dateOfBirth,
-        location,
+        country,
         bio
       }); 
     }

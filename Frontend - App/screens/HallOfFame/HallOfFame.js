@@ -10,8 +10,9 @@ const HallOfFame = () => {
   return (
     <Container>
       <FlatList
+        showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
-        data={People}
+        data={categories}
         contentContainerStyle={{ width: constants.width }}
         renderItem={({item}) => (
           <HallOfFameListItem {...item} />
@@ -26,12 +27,30 @@ const Container = styled.View`
   background-color: ${styles.white};
 `;
 
-const People = [{
+const categories = [{
   id: "0",
-  fullname: "Chinedu Orji"
+  description: "Basketball Superstars",
+  category: "BASKETBALL"
 }, {
   id: "1",
-  fullname: "ifeanyi Okorie"
-}]
+  description: "Boxing Superstars",
+  category: "BOXING"
+}, {
+  id: "2",
+  description: "Football Superstars",
+  category: "FOOTBALL"
+}, {
+  id: "3",
+  description: "Golf Superstars",
+  category: "GOLF"
+}, {
+  id: "4",
+  description: "Tennis Superstars",
+  category: "TENNIS"
+}, {
+  id: "5",
+  description: "Other Superstars",
+  category: "ATHLETICS"
+}];
 
 export default HallOfFame;

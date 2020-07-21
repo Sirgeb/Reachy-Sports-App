@@ -13,7 +13,7 @@ const ADD_PARTICIPANT = gql`
   }
 `;
 
-const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant, refetch }) => {
+const SportsChatListItem = ({ id, navigation, title, name, route, isParticipant, refetch }) => {
   const [loading, setLoading] = useState(false);
   const [addParticipant] = useMutation(ADD_PARTICIPANT, { variables: { groupId: id }});
   const isLoggedIn = useIsLoggedIn();
@@ -36,6 +36,22 @@ const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant,
     }
   }
 
+  const FOOTBALL = require("../assets/football-player.jpg");
+  const BASKETBALL = require("../assets/basketball-player.jpg");
+  const TENNIS = require("../assets/racket.jpg");
+  const GOLF = require("../assets/golf.jpg");
+  const ATHLETICS = require("../assets/exercise.jpg"); 
+  const BOXING = require("../assets/gloves.jpg");
+
+  const Icons = {
+    FOOTBALL,
+    BASKETBALL,
+    TENNIS,
+    GOLF,
+    BOXING,
+    ATHLETICS
+  }
+
   if (isParticipant) {
     return (
        <TouchableOpacity 
@@ -43,7 +59,7 @@ const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant,
         onPress={() => navigation.navigate(route, { groupId: id })}
       >
         <Image 
-          source={{uri: icon}}
+          source={Icons[name]}
           style={style.image}
         />
         <View> 
@@ -56,7 +72,7 @@ const SportsChatListItem = ({ id, navigation, title, icon, route, isParticipant,
     return (
       <View style={style.container}>
         <Image 
-          source={{uri: icon}}
+          source={Icons[name]}
           style={style.image}
         />
         <View> 

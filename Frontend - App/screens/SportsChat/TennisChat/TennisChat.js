@@ -2,7 +2,7 @@ import React from 'react';
 import { withNavigation } from 'react-navigation';
 import GroupChat from '../../../components/GroupChat';
 
-const RunnersChat = ({ navigation }) => {
+const TennisChat = ({ navigation }) => {
   const groupId = navigation.getParam("groupId");
 
   return (
@@ -10,4 +10,4 @@ const RunnersChat = ({ navigation }) => {
   )
 }
 
-export default withNavigation(RunnersChat);
+export default withNavigation(TennisChat);

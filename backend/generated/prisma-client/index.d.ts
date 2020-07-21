@@ -420,14 +420,12 @@ export type SuperStarOrderByInput =
   | "id_DESC"
   | "fullname_ASC"
   | "fullname_DESC"
-  | "title_ASC"
-  | "title_DESC"
   | "image_ASC"
   | "image_DESC"
   | "dateOfBirth_ASC"
   | "dateOfBirth_DESC"
-  | "location_ASC"
-  | "location_DESC"
+  | "country_ASC"
+  | "country_DESC"
   | "bio_ASC"
   | "bio_DESC"
   | "category_ASC"
@@ -992,20 +990,6 @@ export interface SuperStarWhereInput {
   fullname_not_starts_with?: Maybe<String>;
   fullname_ends_with?: Maybe<String>;
   fullname_not_ends_with?: Maybe<String>;
-  title?: Maybe<String>;
-  title_not?: Maybe<String>;
-  title_in?: Maybe<String[] | String>;
-  title_not_in?: Maybe<String[] | String>;
-  title_lt?: Maybe<String>;
-  title_lte?: Maybe<String>;
-  title_gt?: Maybe<String>;
-  title_gte?: Maybe<String>;
-  title_contains?: Maybe<String>;
-  title_not_contains?: Maybe<String>;
-  title_starts_with?: Maybe<String>;
-  title_not_starts_with?: Maybe<String>;
-  title_ends_with?: Maybe<String>;
-  title_not_ends_with?: Maybe<String>;
   image?: Maybe<String>;
   image_not?: Maybe<String>;
   image_in?: Maybe<String[] | String>;
@@ -1034,20 +1018,20 @@ export interface SuperStarWhereInput {
   dateOfBirth_not_starts_with?: Maybe<String>;
   dateOfBirth_ends_with?: Maybe<String>;
   dateOfBirth_not_ends_with?: Maybe<String>;
-  location?: Maybe<String>;
-  location_not?: Maybe<String>;
-  location_in?: Maybe<String[] | String>;
-  location_not_in?: Maybe<String[] | String>;
-  location_lt?: Maybe<String>;
-  location_lte?: Maybe<String>;
-  location_gt?: Maybe<String>;
-  location_gte?: Maybe<String>;
-  location_contains?: Maybe<String>;
-  location_not_contains?: Maybe<String>;
-  location_starts_with?: Maybe<String>;
-  location_not_starts_with?: Maybe<String>;
-  location_ends_with?: Maybe<String>;
-  location_not_ends_with?: Maybe<String>;
+  country?: Maybe<String>;
+  country_not?: Maybe<String>;
+  country_in?: Maybe<String[] | String>;
+  country_not_in?: Maybe<String[] | String>;
+  country_lt?: Maybe<String>;
+  country_lte?: Maybe<String>;
+  country_gt?: Maybe<String>;
+  country_gte?: Maybe<String>;
+  country_contains?: Maybe<String>;
+  country_not_contains?: Maybe<String>;
+  country_starts_with?: Maybe<String>;
+  country_not_starts_with?: Maybe<String>;
+  country_ends_with?: Maybe<String>;
+  country_not_ends_with?: Maybe<String>;
   bio?: Maybe<String>;
   bio_not?: Maybe<String>;
   bio_in?: Maybe<String[] | String>;
@@ -2062,30 +2046,27 @@ export interface PostUpdateManyMutationInput {
 export interface SuperStarCreateInput {
   id?: Maybe<ID_Input>;
   fullname: String;
-  title: String;
   image: String;
   dateOfBirth?: Maybe<String>;
-  location?: Maybe<String>;
+  country?: Maybe<String>;
   bio: String;
   category: Category;
 }
 
 export interface SuperStarUpdateInput {
   fullname?: Maybe<String>;
-  title?: Maybe<String>;
   image?: Maybe<String>;
   dateOfBirth?: Maybe<String>;
-  location?: Maybe<String>;
+  country?: Maybe<String>;
   bio?: Maybe<String>;
   category?: Maybe<Category>;
 }
 
 export interface SuperStarUpdateManyMutationInput {
   fullname?: Maybe<String>;
-  title?: Maybe<String>;
   image?: Maybe<String>;
   dateOfBirth?: Maybe<String>;
-  location?: Maybe<String>;
+  country?: Maybe<String>;
   bio?: Maybe<String>;
   category?: Maybe<Category>;
 }
@@ -2948,10 +2929,9 @@ export interface AggregatePostSubscription
 export interface SuperStar {
   id: ID_Output;
   fullname: String;
-  title: String;
   image: String;
   dateOfBirth?: String;
-  location?: String;
+  country?: String;
   bio: String;
   category: Category;
   createdAt: DateTimeOutput;
@@ -2961,10 +2941,9 @@ export interface SuperStar {
 export interface SuperStarPromise extends Promise<SuperStar>, Fragmentable {
   id: () => Promise<ID_Output>;
   fullname: () => Promise<String>;
-  title: () => Promise<String>;
   image: () => Promise<String>;
   dateOfBirth: () => Promise<String>;
-  location: () => Promise<String>;
+  country: () => Promise<String>;
   bio: () => Promise<String>;
   category: () => Promise<Category>;
   createdAt: () => Promise<DateTimeOutput>;
@@ -2976,10 +2955,9 @@ export interface SuperStarSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   fullname: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   dateOfBirth: () => Promise<AsyncIterator<String>>;
-  location: () => Promise<AsyncIterator<String>>;
+  country: () => Promise<AsyncIterator<String>>;
   bio: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
@@ -2991,10 +2969,9 @@ export interface SuperStarNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   fullname: () => Promise<String>;
-  title: () => Promise<String>;
   image: () => Promise<String>;
   dateOfBirth: () => Promise<String>;
-  location: () => Promise<String>;
+  country: () => Promise<String>;
   bio: () => Promise<String>;
   category: () => Promise<Category>;
   createdAt: () => Promise<DateTimeOutput>;
@@ -3429,10 +3406,9 @@ export interface SuperStarSubscriptionPayloadSubscription
 export interface SuperStarPreviousValues {
   id: ID_Output;
   fullname: String;
-  title: String;
   image: String;
   dateOfBirth?: String;
-  location?: String;
+  country?: String;
   bio: String;
   category: Category;
   createdAt: DateTimeOutput;
@@ -3444,10 +3420,9 @@ export interface SuperStarPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   fullname: () => Promise<String>;
-  title: () => Promise<String>;
   image: () => Promise<String>;
   dateOfBirth: () => Promise<String>;
-  location: () => Promise<String>;
+  country: () => Promise<String>;
   bio: () => Promise<String>;
   category: () => Promise<Category>;
   createdAt: () => Promise<DateTimeOutput>;
@@ -3459,10 +3434,9 @@ export interface SuperStarPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   fullname: () => Promise<AsyncIterator<String>>;
-  title: () => Promise<AsyncIterator<String>>;
   image: () => Promise<AsyncIterator<String>>;
   dateOfBirth: () => Promise<AsyncIterator<String>>;
-  location: () => Promise<AsyncIterator<String>>;
+  country: () => Promise<AsyncIterator<String>>;
   bio: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
   createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;

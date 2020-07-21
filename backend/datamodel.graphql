@@ -18,10 +18,9 @@ type User {
 type SuperStar {
   id: ID! @id @unique 
   fullname: String!
-  title: String!
   image: String!
   dateOfBirth: String
-  location: String 
+  country: String 
   bio: String!
   category: Category!
   createdAt: DateTime! @createdAt

@@ -7,9 +7,10 @@ export default {
       { request, isAuthenticated, isAdmin }) => {
       isAuthenticated(request);
       isAdmin(request);
+      const name = fullname.toLowerCase();
       
       return prisma.updateSuperStar({ where: { id: superStarId }, data: {
-        fullname,
+        fullname: name,
         title,
         image, 
         dateOfBirth,

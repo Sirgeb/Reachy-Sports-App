@@ -1,9 +1,10 @@
 type Query {
-  getSuperStars(    
+  searchSuperStars(    
     skip: Int 
     after: String 
     before: String 
     first: Int 
     last: Int 
+    keyword: String!
   ): [SuperStar!]!
 }

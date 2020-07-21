@@ -6,10 +6,10 @@
   "license": "MIT",
   "scripts": {
     "start": "node build/server.js",
-    "dev": "env-cmd -f ./src/config/prod.env nodemon --exec babel-node src/server.js",
+    "dev": "env-cmd -f ./src/config/dev.env nodemon --exec babel-node src/server.js",
     "heroku-postbuild": "babel src --out-dir build --copy-files",
-    "deploy": "env-cmd -f ./src/config/prod.env prisma deploy",
-    "generate": "env-cmd -f ./src/config/prod.env prisma generate"
+    "deploy": "env-cmd -f ./src/config/dev.env prisma deploy",
+    "generate": "env-cmd -f ./src/config/dev.env prisma generate"
   },
   "engines": {
     "node": "12.16.2",

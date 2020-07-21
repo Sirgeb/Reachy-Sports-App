@@ -13,12 +13,12 @@ type User {
 type SuperStar {
   id: ID!
   fullname: String!
-  title: String!
   image: String!
-  dateOfBirth: String
-  location: String 
+  dateOfBirth: String!
+  country: String!
   category: Category!
   bio: String!
+  createdAt: String!
   updatedAt: String!
 }
 

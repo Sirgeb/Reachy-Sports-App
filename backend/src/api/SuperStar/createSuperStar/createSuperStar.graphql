@@ -1,11 +1,10 @@
 type Mutation {
   createSuperStar(
     fullname: String!
-    title: String!
     image: String!
     category: Category!
-    dateOfBirth: String
-    location: String 
+    dateOfBirth: String!
+    country: String!
     bio: String!
   ): SuperStar!
 }

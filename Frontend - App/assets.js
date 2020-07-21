@@ -1,7 +1,6 @@
 const assets = [
   require('./assets/sports-chat/person.gif'),
   require('./assets/all-in-one.jpg'),
-  require('./assets/coming-soon.gif'),
   require('./assets/file.png'),
   require('./assets/icon.png'),
   require('./assets/rsl.png'),
@@ -9,7 +8,24 @@ const assets = [
   require('./assets/sports-chat.jpg'),
   require('./assets/sports-update.jpg'),
   require('./assets/texting.gif'),
-  require('./assets/unknown-profile.png')
+  require('./assets/unknown-profile.png'),
+  require('./assets/basketball-player.jpg'),
+  require('./assets/football-player.jpg'),
+  require('./assets/gloves.jpg'),
+  require('./assets/golf.jpg'),
+  require('./assets/racket.jpg'),
+  require('./assets/competition/bundesliga-logo.png'),
+  require('./assets/competition/championship-england.jpg'),
+  require('./assets/competition/coupe-de-france.jpg'),
+  require('./assets/competition/fa-cup-england.jpg'),
+  require('./assets/competition/liga-france.jpg'),
+  require('./assets/competition/Logo-Serie-A-Italy.jpg'),
+  require('./assets/competition/Premier-league-England.jpg'),
+  require('./assets/competition/Primeira-Liga-portugal.jpg'),
+  require('./assets/competition/Scotish-premiership.jpg'),
+  require('./assets/competition/Super-lig-turkey.jpg'),
+  require('./assets/competition/UEFA-CHAMPIONS-LEAGUE.jpg'),
+  require('./assets/competition/uefa-europa-league.jpg'),
 ];
 
 export default assets;

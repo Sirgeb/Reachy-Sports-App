@@ -5,7 +5,7 @@ type Query {
     before: String 
     first: Int 
     last: Int 
-    category: String
+    category: Category
   ): SuperStarsConnection!
 }
 
