@@ -13,20 +13,27 @@ const Standings = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const leagueId = navigation.getParam("id");
 
-  const fetch = async (leagueId) => {
-    try {
-      setLoading(true);
-      const standings = await getStandings(leagueId);
-      setLeagueTable(standings);
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    let mounted = true;
+
+    const fetch = async (leagueId) => {
+      try {
+        if (mounted) setLoading(true);
+        const standings = await getStandings(leagueId);
+        if (mounted) {
+          setLeagueTable(standings);
+          setLoading(false);
+        } 
+      } catch (e) {
+        console.log(e.message);
+      } 
+    }
+  
     fetch(leagueId);
+
+    return () => {
+      mounted = false;
+    }
   }, []);
 
   return (

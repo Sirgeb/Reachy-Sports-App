@@ -15,22 +15,29 @@ const MatchDetails = ({ navigation }) => {
   const [stats, setStats] = useState(undefined);
   const { fixture_id } = navigation.getParam("fixture");
 
-  const fetch = async (fixtureId) => {
-    try {
-      setLoading(true);
-      const stats = await getMatchStatistics(fixtureId);
-      const events = await getMatchEvents(fixtureId);
-      setStats(stats);
-      setEvents(events);
-    } catch (e) {
-      console.log(e.message);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
+    let mounted = true;
+
+    const fetch = async (fixtureId) => {
+      try {
+        if (mounted) setLoading(true);
+        const stats = await getMatchStatistics(fixtureId);
+        const events = await getMatchEvents(fixtureId);
+        if (mounted) {
+          setStats(stats);
+          setEvents(events);
+          setLoading(false);
+        } 
+      } catch (e) {
+        console.log(e.message);
+      } 
+    }
+
     fetch(fixture_id);
+
+    return () => {
+      mounted = false;
+    }
   }, []);
 
   const _renderItem = (item) => {

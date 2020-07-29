@@ -1,15 +1,17 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useRef, useEffect } from 'react';
 import { useMutation } from 'react-apollo-hooks';
+import { AntDesign } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { Image, Text } from 'react-native';
 import gql from 'graphql-tag';
+import { AuthContext, useIsLoggedIn } from '../../AuthContext';
 import { facebookAppID, googleClientID } from '../../config';
+import MyAccount from '../../components/MyAccount';
 import AuthButton from '../../components/AuthButton';
 import styles from '../../styles';
 import constants from '../../constants';
-import { AuthContext } from '../../AuthContext';
 
 const CREATE_ACCOUNT = gql`  
   mutation createAccount(
@@ -37,9 +39,18 @@ const CREATE_ACCOUNT = gql`
 const Signin = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [createAccount] = useMutation(CREATE_ACCOUNT);
-  const { logUserIn, setUserId } = useContext(AuthContext);
+  const isLoggedIn = useIsLoggedIn();
+  const { logUserIn, setUserId, setAccessToken } = useContext(AuthContext);
+  const mounted = useRef(true);
   let nextRoute = navigation.getParam('nextRoute');
   const groupId = navigation.getParam('groupId');
+
+  useEffect(() => {
+    mounted.current = true;
+    return () => {
+      mounted.current = false;
+    }
+  }, [])
 
   if (!navigation.getParam('nextRoute')) {
     nextRoute = "SportsUpdate"
@@ -47,7 +58,8 @@ const Signin = ({ navigation }) => {
 
   const facebookLogin = async () => {
     try {
-      setLoading(true);
+      if (mounted.current === true) setLoading(true);
+
       await Facebook.initializeAsync(facebookAppID);
       
       const { type, token } = await Facebook.logInWithReadPermissionsAsync({
@@ -56,17 +68,15 @@ const Signin = ({ navigation }) => {
 
       if (type === 'success') {
         const userProfile = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}&fields=id,email,first_name,last_name,picture`
+          `https://graph.facebook.com/me?access_token=${token}&fields=id,email,first_name,last_name`
         );
-        const { 
-          id, email, first_name, last_name, picture: { data : { url: profile_picture } } 
-        } = await userProfile.json();
+        const { id, email, first_name, last_name } = await userProfile.json();
         const { data: { createAccount: { token, userId } } } = await createAccount({
           variables: {
             firstname: first_name,
             lastname: last_name, 
             email,
-            avatar: profile_picture,
+            avatar: `http://graph.facebook.com/${id}/picture`,
             facebookID: id
           }
         });
@@ -75,25 +85,28 @@ const Signin = ({ navigation }) => {
         await setUserId(userId);
         navigation.navigate(nextRoute, { groupId });
 
+        if (mounted.current === true) setLoading(false);
+
       } else { 
         return
       }
     } catch ({ message }) {
       alert(`Facebook Login Error: ${message}`);
-    } finally {
-      setLoading(false);
     }
   }
 
   const googleLogin = async () => {
     try {
-      setLoading(true)
+      if (mounted.current === true) setLoading(true);
 
       const result = await Google.logInAsync({
         androidClientId: googleClientID,
         scopes: ['profile', 'email'],
       });
-  
+
+      // store access token to be used when signing out
+      await setAccessToken(result.accessToken);
+
       if (result.type === 'success') {
         const userProfile = await fetch('https://www.googleapis.com/userinfo/v2/me', {
           headers: { Authorization: `Bearer ${result.accessToken}` },
@@ -111,55 +124,63 @@ const Signin = ({ navigation }) => {
 
         await logUserIn(token);
         await setUserId(userId);
+
         navigation.navigate(nextRoute, { groupId });
+
+        if (mounted.current === true) setLoading(false);
 
       } else {
         return { cancelled: true };
       }
     } catch (error) {
       return { error: error.message };
-    } finally {
-      setLoading(false)
     }
   }
 
   return (
-    <Container>
-      <Picture>
-        <Image
-          source={require('../../assets/texting.gif')}
-          resizeMode="contain"
-          style={{ 
-            width: constants.width - 20, 
-            height: "100%",
-          }}
-        />
-      </Picture>
-      {!loading && <Text style={{ padding: 10, color: styles.orange }}>To Join Conversation</Text>}
-      {
-        loading ? 
-          <Image 
-            source={require('../../assets/loading.gif')} 
-            resizeMode="contain"
-            style={{
-              height: 150,
-              width: 150
-            }}
-          /> : 
-          <Wrapper>
-          <AuthButton
-            onPress={facebookLogin}
-            text="Sign in with Facebook"
-            bgColor={styles.facebook}
-          /> 
-          <AuthButton
-            onPress={googleLogin}
-            text="Sign in with Google"
-            bgColor={styles.google}
-          />
-        </Wrapper>
-      }
-    </Container>
+    isLoggedIn ? (
+      <MyAccount navigation={{...navigation}} />
+    ) : (
+        <Container>
+          <Picture>
+            <Image
+              source={require('../../assets/texting.gif')}
+              resizeMode="contain"
+              style={{ 
+                width: constants.width - 20, 
+                height: "100%",
+              }}
+            />
+          </Picture>
+          {!loading && <Text style={{ padding: 10, color: styles.orange }}>To Join Conversation</Text>}
+          {
+            loading ? 
+              <Image 
+                source={require('../../assets/loading.gif')} 
+                resizeMode="contain"
+                style={{
+                  height: 150,
+                  width: 150
+                }}
+              /> : 
+              <Wrapper>
+              <AuthButton
+                onPress={facebookLogin}
+                text="Sign in with Facebook"
+                bgColor={styles.facebook}
+              /> 
+              <AuthButton
+                onPress={googleLogin}
+                text="Sign in with Google"
+                bgColor={styles.google}
+              />
+            </Wrapper>
+          }
+        <GoBack onPress={() => navigation.goBack()}>
+          <AntDesign name="arrowleft" size={24} />
+        </GoBack>
+      </Container>
+    )
   )
 }
 
@@ -172,6 +193,13 @@ const Container = styled.View`
   border-left-width: 10px;
   border-color: ${styles.orange};
   border-style: solid;
+`;
+
+const GoBack = styled.TouchableOpacity`
+  position: absolute;
+  z-index: 500;
+  top: 40px; 
+  left: 20px;
 `;
 
 const Wrapper = styled.View`

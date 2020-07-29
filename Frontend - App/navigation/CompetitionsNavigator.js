@@ -3,9 +3,10 @@ import { createStackNavigator } from "react-navigation-stack";
 import Competitions from '../screens/Competitions/Competitions';
 import MatchesNavigator from './MatchesNavigator';
 import MatchDetails from '../screens/Competitions/Matches/MatchDetails';
-import styles from '../styles';
 import MenuLink from '../components/MenuLink';
 import HeaderTitle from '../components/HeaderTitle';
+import NavigationIcons from '../components/NavigationIcons';
+import styles from '../styles';
 
 const CompetitionsNavigator = createStackNavigator({
   Competitions: {
@@ -14,7 +15,8 @@ const CompetitionsNavigator = createStackNavigator({
       headerLeft: () => <MenuLink />,
       headerTitle: () => (
         <HeaderTitle title="Competitions" />
-      )
+      ),
+      headerRight: () => <NavigationIcons route="Competitions" />
     }
   }, 
   Matches: {

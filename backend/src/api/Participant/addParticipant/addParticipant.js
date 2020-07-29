@@ -2,7 +2,7 @@ import { prisma } from '../../../../generated/prisma-client';
 
 export default {
   Mutation: {
-    addParticipant: async (_, { groupId }, { request, isAuthenticated }) => {
+    addParticipant: async (_, { groupId, groupName }, { request, isAuthenticated }) => {
       isAuthenticated(request);
 
       const isParticipant = await prisma.$exists.participant({
@@ -16,7 +16,10 @@ export default {
       
       if (isParticipant) throw new Error("Sorry you're already a participant");
       
-      await prisma.createParticipant({ groupId, user: {
+      await prisma.createParticipant({ 
+        groupId, 
+        groupName,
+        user: {
         connect: {
           id: request.user.id
         }

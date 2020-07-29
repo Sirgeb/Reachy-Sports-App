@@ -9,6 +9,7 @@ import HallOfFame from '../screens/HallOfFame/HallOfFame';
 import SuperStarsList from '../screens/HallOfFame/SuperStarsList/SuperStarsList';
 import Profile from '../screens/HallOfFame/Profile/Profile';
 import Search from '../screens/HallOfFame/Search/Search';
+import NavigationIcons from '../components/NavigationIcons';
 
 const HallOfFameNavigator = createStackNavigator({
   HallOfFame: {
@@ -18,7 +19,7 @@ const HallOfFameNavigator = createStackNavigator({
       headerTitle: () => (
         <HeaderTitle title="Hall Of Fame" />
       ),
-      headerRight: () => <SearchLink />,
+      headerRight: () => <NavigationIcons route="HallOfFame" />,
     }
   },
   SuperStarsList: {

@@ -7,6 +7,6 @@ export default {
         return 1;
       }
     },
-    name: parent => `${parent.firstname} ${parent.lastname}`,
+    name: parent => `${parent.firstname} ${parent.lastname}`
   }
 };

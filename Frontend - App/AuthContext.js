@@ -24,9 +24,26 @@ export const AuthProvider = ({ isLoggedIn: isLoggedInProp, children }) => {
     }
   }
 
+  const setAccessToken = async (accessToken) => {
+    try {
+      await AsyncStorage.setItem("accessToken", accessToken);
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+  
+  const unsetAccessToken = async () => {
+    try {
+      await AsyncStorage.removeItem("accessToken");
+    } catch (e) {
+      console.log(e.message);
+    }
+  }
+
   const logUserOut = async () => {
     try {
       await AsyncStorage.setItem("isLoggedIn", "false");
+      await AsyncStorage.removeItem("jwt");
       setIsLoggedIn(false);
     } catch (e) {
       console.log(e);
@@ -34,7 +51,14 @@ export const AuthProvider = ({ isLoggedIn: isLoggedInProp, children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, logUserIn, logUserOut, setUserId }}>
+    <AuthContext.Provider value={{ 
+      isLoggedIn, 
+      logUserIn, 
+      logUserOut, 
+      setUserId, 
+      setAccessToken,
+      unsetAccessToken
+    }}>
       {children}
     </AuthContext.Provider>
   );
@@ -43,9 +67,4 @@ export const AuthProvider = ({ isLoggedIn: isLoggedInProp, children }) => {
 export const useIsLoggedIn = () => {
   const { isLoggedIn } = useContext(AuthContext);
   return isLoggedIn;
-};
-
-export const useLogOut = () => {
-  const { logUserOut } = useContext(AuthContext);
-  return logUserOut;
 };

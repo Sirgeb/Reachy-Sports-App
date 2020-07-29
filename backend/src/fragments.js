@@ -7,9 +7,10 @@ export const USER_FRAGMENT = `
     facebookID
     googleID
     permission
-    groups {
+    groupParticipant {
       id 
       groupId
+      groupName
     }
   }
 `;

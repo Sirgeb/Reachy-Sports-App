@@ -4,18 +4,19 @@ import { useMutation } from 'react-apollo-hooks';
 import { withNavigation } from "react-navigation";
 import gql from 'graphql-tag';
 import { useIsLoggedIn } from '../AuthContext';
-import { Feather } from '@expo/vector-icons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { GET_AUTHENTICATED_USER } from './MyAccount';
 import styles from '../styles';
 
 const ADD_PARTICIPANT = gql`
-  mutation ADD_PARTICIPANT($groupId: ID!) {
-    addParticipant(groupId: $groupId)
+  mutation ADD_PARTICIPANT($groupId: ID!, $groupName: String!) {
+    addParticipant(groupId: $groupId, groupName: $groupName)
   }
 `;
 
 const SportsChatListItem = ({ id, navigation, title, name, route, isParticipant, refetch }) => {
   const [loading, setLoading] = useState(false);
-  const [addParticipant] = useMutation(ADD_PARTICIPANT, { variables: { groupId: id }});
+  const [addParticipant] = useMutation(ADD_PARTICIPANT, { variables: { groupId: id, groupName: title }});
   const isLoggedIn = useIsLoggedIn();
 
   const handleJoinChat = async (groupId, route, refetch) => {
@@ -25,7 +26,8 @@ const SportsChatListItem = ({ id, navigation, title, name, route, isParticipant,
       await addParticipant({
         variables: { 
           groupId
-        }
+        },
+        refetchQueries: () => [{ query: GET_AUTHENTICATED_USER }]
       });
       await refetch();
       navigation.navigate(route, { groupId });
@@ -52,44 +54,38 @@ const SportsChatListItem = ({ id, navigation, title, name, route, isParticipant,
     ATHLETICS
   }
 
-  if (isParticipant) {
-    return (
-       <TouchableOpacity 
-        style={style.container} 
-        onPress={() => navigation.navigate(route, { groupId: id })}
-      >
-        <Image 
-          source={Icons[name]}
-          style={style.image}
-        />
-        <View> 
-          <Text style={style.title}>{title}</Text>
-        </View>
-        <Feather name="users" size={25} style={{ color: styles.orange, marginHorizontal: 22 }} />
-      </TouchableOpacity>
-    )
-  } else {
-    return (
-      <View style={style.container}>
-        <Image 
-          source={Icons[name]}
-          style={style.image}
-        />
-        <View> 
-          <Text style={style.title}>{title}</Text>
-        </View>
-        <TouchableOpacity style={style.joinButton} onPress={() => handleJoinChat(id, route, refetch)}>
-          {
-            loading ? (
-            <ActivityIndicator color={styles.white} size={22} /> 
-            ) : (
-            <Text style={style.joinBtnText}>Join Chat</Text>
-            )
-          }
-        </TouchableOpacity>
+  return (
+    <View style={style.container}>
+      <Image 
+        source={Icons[name]}
+        style={style.image}
+      />
+      <View> 
+        <Text style={style.title}>{title}</Text>
       </View>
-    )
-  }
+      {
+        isParticipant ? (
+          <TouchableOpacity style={style.joinButton} onPress={() => navigation.navigate(route, { groupId: id })}>
+            <MaterialCommunityIcons 
+              name="chevron-right" 
+              size={20} 
+              style={{ color: styles.white, paddingHorizontal: 12 }}
+            />
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity style={style.joinButton} onPress={() => handleJoinChat(id, route, refetch)}>
+            {
+              loading ? (
+                <ActivityIndicator color={styles.white} size={22} /> 
+              ) : (
+                <Text style={style.joinBtnText}>Join Chat</Text>
+              )
+            }
+          </TouchableOpacity>
+        )
+      }
+    </View>
+  )
 }
 
 const style = StyleSheet.create({

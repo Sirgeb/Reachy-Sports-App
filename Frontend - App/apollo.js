@@ -6,15 +6,16 @@ import { ApolloLink, Observable, split } from 'apollo-link';
 import { AsyncStorage } from 'react-native';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
+import { httpUrl, websocketUrl } from './config';
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: 'https://reachy-app-backend.herokuapp.com'
+  uri: httpUrl
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: `ws://reachy-app-backend.herokuapp.com/`,
+  uri: websocketUrl,
   options: {
     reconnect: true
   }

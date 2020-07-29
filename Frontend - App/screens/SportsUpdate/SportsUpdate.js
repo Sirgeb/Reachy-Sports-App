@@ -52,18 +52,27 @@ const SportsUpdate = () => {
   const postsMap = {};
 
   useEffect(() => {
-    refresh();
+    let mounted = true;
+
+    refresh(mounted);
+
+    return () => {
+      mounted = false;
+    }
   }, [newPost]);
-  
-  const refresh = async () => {
+
+  const refresh = async (mounted) => {
     try {
-      setRefreshing(true);
+      if (mounted) {
+        setRefreshing(true); 
+      }
       await refetch();
+      if (mounted) {
+        setRefreshing(false);
+      }
     } catch(e) {
       console.log(e.message);
-    } finally {
-      setRefreshing(false);
-    }
+    } 
   }
 
   const _renderItem = ({ item }) => (

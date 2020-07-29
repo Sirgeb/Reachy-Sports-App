@@ -9,7 +9,7 @@ type User {
   permission: Permission @default(value: USER)
   comments: [Comment!]! @relation(name: "CommentsOfUser", onDelete: CASCADE)
   posts: [Post!]! @relation(name: "PostsOfUser", onDelete: CASCADE)
-  groups: [Participant!]! @relation(name: "GroupParticipant", onDelete: CASCADE)
+  groupParticipant: [Participant!]! @relation(name: "GroupParticipant", onDelete: CASCADE)
   messages: [Message!]! @relation(name: "MessagesOfUser", onDelete: CASCADE)
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt
@@ -64,6 +64,7 @@ type Group {
 type Participant {
   id: ID! @id @unique 
   groupId: ID!
+  groupName: String!
   user: User! @relation(name: "GroupParticipant")
   createdAt: DateTime! @createdAt
   updatedAt: DateTime! @updatedAt

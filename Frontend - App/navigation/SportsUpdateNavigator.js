@@ -2,10 +2,10 @@ import React from 'react';
 import { createStackNavigator } from 'react-navigation-stack';
 import SportsUpdate from '../screens/SportsUpdate/SportsUpdate';
 import SportsUpdateDetail from '../screens/SportsUpdate/SportsUpdateDetail';
-import styles from '../styles';
-import ChatLink from '../components/ChatLink';
+import NavigationIcons from '../components/NavigationIcons';
 import MenuLink from '../components/MenuLink';
 import HeaderTitle from '../components/HeaderTitle';
+import styles from '../styles';
 
 const SportsNavigator = createStackNavigator({
   SportsUpdate: {
@@ -15,7 +15,7 @@ const SportsNavigator = createStackNavigator({
       headerTitle: () => (
         <HeaderTitle title="Sports Update" />
       ),
-      headerRight: () => <ChatLink />
+      headerRight: () => <NavigationIcons route="SportsUpdate" />
     }
   },
   SportsUpdateDetail: {

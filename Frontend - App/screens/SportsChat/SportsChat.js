@@ -39,7 +39,10 @@ const SportsChat = () => {
   const { data, refetch } = useQuery(!!isLoggedIn ? GET_GROUPS : _GET_GROUPS, { suspend: true });
 
   useEffect(() => { 
-    refetch()
+    const refresh = async () => {
+      await refetch()
+    }
+    refresh()
   });
 
   return (

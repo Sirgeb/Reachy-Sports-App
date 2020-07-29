@@ -10,7 +10,7 @@ const MenuLink = ({ navigation }) => {
       <MaterialIcons 
         name="menu" 
         size={30} 
-        style={{ marginHorizontal: 20}} 
+        style={{ marginHorizontal: 15 }} 
         color={styles.white}
       />
     </TouchableOpacity>

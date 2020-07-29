@@ -857,6 +857,7 @@ type PageInfo {
 type Participant {
   id: ID!
   groupId: ID!
+  groupName: String!
   user: User!
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -871,7 +872,8 @@ type ParticipantConnection {
 input ParticipantCreateInput {
   id: ID
   groupId: ID!
-  user: UserCreateOneWithoutGroupsInput!
+  groupName: String!
+  user: UserCreateOneWithoutGroupParticipantInput!
 }
 
 input ParticipantCreateManyWithoutUserInput {
@@ -882,6 +884,7 @@ input ParticipantCreateManyWithoutUserInput {
 input ParticipantCreateWithoutUserInput {
   id: ID
   groupId: ID!
+  groupName: String!
 }
 
 type ParticipantEdge {
@@ -894,6 +897,8 @@ enum ParticipantOrderByInput {
   id_DESC
   groupId_ASC
   groupId_DESC
+  groupName_ASC
+  groupName_DESC
   createdAt_ASC
   createdAt_DESC
   updatedAt_ASC
@@ -903,6 +908,7 @@ enum ParticipantOrderByInput {
 type ParticipantPreviousValues {
   id: ID!
   groupId: ID!
+  groupName: String!
   createdAt: DateTime!
   updatedAt: DateTime!
 }
@@ -936,6 +942,20 @@ input ParticipantScalarWhereInput {
   groupId_not_starts_with: ID
   groupId_ends_with: ID
   groupId_not_ends_with: ID
+  groupName: String
+  groupName_not: String
+  groupName_in: [String!]
+  groupName_not_in: [String!]
+  groupName_lt: String
+  groupName_lte: String
+  groupName_gt: String
+  groupName_gte: String
+  groupName_contains: String
+  groupName_not_contains: String
+  groupName_starts_with: String
+  groupName_not_starts_with: String
+  groupName_ends_with: String
+  groupName_not_ends_with: String
   createdAt: DateTime
   createdAt_not: DateTime
   createdAt_in: [DateTime!]
@@ -977,15 +997,18 @@ input ParticipantSubscriptionWhereInput {
 
 input ParticipantUpdateInput {
   groupId: ID
-  user: UserUpdateOneRequiredWithoutGroupsInput
+  groupName: String
+  user: UserUpdateOneRequiredWithoutGroupParticipantInput
 }
 
 input ParticipantUpdateManyDataInput {
   groupId: ID
+  groupName: String
 }
 
 input ParticipantUpdateManyMutationInput {
   groupId: ID
+  groupName: String
 }
 
 input ParticipantUpdateManyWithoutUserInput {
@@ -1007,6 +1030,7 @@ input ParticipantUpdateManyWithWhereNestedInput {
 
 input ParticipantUpdateWithoutUserDataInput {
   groupId: ID
+  groupName: String
 }
 
 input ParticipantUpdateWithWhereUniqueWithoutUserInput {
@@ -1049,6 +1073,20 @@ input ParticipantWhereInput {
   groupId_not_starts_with: ID
   groupId_ends_with: ID
   groupId_not_ends_with: ID
+  groupName: String
+  groupName_not: String
+  groupName_in: [String!]
+  groupName_not_in: [String!]
+  groupName_lt: String
+  groupName_lte: String
+  groupName_gt: String
+  groupName_gte: String
+  groupName_contains: String
+  groupName_not_contains: String
+  groupName_starts_with: String
+  groupName_not_starts_with: String
+  groupName_ends_with: String
+  groupName_not_ends_with: String
   user: UserWhereInput
   createdAt: DateTime
   createdAt_not: DateTime
@@ -1757,7 +1795,7 @@ type User {
   permission: Permission
   comments(where: CommentWhereInput, orderBy: CommentOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Comment!]
   posts(where: PostWhereInput, orderBy: PostOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Post!]
-  groups(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
+  groupParticipant(where: ParticipantWhereInput, orderBy: ParticipantOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Participant!]
   messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message!]
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -1780,7 +1818,7 @@ input UserCreateInput {
   permission: Permission
   comments: CommentCreateManyWithoutUserInput
   posts: PostCreateManyWithoutUserInput
-  groups: ParticipantCreateManyWithoutUserInput
+  groupParticipant: ParticipantCreateManyWithoutUserInput
   messages: MessageCreateManyWithoutUserInput
 }
 
@@ -1789,8 +1827,8 @@ input UserCreateOneWithoutCommentsInput {
   connect: UserWhereUniqueInput
 }
 
-input UserCreateOneWithoutGroupsInput {
-  create: UserCreateWithoutGroupsInput
+input UserCreateOneWithoutGroupParticipantInput {
+  create: UserCreateWithoutGroupParticipantInput
   connect: UserWhereUniqueInput
 }
 
@@ -1814,11 +1852,11 @@ input UserCreateWithoutCommentsInput {
   googleID: String
   permission: Permission
   posts: PostCreateManyWithoutUserInput
-  groups: ParticipantCreateManyWithoutUserInput
+  groupParticipant: ParticipantCreateManyWithoutUserInput
   messages: MessageCreateManyWithoutUserInput
 }
 
-input UserCreateWithoutGroupsInput {
+input UserCreateWithoutGroupParticipantInput {
   id: ID
   firstname: String!
   lastname: String!
@@ -1843,7 +1881,7 @@ input UserCreateWithoutMessagesInput {
   permission: Permission
   comments: CommentCreateManyWithoutUserInput
   posts: PostCreateManyWithoutUserInput
-  groups: ParticipantCreateManyWithoutUserInput
+  groupParticipant: ParticipantCreateManyWithoutUserInput
 }
 
 input UserCreateWithoutPostsInput {
@@ -1856,7 +1894,7 @@ input UserCreateWithoutPostsInput {
   googleID: String
   permission: Permission
   comments: CommentCreateManyWithoutUserInput
-  groups: ParticipantCreateManyWithoutUserInput
+  groupParticipant: ParticipantCreateManyWithoutUserInput
   messages: MessageCreateManyWithoutUserInput
 }
 
@@ -1929,7 +1967,7 @@ input UserUpdateInput {
   permission: Permission
   comments: CommentUpdateManyWithoutUserInput
   posts: PostUpdateManyWithoutUserInput
-  groups: ParticipantUpdateManyWithoutUserInput
+  groupParticipant: ParticipantUpdateManyWithoutUserInput
   messages: MessageUpdateManyWithoutUserInput
 }
 
@@ -1943,10 +1981,10 @@ input UserUpdateManyMutationInput {
   permission: Permission
 }
 
-input UserUpdateOneRequiredWithoutGroupsInput {
-  create: UserCreateWithoutGroupsInput
-  update: UserUpdateWithoutGroupsDataInput
-  upsert: UserUpsertWithoutGroupsInput
+input UserUpdateOneRequiredWithoutGroupParticipantInput {
+  create: UserCreateWithoutGroupParticipantInput
+  update: UserUpdateWithoutGroupParticipantDataInput
+  upsert: UserUpsertWithoutGroupParticipantInput
   connect: UserWhereUniqueInput
 }
 
@@ -1984,11 +2022,11 @@ input UserUpdateWithoutCommentsDataInput {
   googleID: String
   permission: Permission
   posts: PostUpdateManyWithoutUserInput
-  groups: ParticipantUpdateManyWithoutUserInput
+  groupParticipant: ParticipantUpdateManyWithoutUserInput
   messages: MessageUpdateManyWithoutUserInput
 }
 
-input UserUpdateWithoutGroupsDataInput {
+input UserUpdateWithoutGroupParticipantDataInput {
   firstname: String
   lastname: String
   email: String
@@ -2011,7 +2049,7 @@ input UserUpdateWithoutMessagesDataInput {
   permission: Permission
   comments: CommentUpdateManyWithoutUserInput
   posts: PostUpdateManyWithoutUserInput
-  groups: ParticipantUpdateManyWithoutUserInput
+  groupParticipant: ParticipantUpdateManyWithoutUserInput
 }
 
 input UserUpdateWithoutPostsDataInput {
@@ -2023,7 +2061,7 @@ input UserUpdateWithoutPostsDataInput {
   googleID: String
   permission: Permission
   comments: CommentUpdateManyWithoutUserInput
-  groups: ParticipantUpdateManyWithoutUserInput
+  groupParticipant: ParticipantUpdateManyWithoutUserInput
   messages: MessageUpdateManyWithoutUserInput
 }
 
@@ -2032,9 +2070,9 @@ input UserUpsertWithoutCommentsInput {
   create: UserCreateWithoutCommentsInput!
 }
 
-input UserUpsertWithoutGroupsInput {
-  update: UserUpdateWithoutGroupsDataInput!
-  create: UserCreateWithoutGroupsInput!
+input UserUpsertWithoutGroupParticipantInput {
+  update: UserUpdateWithoutGroupParticipantDataInput!
+  create: UserCreateWithoutGroupParticipantInput!
 }
 
 input UserUpsertWithoutMessagesInput {
@@ -2156,9 +2194,9 @@ input UserWhereInput {
   posts_every: PostWhereInput
   posts_some: PostWhereInput
   posts_none: PostWhereInput
-  groups_every: ParticipantWhereInput
-  groups_some: ParticipantWhereInput
-  groups_none: ParticipantWhereInput
+  groupParticipant_every: ParticipantWhereInput
+  groupParticipant_some: ParticipantWhereInput
+  groupParticipant_none: ParticipantWhereInput
   messages_every: MessageWhereInput
   messages_some: MessageWhereInput
   messages_none: MessageWhereInput

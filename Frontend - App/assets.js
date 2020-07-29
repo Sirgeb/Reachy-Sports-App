@@ -15,6 +15,7 @@ const assets = [
   require('./assets/gloves.jpg'),
   require('./assets/golf.jpg'),
   require('./assets/racket.jpg'),
+  require('./assets/celebrate.gif'),
   require('./assets/competition/bundesliga-logo.png'),
   require('./assets/competition/championship-england.jpg'),
   require('./assets/competition/coupe-de-france.jpg'),

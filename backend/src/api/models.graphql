@@ -7,7 +7,7 @@ type User {
   avatar: String
   permission: Permission! 
   posts: [Post!]!
-  groups: [Participant!]!
+  groupParticipant: [Participant!]!
 }
 
 type SuperStar {
@@ -58,6 +58,7 @@ type Group {
 type Participant {
   id: ID! 
   groupId: ID!
+  groupName: String!
   user: User!
   createdAt: String!
 }

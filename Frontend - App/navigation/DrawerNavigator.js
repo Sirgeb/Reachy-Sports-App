@@ -4,12 +4,11 @@ import { createAppContainer } from 'react-navigation';
 import SportsUpdateNavigator from './SportsUpdateNavigator';
 import SportsChatNavigator from './SportsChatNavigator';
 import CustomDrawerContent from '../components/CustomDrawerContent';
-import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
 import CompetitionsNavigator from './CompetitionsNavigator';
-import AuthNavigator from './AuthNavigator';
+import Signin from '../screens/Signin/Signin';
 import HallOfFameNavigator from './HallOfFameNavigator';
 import styles from '../styles';
-import { Platform } from 'react-native';
 
 const DrawerNavigator = createDrawerNavigator({
   SportsUpdate: {
@@ -17,11 +16,9 @@ const DrawerNavigator = createDrawerNavigator({
     navigationOptions: {
       title: 'Sports Update',
       drawerIcon: ({ focused }) => (
-        <Ionicons 
-          name={ 
-            Platform.OS !== "android" ? 
-            "md-football" : "ios-football"} 
-          size={24} 
+        <FontAwesome 
+          name="newspaper-o" 
+          size={20} 
           color={focused ? `${styles.orange}` : `${styles.black}`}
         />
       ),
@@ -66,10 +63,10 @@ const DrawerNavigator = createDrawerNavigator({
       )
     }
   },
-  Auth: {
-    screen: AuthNavigator,
+  Signin: {
+    screen: Signin,
     navigationOptions: {
-      title: 'Sign in',
+      title: 'My Account',
       drawerIcon: ({ focused }) => (
         <FontAwesome5 
           name="user-circle" 

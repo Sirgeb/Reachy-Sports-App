@@ -14,6 +14,7 @@ import BasketballChat from '../screens/SportsChat/BasketballChat/BasketballChat'
 import GolfChat from '../screens/SportsChat/GolfChat/GolfChat';
 import Participants from '../screens/SportsChat/Participants/Participants';
 import TennisChat from '../screens/SportsChat/TennisChat/TennisChat';
+import NavigationIcons from '../components/NavigationIcons';
 
 const ChatNavigator = createStackNavigator({
   SportsChat: {
@@ -22,7 +23,8 @@ const ChatNavigator = createStackNavigator({
       headerLeft: () => <MenuLink />,
       headerTitle: () => (
         <HeaderTitle title="Sports Chat" />
-      )
+      ),
+      headerRight: () => <NavigationIcons route="SportsChat" />
     }
   },
   AthleticsChat: {
