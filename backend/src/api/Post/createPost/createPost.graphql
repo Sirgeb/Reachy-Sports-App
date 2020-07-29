@@ -2,7 +2,6 @@ type Mutation {
   createPost(
     image: String!
     caption: String!
-    overview: String
     description: String!
     category: Category!
     isFeatured: Boolean

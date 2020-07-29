@@ -366,8 +366,6 @@ export type PostOrderByInput =
   | "image_DESC"
   | "caption_ASC"
   | "caption_DESC"
-  | "overview_ASC"
-  | "overview_DESC"
   | "description_ASC"
   | "description_DESC"
   | "category_ASC"
@@ -696,20 +694,6 @@ export interface PostWhereInput {
   caption_not_starts_with?: Maybe<String>;
   caption_ends_with?: Maybe<String>;
   caption_not_ends_with?: Maybe<String>;
-  overview?: Maybe<String>;
-  overview_not?: Maybe<String>;
-  overview_in?: Maybe<String[] | String>;
-  overview_not_in?: Maybe<String[] | String>;
-  overview_lt?: Maybe<String>;
-  overview_lte?: Maybe<String>;
-  overview_gt?: Maybe<String>;
-  overview_gte?: Maybe<String>;
-  overview_contains?: Maybe<String>;
-  overview_not_contains?: Maybe<String>;
-  overview_starts_with?: Maybe<String>;
-  overview_not_starts_with?: Maybe<String>;
-  overview_ends_with?: Maybe<String>;
-  overview_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -1129,7 +1113,6 @@ export interface PostCreateWithoutUserInput {
   id?: Maybe<ID_Input>;
   image: String;
   caption: String;
-  overview?: Maybe<String>;
   description: String;
   category: Category;
   isFeatured?: Maybe<Boolean>;
@@ -1197,7 +1180,6 @@ export interface PostCreateWithoutCommentsInput {
   id?: Maybe<ID_Input>;
   image: String;
   caption: String;
-  overview?: Maybe<String>;
   description: String;
   category: Category;
   isFeatured?: Maybe<Boolean>;
@@ -1292,7 +1274,6 @@ export interface PostUpdateWithWhereUniqueWithoutUserInput {
 export interface PostUpdateWithoutUserDataInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
-  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
   isFeatured?: Maybe<Boolean>;
@@ -1446,20 +1427,6 @@ export interface PostScalarWhereInput {
   caption_not_starts_with?: Maybe<String>;
   caption_ends_with?: Maybe<String>;
   caption_not_ends_with?: Maybe<String>;
-  overview?: Maybe<String>;
-  overview_not?: Maybe<String>;
-  overview_in?: Maybe<String[] | String>;
-  overview_not_in?: Maybe<String[] | String>;
-  overview_lt?: Maybe<String>;
-  overview_lte?: Maybe<String>;
-  overview_gt?: Maybe<String>;
-  overview_gte?: Maybe<String>;
-  overview_contains?: Maybe<String>;
-  overview_not_contains?: Maybe<String>;
-  overview_starts_with?: Maybe<String>;
-  overview_not_starts_with?: Maybe<String>;
-  overview_ends_with?: Maybe<String>;
-  overview_not_ends_with?: Maybe<String>;
   description?: Maybe<String>;
   description_not?: Maybe<String>;
   description_in?: Maybe<String[] | String>;
@@ -1509,7 +1476,6 @@ export interface PostUpdateManyWithWhereNestedInput {
 export interface PostUpdateManyDataInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
-  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
   isFeatured?: Maybe<Boolean>;
@@ -1766,7 +1732,6 @@ export interface PostUpdateOneWithoutCommentsInput {
 export interface PostUpdateWithoutCommentsDataInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
-  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
   isFeatured?: Maybe<Boolean>;
@@ -2051,7 +2016,6 @@ export interface PostCreateInput {
   id?: Maybe<ID_Input>;
   image: String;
   caption: String;
-  overview?: Maybe<String>;
   description: String;
   category: Category;
   isFeatured?: Maybe<Boolean>;
@@ -2062,7 +2026,6 @@ export interface PostCreateInput {
 export interface PostUpdateInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
-  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
   isFeatured?: Maybe<Boolean>;
@@ -2073,7 +2036,6 @@ export interface PostUpdateInput {
 export interface PostUpdateManyMutationInput {
   image?: Maybe<String>;
   caption?: Maybe<String>;
-  overview?: Maybe<String>;
   description?: Maybe<String>;
   category?: Maybe<Category>;
   isFeatured?: Maybe<Boolean>;
@@ -2447,7 +2409,6 @@ export interface Post {
   id: ID_Output;
   image: String;
   caption: String;
-  overview?: String;
   description: String;
   category: Category;
   isFeatured?: Boolean;
@@ -2459,7 +2420,6 @@ export interface PostPromise extends Promise<Post>, Fragmentable {
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
   caption: () => Promise<String>;
-  overview: () => Promise<String>;
   description: () => Promise<String>;
   category: () => Promise<Category>;
   isFeatured: () => Promise<Boolean>;
@@ -2483,7 +2443,6 @@ export interface PostSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
   caption: () => Promise<AsyncIterator<String>>;
-  overview: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
   isFeatured: () => Promise<AsyncIterator<Boolean>>;
@@ -2507,7 +2466,6 @@ export interface PostNullablePromise
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
   caption: () => Promise<String>;
-  overview: () => Promise<String>;
   description: () => Promise<String>;
   category: () => Promise<Category>;
   isFeatured: () => Promise<Boolean>;
@@ -3387,7 +3345,6 @@ export interface PostPreviousValues {
   id: ID_Output;
   image: String;
   caption: String;
-  overview?: String;
   description: String;
   category: Category;
   isFeatured?: Boolean;
@@ -3401,7 +3358,6 @@ export interface PostPreviousValuesPromise
   id: () => Promise<ID_Output>;
   image: () => Promise<String>;
   caption: () => Promise<String>;
-  overview: () => Promise<String>;
   description: () => Promise<String>;
   category: () => Promise<Category>;
   isFeatured: () => Promise<Boolean>;
@@ -3415,7 +3371,6 @@ export interface PostPreviousValuesSubscription
   id: () => Promise<AsyncIterator<ID_Output>>;
   image: () => Promise<AsyncIterator<String>>;
   caption: () => Promise<AsyncIterator<String>>;
-  overview: () => Promise<AsyncIterator<String>>;
   description: () => Promise<AsyncIterator<String>>;
   category: () => Promise<AsyncIterator<Category>>;
   isFeatured: () => Promise<AsyncIterator<Boolean>>;

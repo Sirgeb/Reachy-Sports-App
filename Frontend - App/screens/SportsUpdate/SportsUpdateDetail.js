@@ -69,7 +69,7 @@ const SportsUpdateDetail = ({ navigation }) => {
          Alert.alert("Your comment is noted 😎 :)")
          flatListRef.current.scrollToIndex({ index: 0, animated: true });
       } else {
-        Alert.alert("Welcome to Reachy Sports, Your comment is noted. 🎉🎉🎉😎")
+        Alert.alert("Your comment is noted 😎 :)")
       }
     }
   }, [newComment])

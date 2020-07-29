@@ -14,7 +14,6 @@ const GET_FEATURED_POSTS_AND_POST_CONNECTION = gql`
     featuredPosts {
       id 
       caption 
-      overview
       image
     }
     postsConnection(first: $first, after: $after) {

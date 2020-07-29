@@ -1122,7 +1122,6 @@ type Post {
   id: ID!
   image: String!
   caption: String!
-  overview: String
   description: String!
   category: Category!
   isFeatured: Boolean
@@ -1142,7 +1141,6 @@ input PostCreateInput {
   id: ID
   image: String!
   caption: String!
-  overview: String
   description: String!
   category: Category!
   isFeatured: Boolean
@@ -1164,7 +1162,6 @@ input PostCreateWithoutCommentsInput {
   id: ID
   image: String!
   caption: String!
-  overview: String
   description: String!
   category: Category!
   isFeatured: Boolean
@@ -1175,7 +1172,6 @@ input PostCreateWithoutUserInput {
   id: ID
   image: String!
   caption: String!
-  overview: String
   description: String!
   category: Category!
   isFeatured: Boolean
@@ -1194,8 +1190,6 @@ enum PostOrderByInput {
   image_DESC
   caption_ASC
   caption_DESC
-  overview_ASC
-  overview_DESC
   description_ASC
   description_DESC
   category_ASC
@@ -1212,7 +1206,6 @@ type PostPreviousValues {
   id: ID!
   image: String!
   caption: String!
-  overview: String
   description: String!
   category: Category!
   isFeatured: Boolean
@@ -1263,20 +1256,6 @@ input PostScalarWhereInput {
   caption_not_starts_with: String
   caption_ends_with: String
   caption_not_ends_with: String
-  overview: String
-  overview_not: String
-  overview_in: [String!]
-  overview_not_in: [String!]
-  overview_lt: String
-  overview_lte: String
-  overview_gt: String
-  overview_gte: String
-  overview_contains: String
-  overview_not_contains: String
-  overview_starts_with: String
-  overview_not_starts_with: String
-  overview_ends_with: String
-  overview_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]
@@ -1339,7 +1318,6 @@ input PostSubscriptionWhereInput {
 input PostUpdateInput {
   image: String
   caption: String
-  overview: String
   description: String
   category: Category
   isFeatured: Boolean
@@ -1350,7 +1328,6 @@ input PostUpdateInput {
 input PostUpdateManyDataInput {
   image: String
   caption: String
-  overview: String
   description: String
   category: Category
   isFeatured: Boolean
@@ -1359,7 +1336,6 @@ input PostUpdateManyDataInput {
 input PostUpdateManyMutationInput {
   image: String
   caption: String
-  overview: String
   description: String
   category: Category
   isFeatured: Boolean
@@ -1394,7 +1370,6 @@ input PostUpdateOneWithoutCommentsInput {
 input PostUpdateWithoutCommentsDataInput {
   image: String
   caption: String
-  overview: String
   description: String
   category: Category
   isFeatured: Boolean
@@ -1404,7 +1379,6 @@ input PostUpdateWithoutCommentsDataInput {
 input PostUpdateWithoutUserDataInput {
   image: String
   caption: String
-  overview: String
   description: String
   category: Category
   isFeatured: Boolean
@@ -1470,20 +1444,6 @@ input PostWhereInput {
   caption_not_starts_with: String
   caption_ends_with: String
   caption_not_ends_with: String
-  overview: String
-  overview_not: String
-  overview_in: [String!]
-  overview_not_in: [String!]
-  overview_lt: String
-  overview_lte: String
-  overview_gt: String
-  overview_gte: String
-  overview_contains: String
-  overview_not_contains: String
-  overview_starts_with: String
-  overview_not_starts_with: String
-  overview_ends_with: String
-  overview_not_ends_with: String
   description: String
   description_not: String
   description_in: [String!]

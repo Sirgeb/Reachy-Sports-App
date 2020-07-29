@@ -5,7 +5,7 @@ import { withNavigation } from 'react-navigation';
 import { trimText } from '../utils';
 import styles from '../styles';
 
-const Slide = ({ postId, caption, overview, postImage, navigation }) => {
+const Slide = ({ postId, caption, postImage, navigation }) => {
 
   return (
     <Container>
@@ -13,8 +13,7 @@ const Slide = ({ postId, caption, overview, postImage, navigation }) => {
       <Content>
         <PortraitImage source={{ uri: postImage }} />
         <Data>
-          <Text style={style.caption}>{trimText(caption, 40)}</Text>
-          <Text style={[style.caption, style.overview]}>{trimText(overview, 80)}</Text>
+          <Text style={style.caption}>{trimText(caption, 60)}</Text>
           <TouchableOpacity style={style.readOnBtn} onPress={() => navigation.navigate("SportsUpdateDetail", { id: postId })}>
             <ButtonText>Read On...</ButtonText>
           </TouchableOpacity>

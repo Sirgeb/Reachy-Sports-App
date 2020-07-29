@@ -4,7 +4,7 @@ export default {
   Query: {
     featuredPosts: async () => {
       return prisma.posts({
-        first: 5,
+        first: 4,
         where: {
           isFeatured: true
         }, 
