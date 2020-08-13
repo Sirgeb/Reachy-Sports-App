@@ -2,8 +2,10 @@ import React, { useEffect } from 'react';
 import styled from 'styled-components/native';
 import { FlatList, ActivityIndicator } from 'react-native';
 import { withNavigation } from 'react-navigation';
+import { useNetInfo } from '@react-native-community/netinfo';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo-hooks';
+import NetworkError from '../../../components/NetworkError';
 import HallOfFameSuperStarsListItem from '../../../components/HallOfFameSuperStarsListItem';
 import withSuspense from '../../../components/withSuspense';
 import constants from '../../../constants';
@@ -36,10 +38,11 @@ const SuperStarsList = ({ navigation }) => {
   const category = navigation.getParam("category");
   const { data, error, refetch, fetchMore } = useQuery(
     SUPER_STARS_CONNECTION, { variables: { first: 10,  category }, suspend: true });
+  const networkState = useNetInfo();
 
   useEffect(() => {
     refresh();
-  }, []);
+  }, [networkState.isConnected]);
 
   const refresh = async () => {
     try {
@@ -53,6 +56,10 @@ const SuperStarsList = ({ navigation }) => {
   const _renderItem = ({ item }) => (
     <HallOfFameSuperStarsListItem superStar={{...item}} />
   );
+
+  if (!!error && networkState.isConnected === false) {
+    return <NetworkError refresh={refresh} />
+  }
 
   if (data.superStarsConnection.edges[0] === undefined) {
     return (

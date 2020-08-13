@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'; 
-import { View, Image, Text, StyleSheet, AsyncStorage, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Image, Text, StyleSheet, Alert, AsyncStorage, TouchableOpacity, SafeAreaView } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import gql from 'graphql-tag';
 import { AntDesign } from '@expo/vector-icons';
@@ -42,20 +42,31 @@ const Account = ({ navigation }) => {
     } 
   }, []);
 
-  const handleSignOut = async () => {
-    try {
-      if (mounted.current === true) setProcessing(true)
-      const accessToken = await AsyncStorage.getItem("accessToken");
-      await Google.logOutAsync({
-        androidClientId: googleClientID,
-        accessToken
-       });
-      await unsetAccessToken();
-      await logUserOut();
-      if (mounted.current === true) setProcessing(false);
-    } catch (e) {
-      console.log(e.message);
-    } 
+  const handleSignOut = () => {
+    Alert.alert("Do you really want to logout?", "Tap Yes to continue loging out :)", [
+      {
+        text: "Yes",
+        onPress: async () => {
+          try {
+            if (mounted.current === true) setProcessing(true)
+              const accessToken = await AsyncStorage.getItem("accessToken");
+              await Google.logOutAsync({     
+                androidClientId: googleClientID,
+                accessToken
+              });
+              await unsetAccessToken();
+              await logUserOut();
+              if (mounted.current === true) setProcessing(false);
+          } catch(e) {
+            console.log(e.message);
+          } 
+        }
+      }, 
+      {
+        text: "No", 
+        onPress: null
+      }
+    ]);
   }
 
   return (

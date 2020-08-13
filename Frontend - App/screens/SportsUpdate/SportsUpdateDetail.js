@@ -1,12 +1,12 @@
-import React, { useRef, useEffect } from 'react';
-import { FlatList, ActivityIndicator, Alert } from 'react-native';
-import styled from 'styled-components/native';
+import React, { useRef, useState, useEffect } from 'react';
+import { FlatList, ActivityIndicator, Alert, KeyboardAvoidingView, StyleSheet } from 'react-native';
 import { useQuery, useSubscription } from "react-apollo-hooks";
 import { withNavigation } from 'react-navigation';
 import gql from 'graphql-tag';
-
+import { useNetInfo } from '@react-native-community/netinfo';
 import SportsUpdateHeader from '../../components/SportsUpdateHeader';
 import CommentsListOfPost from '../../components/CommentsListOfPost';
+import NetworkError from '../../components/NetworkError';
 import WriteCommentSectionOfPost from '../../components/WriteCommentSectionOfPost';
 import withSuspense from '../../components/withSuspense';
 import constants from '../../constants';
@@ -55,15 +55,21 @@ const GET_POST_AND_COMMENTS = gql`
 const SportsUpdateDetail = ({ navigation }) => {
   const id = navigation.getParam("id");
   const { data: newComment } = useSubscription(NEW_COMMENT, { variables: { postId: id } });
-  const { data, refetch, fetchMore } = useQuery(GET_POST_AND_COMMENTS, { variables: { postId: id, first: 10 }, suspend: true });
+  const { data, error, refetch, fetchMore } = useQuery(GET_POST_AND_COMMENTS, { variables: { postId: id, first: 10 }, suspend: true });
+  const networkState = useNetInfo();
   const flatListRef = useRef();
   const commentsMap = {};
 
-  useEffect(() => {
-    const referesh = async () => {
+  const refresh = async () => {
+    try {
       await refetch();
+    } catch (e) {
+      console.log(e.message);
     }
-    referesh();
+  }
+
+  useEffect(() => {
+    refresh();
     if (newComment !== undefined) {
       if (data.commentsConnection.edges.length !== 0) {
          Alert.alert("Your comment is noted 😎 :)")
@@ -72,7 +78,14 @@ const SportsUpdateDetail = ({ navigation }) => {
         Alert.alert("Your comment is noted 😎 :)")
       }
     }
-  }, [newComment])
+    return () => {
+      mounted = false;
+    }
+  }, [newComment, networkState.isConnected])
+
+  if (!!error && networkState.isConnected === false) {
+    return <NetworkError refresh={refresh} />
+  }
 
   const post = data.getPost;
   const comments = data.commentsConnection.edges || [];
@@ -84,12 +97,11 @@ const SportsUpdateDetail = ({ navigation }) => {
   }
 
   return (    
-    post && (
-    <KeyboardAvoidingView>
+    <KeyboardAvoidingView style={layout.KAV}>
       <FlatList
         ListHeaderComponent={() => <SportsUpdateHeader {...post} />}
         keyExtractor={item => item.id}
-        data={comments && comments.map(comment => ({
+        data={comments.map(comment => ({
           ...comment.node
         })).filter(c => {
           if (commentsMap[c.id]) {
@@ -134,13 +146,14 @@ const SportsUpdateDetail = ({ navigation }) => {
       />
       <WriteCommentSectionOfPost postId={id} navigation={navigation} />
     </KeyboardAvoidingView>
-    )
   )
 }
 
-const KeyboardAvoidingView = styled.KeyboardAvoidingView`
-  flex: 1;
-  align-items: center;
-`;
+const layout = StyleSheet.create({
+  KAV: {
+    flex: 1,
+    alignItems: "center"
+  }
+});
 
 export default withSuspense(withNavigation(SportsUpdateDetail));
