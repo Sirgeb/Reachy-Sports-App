@@ -1,0 +1,18 @@
+a {
+  text-decoration: none;
+  color: #393939;
+}
+
+a:hover {
+  cursor: pointer;
+}
+
+.btn:hover {
+  cursor: pointer;
+  outline-color: peru;
+}
+
+.modal-button {
+  padding: 8px;
+  width: 80px;
+}
