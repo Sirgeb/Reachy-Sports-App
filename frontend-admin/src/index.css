@@ -16,3 +16,7 @@ a:hover {
   padding: 8px;
   width: 80px;
 }
+
+.toastify-success {
+  background-color: #F58634;
+}

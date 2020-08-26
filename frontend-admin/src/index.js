@@ -1,8 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { createMuiTheme, ThemeProvider } from '@material-ui/core/styles';
+import { ApolloProvider } from '@apollo/react-hooks';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import Client from './apollo/Client';
+import App from './components/App';
 import 'fontsource-roboto';
 import './index.css';
 
@@ -18,11 +22,12 @@ const theme = createMuiTheme({
 });
 
 ReactDOM.render(
-  <React.Fragment>
-    <ThemeProvider theme={theme}>
+  <ThemeProvider theme={theme}>
+    <ApolloProvider client={Client}>
       <App />
-    </ThemeProvider>
-  </React.Fragment>,
+      <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
+    </ApolloProvider>
+  </ThemeProvider>,
   document.getElementById('root')
 );
 
