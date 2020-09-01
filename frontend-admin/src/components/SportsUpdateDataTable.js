@@ -12,6 +12,7 @@ import TableRow from '@material-ui/core/TableRow';
 import DeleteForeverOutlinedIcon from '@material-ui/icons/DeleteForeverOutlined';
 import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Typography from '@material-ui/core/Typography';
+import TableSkeleton from './TableSkeleton';
 
 const columns = [
   { id: 'caption', label: 'Caption'},
@@ -83,7 +84,7 @@ const SportsUpdateDataTable = () => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+            {rows[0] !== undefined ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
               return (
                 <TableRow hover role="checkbox" tabIndex={-1} key={index}>
                   {columns.map((column, index) => {
@@ -116,7 +117,14 @@ const SportsUpdateDataTable = () => {
                   })}
                 </TableRow>
               );
-            })}
+            })
+          : (
+            <TableRow>  
+              <TableCell colSpan={5}>
+                <TableSkeleton />
+              </TableCell>
+            </TableRow>
+          )}
           </TableBody>
         </Table>
       </TableContainer>
