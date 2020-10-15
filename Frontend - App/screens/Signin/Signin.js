@@ -1,11 +1,12 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { useMutation } from 'react-apollo-hooks';
+import { useMutation, useApolloClient } from 'react-apollo-hooks';
 import { AntDesign } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { Image, Text } from 'react-native';
 import gql from 'graphql-tag';
+import { GET_GROUPS } from '../SportsChat/SportsChat';
 import { AuthContext, useIsLoggedIn } from '../../AuthContext';
 import { facebookAppID, googleClientID } from '../../config';
 import MyAccount from '../../components/MyAccount';
@@ -44,6 +45,7 @@ const Signin = ({ navigation }) => {
   const mounted = useRef(true);
   let nextRoute = navigation.getParam('nextRoute');
   const groupId = navigation.getParam('groupId');
+  const client = useApolloClient();
 
   useEffect(() => {
     mounted.current = true;
@@ -71,7 +73,7 @@ const Signin = ({ navigation }) => {
           `https://graph.facebook.com/me?access_token=${token}&fields=id,email,first_name,last_name`
         );
         const { id, email, first_name, last_name } = await userProfile.json();
-        const { data: { createAccount: { token, userId } } } = await createAccount({
+        const { data: { createAccount: { token } } } = await createAccount({
           variables: {
             firstname: first_name,
             lastname: last_name, 
@@ -82,7 +84,7 @@ const Signin = ({ navigation }) => {
         });
 
         await logUserIn(token);
-        await setUserId(userId);
+        await client.query({ query: GET_GROUPS });
         navigation.navigate(nextRoute, { groupId });
 
         if (mounted.current === true) setLoading(false);
@@ -97,38 +99,31 @@ const Signin = ({ navigation }) => {
 
   const googleLogin = async () => {
     try {
-      if (mounted.current === true) setLoading(true);
-
-      const result = await Google.logInAsync({
+      setLoading(true);
+      const { type, accessToken, user } = await Google.logInAsync({
         androidClientId: googleClientID,
         scopes: ['profile', 'email'],
       });
-
+      
       // store access token to be used when signing out
-      await setAccessToken(result.accessToken);
+      await setAccessToken(accessToken);
 
-      if (result.type === 'success') {
-        const userProfile = await fetch('https://www.googleapis.com/userinfo/v2/me', {
-          headers: { Authorization: `Bearer ${result.accessToken}` },
-        });
-        const { id, email, family_name, given_name, picture } = await userProfile.json();
-        const { data: { createAccount: { token, userId } } } = await createAccount({
+      if (type === 'success') {
+        const { id, email, familyName, givenName, photoUrl } = user;
+        const { data: { createAccount: { token } } } = await createAccount({
           variables: {
-            firstname: given_name,
-            lastname: family_name,
+            firstname: givenName,
+            lastname: familyName,
             email,
-            avatar: picture,
+            avatar: photoUrl,
             googleID: id
           }
         });
 
         await logUserIn(token);
-        await setUserId(userId);
-
+        await client.query({ query: GET_GROUPS });
+        setLoading(false);
         navigation.navigate(nextRoute, { groupId });
-
-        if (mounted.current === true) setLoading(false);
-
       } else {
         return { cancelled: true };
       }

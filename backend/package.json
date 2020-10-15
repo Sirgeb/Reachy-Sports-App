@@ -12,8 +12,8 @@
     "generate": "env-cmd -f ./src/config/dev.env prisma generate"
   },
   "engines": {
-    "node": "12.16.2",
-    "npm": "6.5.0"
+    "node": "14.13.1",
+    "npm": "6.14.8"
   },
   "dependencies": {
     "@babel/cli": "7.4.4",

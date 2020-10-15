@@ -83,7 +83,7 @@ const SportsUpdateDetail = ({ navigation }) => {
     }
   }, [newComment, networkState.isConnected])
 
-  if (!!error && networkState.isConnected === false) {
+  if (!!error && networkState.isConnected === false || error) {
     return <NetworkError refresh={refresh} />
   }
 

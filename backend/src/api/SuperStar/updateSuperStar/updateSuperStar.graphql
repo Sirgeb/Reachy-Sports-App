@@ -6,7 +6,7 @@ type Mutation {
     image: String
     category: Category
     dateOfBirth: String
-    location: String 
+    country: String 
     bio: String
   ): SuperStar!
 }

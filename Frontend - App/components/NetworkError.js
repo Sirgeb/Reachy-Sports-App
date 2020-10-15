@@ -8,7 +8,7 @@ const NetworkError = ({ refresh }) => {
     <View style={layout.container}>
       <AntDesign name="warning" size={50} style={layout.info} />
       <Text style={layout.info}>No Internet Connection</Text>
-      <TouchableOpacity onPress={refresh} style={layout.btn}>
+      <TouchableOpacity onPress={() => refresh()} style={layout.btn}>
         <Text style={layout.btnText}>Try Again</Text>
       </TouchableOpacity>
     </View>

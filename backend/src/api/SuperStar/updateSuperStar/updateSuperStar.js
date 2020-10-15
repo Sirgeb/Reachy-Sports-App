@@ -3,7 +3,7 @@ import { prisma } from "../../../../generated/prisma-client";
 export default {
   Mutation: {
     updateSuperStar: async (_, 
-      { superStarId, fullname, title, image, dateOfBirth, location,bio }, 
+      { superStarId, fullname, title, image, dateOfBirth, country, bio }, 
       { request, isAuthenticated, isAdmin }) => {
       isAuthenticated(request);
       isAdmin(request);
@@ -14,7 +14,7 @@ export default {
         title,
         image, 
         dateOfBirth,
-        location,
+        country,
         bio
       }});
     }

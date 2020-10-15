@@ -1,4 +1,6 @@
 import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { useQuery, gql, useMutation } from '@apollo/react-hooks';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 import FormControl from '@material-ui/core/FormControl';
@@ -8,27 +10,124 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
-import { EditorState, convertToRaw } from 'draft-js';
+import { toast } from 'react-toastify';
+import { EditorState, convertToRaw, ContentState} from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import WYSIWYGEditor from './WYSIWYGEditor';
 
-const SuperstarsForm = () => {
-  const [state, setState] = React.useState({
-    fullname: "",
-    category: "",
-    country: "",
-    dateOfBirth: "",
-    bio: "",
-    image: ""
-  });
+const INITIAL_STATE = {
+  fullname: "",
+  category: "",
+  country: "",
+  dateOfBirth: "",
+  bio: "",
+  image: ""
+}
 
+const GET_SUPERSTAR = gql`
+  query GET_SUPERSTAR($superStarId: ID!) {
+    getSuperStar(superStarId: $superStarId) {
+      id
+      fullname 
+      category 
+      country 
+      dateOfBirth 
+      bio 
+      image 
+    }
+  }
+`;
+
+const UPDATE_SUPERSTAR = gql`
+  mutation UPDATE_SUPERSTAR(
+    $superStarId: ID!
+    $fullname: String
+    $dateOfBirth: String
+    $image: String
+    $country: String
+    $category: Category
+    $bio: String
+  ) {
+    updateSuperStar(
+      superStarId: $superStarId
+      fullname: $fullname
+      dateOfBirth: $dateOfBirth
+      image: $image
+      country: $country
+      category: $category
+      bio: $bio
+    ) {
+      id
+    }
+  }
+`;
+
+const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
+  const superStarId = match.params.id;
+  const { data, loading: processing } = useQuery(GET_SUPERSTAR, { variables: { superStarId }, fetchPolicy: "cache-and-network"});
+  const [updateSuperStar] = useMutation(UPDATE_SUPERSTAR, { onCompleted: () => {
+    toast.success("Changes Saved Successfully!", { autoClose: 3000, className: 'toastify-success' });
+  }});
+  const [state, setState] = React.useState(INITIAL_STATE);
+  const [isFilled, setIsFilled] = React.useState(false);
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty);
+
+  React.useEffect(() => {
+    const filled = Object.values(state).every(field => Boolean(field));
+    setIsFilled(!filled) 
+  }, [state]);
+
+  React.useEffect(() => {
+    if (data !== undefined) {
+      const { fullname, category, country, dateOfBirth, bio, image } = data.getSuperStar;
+      setState(prevState => ({ ...prevState, fullname, category, country, dateOfBirth, bio, image }));
+      convertHtmlToDraft(bio);
+    }
+  }, [data]);
+
+  const handleSubmit = async () => {
+    if (superStarId) {
+      try {
+        await updateSuperStar({
+          variables: {
+            ...state,
+            superStarId
+          }
+        });
+        history.push('/superstars');
+      } catch (e) {
+        toast.error(`${e.message}`, { autoClose: 3000 })
+      }
+    } else {
+      try {
+        await createSuperStar({
+          variables: {
+            ...state
+          }
+        });
+        setState(INITIAL_STATE);
+        setEditorState('');
+      } catch (e) {
+        toast.error(`${e.message}`, { autoClose: 3000 })
+      }
+    }
+  }
 
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
     const bio = draftToHtml(convertToRaw(editorState.getCurrentContent()));
     setState({ ...state, bio });
   };
+
+  const convertHtmlToDraft = (HTML) => {
+    const contentBlock = htmlToDraft(HTML);
+    if (contentBlock) {
+      const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+      const editorState = EditorState.createWithContent(contentState);
+      setEditorState(editorState);
+    }
+  }
 
   const handleChange = (event) => {
     setState({ ...state, [event.target.name]: event.target.value });
@@ -351,7 +450,11 @@ const SuperstarsForm = () => {
               editorState={editorState}
             />
           </div>
-          <Button variant="outlined">
+          <Button 
+            variant="outlined"
+            onClick={handleSubmit}
+            disabled={loading || isFilled}
+          >
             Save Profile
           </Button>
         </div> 
@@ -380,4 +483,4 @@ const useStyles = makeStyles(() => ({
   }
 }));
 
-export default SuperstarsForm;
+export default withRouter(SuperstarsForm);

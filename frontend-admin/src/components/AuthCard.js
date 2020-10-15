@@ -23,8 +23,8 @@ const LOGIN_USER_VIA_GOOGLE = gql`
 `;
 
 const LOCAL_LOGIN = gql`
-  mutation logUserIn($token: String!) {
-    logUserIn(token: $token) @client
+  mutation logUserIn {
+    logUserIn @client
   }
 `;
 
@@ -37,7 +37,8 @@ const AuthCard = () => {
     onCompleted: (data) => {
       const token = data.loginUserViaGoogle;
       if (token !== "" && token !== undefined) { 
-        logUserIn(token);
+        localStorage.setItem("token", token);
+        logUserIn();
       }
     }
   });
