@@ -12,10 +12,10 @@ const LoggedInRoutes = () => (
   <Switch>
     <Route exact path="/" component={SportsUpdate} />
     <Route exact path="/sportsupdate/add" component={AddPost} />
-    <Route exact path="/sportsupdate/update" component={UpdatePost} />
+    <Route exact path="/sportsupdate/:id" component={UpdatePost} />
     <Route exact path="/superstars" component={Superstars} />
-    <Route exact path="/superstar/add" component={AddSuperstar} />
-    <Route exact path="/superstar/update" component={UpdateSuperstar} />
+    <Route exact path="/superstars/add" component={AddSuperstar} />
+    <Route exact path="/superstars/:id" component={UpdateSuperstar} />
     <Redirect from="*" to="/" />
   </Switch>
 );

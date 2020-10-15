@@ -2,7 +2,6 @@
   "expo": {
     "name": "Reachy Sports",
     "slug": "Reachy-Sports",
-    "sdkVersion": "37.0.0",
     "platforms": [
       "ios",
       "android",

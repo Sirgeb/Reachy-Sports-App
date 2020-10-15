@@ -1,5 +1,6 @@
 import jwt from "jsonwebtoken";
 import { google } from 'googleapis';
+import axios from 'axios';
 
 const auth = new google.auth.OAuth2(
   process.env.G_CLIENT_ID,
@@ -29,3 +30,14 @@ export const Google = {
 }
 
 export const generateToken = (id, source) => jwt.sign({ id, source }, process.env.JWT_SECRET);
+
+export const sendPushNotification = async (expoToken, title, message) => {
+  await axios.post(
+    "https://exp.host/--/api/v2/push/send",
+    {
+      to: expoToken,
+      title,
+      body: message
+    }
+  )
+}

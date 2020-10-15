@@ -78,4 +78,7 @@ const Container = styled.View`
   background-color: ${styles.white};
 `;
 
+export {
+  GET_GROUPS
+}
 export default withSuspense(SportsChat);

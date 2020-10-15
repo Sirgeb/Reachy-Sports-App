@@ -95,7 +95,7 @@ const Dashboard = (props) => {
             {
               (sportsUpdate || superstars) && (
                 <div style={{ display: 'flex', flexDirection: 'row' }}>
-                  <Link to={sportsUpdate ? "/sportsupdate/add" : "/superstar/add"}>
+                  <Link to={sportsUpdate ? "/sportsupdate/add" : "/superstars/add"}>
                     <AddCircleIcon 
                       style={{ height: 30, width: 30, marginTop: "4px", marginRight: "5px" }} 
                       color="secondary" 

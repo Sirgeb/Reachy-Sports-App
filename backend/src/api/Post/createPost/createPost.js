@@ -1,4 +1,5 @@
 import { prisma } from '../../../../generated/prisma-client';
+import { sendPushNotification } from '../../../utils';
 
 export default {
   Mutation: {
@@ -7,6 +8,9 @@ export default {
       isAdmin(request);
 
       const { image, caption, description, isFeatured, category } = args;
+      const expoToken = "ExponentPushToken[e7E9O7CNBDtKESVRBWg8LG]";
+
+      await sendPushNotification(expoToken, "Sports Update", caption);
 
       await prisma.createPost({
         image,

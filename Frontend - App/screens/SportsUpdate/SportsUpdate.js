@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-simple-toast';
-import { FlatList, ActivityIndicator, TouchableOpacity, Text, StyleSheet, View } from 'react-native';
+import { FlatList, ActivityIndicator, AsyncStorage, StyleSheet, View } from 'react-native';
 import gql from 'graphql-tag';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useQuery, useSubscription } from 'react-apollo-hooks';
@@ -42,6 +42,7 @@ const NEW_POST = gql`
   subscription {
     newPost {
       id 
+      caption
     } 
   }
 `;
@@ -57,10 +58,11 @@ const SportsUpdate = () => {
   useEffect(() => {
     let mounted = true;
     const unsubscribe = NetInfo.addEventListener(state => {
-      if (state.isInternetReachable === false) {
+      if (state.isInternetReachable === false) { 
         Toast.show("You're Offline, No Internet Connection", Toast.LONG);
       }
     });
+
     refresh();
     return () => {
       mounted = false;
@@ -82,8 +84,12 @@ const SportsUpdate = () => {
     } 
   }
 
+  if (error) {
+    return <NetworkError refresh={refresh} />
+  }
+
   const _renderItem = ({ item }) => (
-    <SportsUpdateListItem { ...item }/>
+    <SportsUpdateListItem { ...item } />
   );
 
   return (
@@ -93,7 +99,7 @@ const SportsUpdate = () => {
        <View style={layout.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          ListHeaderComponent={() => <FeaturedPosts data={data && data.featuredPosts} />}
+          // ListHeaderComponent={() => <FeaturedPosts data={data && data.featuredPosts} />}
           ListFooterComponent={() => data.postsConnection.pageInfo.hasNextPage ? <ActivityIndicator color={styles.orange} size={25} /> : null}
           keyExtractor={item => item.id}
           data={data.postsConnection.edges.map(post => ({
