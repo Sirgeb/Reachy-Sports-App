@@ -24,8 +24,12 @@ const CREATE_POST = gql`
 
 const AddPost = () => {
   const [createPost, { loading }] = useMutation(CREATE_POST, { onCompleted: () => {
-    toast.success("Success!", { autoClose: 3000, className: 'toastify-success' });
+    toast.success("Published Successfully", { autoClose: 3000, className: 'toastify-success' });
   }});
+
+  if (loading) {
+    toast.info("Publishing Post", { autoClose: 3000 });
+  }
 
   return (
     <Dashboard 

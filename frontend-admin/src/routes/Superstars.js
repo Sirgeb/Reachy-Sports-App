@@ -22,7 +22,10 @@ const Superstars = () => {
       route="superstars"
       title="Superstars Profile"
     >
-      <DataTable superstars={loading ? [] : data.getSuperstars} loading={loading} />
+      <DataTable 
+        superstars={loading ? [] : data.getSuperstars} 
+        loading={loading} 
+      />
     </Dashboard>
   )
 }

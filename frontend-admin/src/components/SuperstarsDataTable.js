@@ -16,6 +16,7 @@ import BorderColorIcon from '@material-ui/icons/BorderColor';
 import Typography from '@material-ui/core/Typography';
 import TableSkeleton from './TableSkeleton';
 import LinearProgress from './LinearProgress';
+import { useSuperstarsSearchResult } from '../hooks/AppContext';
 import { formatLetters } from '../utils';
 
 const columns = [
@@ -63,19 +64,37 @@ const createData = (fullname, country, category, id) => {
 
 const SuperstarsDataTable = ({ superstars, loading }) => {
   const classes = useStyles();
+  const { loading: isMakingSearch, data } = useSuperstarsSearchResult();
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  let rows;
-  const [deleteSuperStar] = useMutation(DELETE_SUPERSTAR, { onCompleted: () => {
-    toast.success("Deleted Successfully!", { autoClose: 3000, className: 'toastify-success' });
+  const [searchResult, setSearchResult] = React.useState(undefined);
+  const [deleteSuperStar, { loading: isBeingDeleted }] = useMutation(DELETE_SUPERSTAR, { onCompleted: () => {
+    toast.success("Superstar Profile Deleted Successfully!", { autoClose: 3000, className: 'toastify-success' });
   }});
 
-  if (!loading && superstars[0] !== undefined) {    
-    rows = superstars.map(superstar => {
+  React.useEffect(() => {
+    if (
+      data !== undefined && 
+      data !== { data: { searchSuperStars: [] }, loading: false } && 
+      data !== { data: { searchSuperStars: undefined }, loading: true } && 
+      data !== { loading: false, data: []}
+      ) {
+      setSearchResult(data.searchSuperStars);
+    }
+  }, [data])
+
+  let rows = superstars.map(superstar => {
+    return createData(superstar.fullname, superstar.country, formatLetters(superstar.category), superstar.id)
+  });
+   
+  if (searchResult !== undefined) {
+    rows = searchResult.map(superstar => {
       return createData(superstar.fullname, superstar.country, formatLetters(superstar.category), superstar.id)
     });
-  } else {
-    rows = [];
+  } 
+
+  if (isBeingDeleted) {
+    toast.info("Deleting Superstar Profile...", { autoClose: 3000 });
   }
 
   const handleChangePage = (event, newPage) => {
@@ -89,7 +108,7 @@ const SuperstarsDataTable = ({ superstars, loading }) => {
 
   return (
     <React.Fragment>
-      { loading ? <LinearProgress /> : null }
+      { isMakingSearch || loading ? <LinearProgress /> : null }
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
@@ -109,7 +128,7 @@ const SuperstarsDataTable = ({ superstars, loading }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              { !loading && !isMakingSearch ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 const superStarId = row.id;
 
                 return (
@@ -147,13 +166,14 @@ const SuperstarsDataTable = ({ superstars, loading }) => {
                     })}
                   </TableRow>
                 );
-              }) : (
+              }) : isMakingSearch || loading ? 
+              (
                 <TableRow>  
                   <TableCell colSpan={5}>
                     <TableSkeleton />
                   </TableCell>
                 </TableRow>
-              )}
+              ): null}
             </TableBody>
           </Table>
         </TableContainer>

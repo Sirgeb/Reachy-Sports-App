@@ -29,8 +29,12 @@ const CREATE_SUPERSTAR = gql`
 
 const AddSuperstar = () => {
   const [createSuperStar, { loading }] = useMutation(CREATE_SUPERSTAR, { onCompleted: () => {
-    toast.success("Success!", { autoClose: 3000, className: 'toastify-success' });
+    toast.success("Profile Saved Successfully", { autoClose: 3000, className: 'toastify-success' });
   }});
+
+  if (loading) {
+    toast.info("Saving Superstar Profile", { autoClose: 3000 });
+  }
 
   return (
     <Dashboard 

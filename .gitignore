@@ -13,6 +13,8 @@ web-report/
 
 .DS_Store
 
+config
 config.js
+cn
 prod.env
 dev.env

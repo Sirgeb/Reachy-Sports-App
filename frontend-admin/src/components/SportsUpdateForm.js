@@ -59,7 +59,7 @@ const UPDATE_POST = gql`
 
 const SportsUpdateForm = ({ createPost, loading, match, history }) => {
   const postId = match.params.id;
-  const { data, loading: processing } = useQuery(GET_POST, { variables: { postId }, fetchPolicy: "cache-and-network"});
+  const { data } = useQuery(GET_POST, { variables: { postId }, fetchPolicy: "cache-and-network"});
   const [updatePost] = useMutation(UPDATE_POST, { onCompleted: () => {
     toast.success("Changes Saved Successfully!", { autoClose: 3000, className: 'toastify-success' });
   }});

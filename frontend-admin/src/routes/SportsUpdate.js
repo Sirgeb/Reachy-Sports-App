@@ -22,7 +22,10 @@ const SportsUpdate = () => {
       route="sportsUpdate"
       title="Sports Update"
     >
-      <DataTable posts={loading ? [] : data.getPosts} loading={loading} />
+      <DataTable 
+        posts={loading ? [] : data.getPosts} 
+        loading={loading} 
+      />
     </Dashboard>
   )
 }

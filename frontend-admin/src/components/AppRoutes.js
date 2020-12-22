@@ -8,17 +8,20 @@ import Superstars from '../routes/Superstars';
 import AddSuperstar from '../routes/AddSuperstar';
 import UpdateSuperstar from '../routes/UpdateSuperstar';
 
-const LoggedInRoutes = () => (
-  <Switch>
-    <Route exact path="/" component={SportsUpdate} />
-    <Route exact path="/sportsupdate/add" component={AddPost} />
-    <Route exact path="/sportsupdate/:id" component={UpdatePost} />
-    <Route exact path="/superstars" component={Superstars} />
-    <Route exact path="/superstars/add" component={AddSuperstar} />
-    <Route exact path="/superstars/:id" component={UpdateSuperstar} />
-    <Redirect from="*" to="/" />
-  </Switch>
-);
+const LoggedInRoutes = () => {
+
+  return (
+    <Switch>
+      <Route exact path="/" component={SportsUpdate} />
+      <Route exact path="/sportsupdate/add" component={AddPost} />
+      <Route exact path="/sportsupdate/:id" component={UpdatePost} />
+      <Route exact path="/superstars" component={Superstars} />
+      <Route exact path="/superstars/add" component={AddSuperstar} />
+      <Route exact path="/superstars/:id" component={UpdateSuperstar} />
+      <Redirect from="*" to="/" />
+    </Switch>
+  );
+}
 
 const LoggedOutRoutes = () => (
   <Switch>

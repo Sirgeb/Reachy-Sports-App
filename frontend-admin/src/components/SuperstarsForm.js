@@ -10,11 +10,15 @@ import MenuItem from '@material-ui/core/MenuItem';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import Button from '@material-ui/core/Button';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import { toast } from 'react-toastify';
-import { EditorState, convertToRaw, ContentState} from 'draft-js';
+import { EditorState, convertToRaw, ContentState } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 import htmlToDraft from 'html-to-draftjs';
+import LinearProgress from './LinearProgress';
 import WYSIWYGEditor from './WYSIWYGEditor';
+import { CLOUDINARY_URL } from '../config/dev';
 
 const INITIAL_STATE = {
   fullname: "",
@@ -65,12 +69,13 @@ const UPDATE_SUPERSTAR = gql`
 
 const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
   const superStarId = match.params.id;
-  const { data, loading: processing } = useQuery(GET_SUPERSTAR, { variables: { superStarId }, fetchPolicy: "cache-and-network"});
+  const { data } = useQuery(GET_SUPERSTAR, { variables: { superStarId }, fetchPolicy: "cache-and-network"});
   const [updateSuperStar] = useMutation(UPDATE_SUPERSTAR, { onCompleted: () => {
     toast.success("Changes Saved Successfully!", { autoClose: 3000, className: 'toastify-success' });
   }});
   const [state, setState] = React.useState(INITIAL_STATE);
   const [isFilled, setIsFilled] = React.useState(false);
+  const [uploadStatus, setUploadStatus] = React.useState(false);
   const [editorState, setEditorState] = React.useState(EditorState.createEmpty);
 
   React.useEffect(() => {
@@ -114,6 +119,31 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
     }
   }
 
+  const uploadFile = async (e) => {
+    setUploadStatus(true);
+    const files = e.target.files;
+    const data = new FormData();
+    data.append('file', files[0]);
+    data.append('upload_preset', 'reachy-sports');
+
+    const res = await fetch(CLOUDINARY_URL, {
+      method: 'POST',
+      body: data
+    });
+
+    const file = await res.json();
+
+    setState((prevState) => ({
+      ...prevState,
+      image: file.secure_url
+    }));
+    setUploadStatus(false);
+  }
+
+  const isDisabled = (loading) => {
+    if (loading) return "none";
+  }
+
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState);
     const bio = draftToHtml(convertToRaw(editorState.getCurrentContent()));
@@ -136,6 +166,9 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
   const classes = useStyles();
 
   return (
+    <>
+    <React.Fragment>
+    { loading ? <LinearProgress /> : null }
     <Paper elevation={3} variant="outlined">
       <form noValidate autoComplete="off">
         <div className={classes.root}>
@@ -144,6 +177,7 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
             className={classes.input}
             helperText="Enter Superstar name here"
             name="fullname"
+            disabled={loading}
             onChange={handleChange}
             value={state.fullname}
           /> 
@@ -153,6 +187,7 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
             type="date"
             name="dateOfBirth"
             onChange={handleChange}
+            disabled={loading}
             value={state.dateOfBirth}
             className={classes.input}
             InputLabelProps={{
@@ -165,6 +200,7 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
                 labelId="demo-simple-select-label"
                 id="demo-simple-select"
                 name="country"
+                disabled={loading}
                 value={state.country}
                 onChange={handleChange}
               >
@@ -424,6 +460,7 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
               id="demo-simple-select-category"
               name="category"
               value={state.category}
+              disabled={loading}
               onChange={handleChange}
             >
               <MenuItem value="ATHLETICS">Athletics</MenuItem>
@@ -434,17 +471,34 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
               <MenuItem value="TENNIS">Tennis</MenuItem>
             </Select>
           </FormControl>
-          <TextField
-            id="standard-helperText"
-            label="Superstar profile image link"
-            helperText="Paste Image URL Here"
-            name="image"
-            className={classes.input}
-            onChange={handleChange}
-            value={state.image}
-          /> 
+          {uploadStatus === true ? (
+            <>
+              <CircularProgress />
+              <br />
+            </> 
+          ): state.image ? (
+            <>
+              <img src={state.image} alt="upload preview"/><br/>
+            </>
+          ): null}
+          <Button
+            variant="contained"
+            component="label"
+            color="default"
+            disabled={uploadStatus}
+            className={classes.button}
+            startIcon={<CloudUploadIcon />}
+          >
+            Upload Superstar Image
+            <input
+              type="file"
+              onChange={uploadFile}
+              hidden
+            />
+          </Button>
+          <br /> <br />
           <label className={classes.editorLabel}>Enter biography of the Superstar in the box below</label>
-          <div className={classes.editor}>
+          <div className={classes.editor}  style={{ pointerEvents: isDisabled(loading) }}>
             <WYSIWYGEditor 
               onEditorStateChange={onEditorStateChange}
               editorState={editorState}
@@ -460,6 +514,9 @@ const SuperstarsForm = ({ createSuperStar, loading, match, history }) => {
         </div> 
       </form>
     </Paper>
+    </React.Fragment>
+
+    </>
   )
 }
 

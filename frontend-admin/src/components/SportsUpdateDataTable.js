@@ -17,6 +17,7 @@ import Typography from '@material-ui/core/Typography';
 import TableSkeleton from './TableSkeleton';
 import LinearProgress from './LinearProgress';
 import { formatLetters, isFeatured  } from '../utils';
+import { useSportsUpdateSearchResult } from '../hooks/AppContext';
 
 const columns = [
   { id: 'caption', label: 'Caption'},
@@ -60,21 +61,38 @@ const createData = (caption, featured, category, id) => {
 }
 
 const SportsUpdateDataTable = ({ posts, loading }) => {
-
   const classes = useStyles();
+  const { loading: isMakingSearch, data } = useSportsUpdateSearchResult();
   const [page, setPage] = React.useState(0);
+  const [searchResult, setSearchResult] = React.useState(undefined);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [deletePost] = useMutation(DELETE_POST, { onCompleted: () => {
-    toast.success("Deleted Successfully!", { autoClose: 3000, className: 'toastify-success' });
+  const [deletePost, { loading: isBeingDeleted }] = useMutation(DELETE_POST, { onCompleted: () => {
+    toast.success("Post Deleted Successfully!", { autoClose: 3000, className: 'toastify-success' });
   }});
-  let rows;
 
-  if (!loading && posts[0] !== undefined) {    
-    rows = posts.map(post => {
+  React.useEffect(() => {
+    if (
+      data !== undefined && 
+      data !== { data: { searchPosts: [] }, loading: false } && 
+      data !== { data: { searchPosts: undefined }, loading: true } && 
+      data !== { loading: false, data: []}
+      ) {
+      setSearchResult(data.searchPosts);
+    }
+  }, [data])
+
+  let rows = posts.map(post => {
+    return createData(post.caption, isFeatured(post), formatLetters(post.category), post.id)
+  });
+   
+  if (searchResult !== undefined) {
+    rows = searchResult.map(post => {
       return createData(post.caption, isFeatured(post), formatLetters(post.category), post.id)
     });
-  } else {
-    rows = [];
+  } 
+
+  if (isBeingDeleted) {
+    toast.info("Deleting Post...", { autoClose: 3000 });
   }
  
   const handleChangePage = (event, newPage) => {
@@ -88,7 +106,7 @@ const SportsUpdateDataTable = ({ posts, loading }) => {
 
   return (
     <React.Fragment>
-      { loading ? <LinearProgress /> : null }
+      { loading || isMakingSearch ? <LinearProgress /> : null }
       <Paper className={classes.root}>
         <TableContainer className={classes.container}>
           <Table stickyHeader aria-label="sticky table">
@@ -108,7 +126,7 @@ const SportsUpdateDataTable = ({ posts, loading }) => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {!loading ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
+              {!loading && !isMakingSearch ? rows.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => {
                 const postId = row.id;
 
                 return (
@@ -137,7 +155,7 @@ const SportsUpdateDataTable = ({ posts, loading }) => {
                               style={{ backgroundColor: "#ffffff", border: "none" }}
                               className="btn"
                             >
-                              <DeleteForeverOutlinedIcon color="primary" />
+                               <DeleteForeverOutlinedIcon color="primary" />
                             </button>
                           )}
                         </TableCell>
@@ -145,14 +163,14 @@ const SportsUpdateDataTable = ({ posts, loading }) => {
                     })}
                   </TableRow>
                 );
-              })
-            : (
-              <TableRow>  
-                <TableCell colSpan={5}>
-                  <TableSkeleton />
-                </TableCell>
-              </TableRow>
-            )}
+              }) : isMakingSearch || loading ? 
+              (
+                <TableRow>  
+                  <TableCell colSpan={5}>
+                    <TableSkeleton />
+                  </TableCell>
+                </TableRow>
+              ) : null}
             </TableBody>
           </Table>
         </TableContainer>

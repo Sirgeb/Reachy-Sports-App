@@ -7,6 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Client from './apollo/Client';
 import App from './components/App';
+import AppContext from './hooks/AppContext';
 import 'fontsource-roboto';
 import './index.css';
 
@@ -24,8 +25,10 @@ const theme = createMuiTheme({
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <ApolloProvider client={Client}>
-      <App />
-      <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
+      <AppContext>   
+        <App />
+        <ToastContainer position={toast.POSITION.BOTTOM_LEFT} />
+      </AppContext>
     </ApolloProvider>
   </ThemeProvider>,
   document.getElementById('root')
