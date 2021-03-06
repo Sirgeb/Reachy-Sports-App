@@ -10,12 +10,12 @@ import { httpUrl, websocketUrl } from './config';
 
 // Create an http link:
 const httpLink = new HttpLink({
-  uri: 'http://192.168.43.203:4000'
+  uri: httpUrl
 });
 
 // Create a WebSocket link:
 const wsLink = new WebSocketLink({
-  uri: 'ws://192.168.43.203:4000',
+  uri: websocketUrl,
   options: {
     reconnect: true
   }

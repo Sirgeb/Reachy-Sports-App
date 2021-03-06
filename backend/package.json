@@ -11,10 +11,6 @@
     "deploy": "env-cmd -f ./src/config/dev.env prisma deploy",
     "generate": "env-cmd -f ./src/config/dev.env prisma generate"
   },
-  "engines": {
-    "node": "14.13.1",
-    "npm": "6.14.8"
-  },
   "dependencies": {
     "@babel/cli": "7.4.4",
     "@babel/core": "7.2.2",

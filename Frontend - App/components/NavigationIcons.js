@@ -1,7 +1,7 @@
 import React from 'react';
 import { TouchableOpacity, StyleSheet, View } from 'react-native';
 import { withNavigation } from "react-navigation";
-import { AntDesign, MaterialIcons, FontAwesome, FontAwesome5 } from '@expo/vector-icons';
+import { AntDesign, MaterialIcons, FontAwesome } from '@expo/vector-icons';
 
 const NavigationIcons = ({ navigation, route }) => {
 

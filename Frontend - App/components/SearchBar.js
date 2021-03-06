@@ -1,5 +1,4 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
 import { TextInput } from 'react-native';
 import constants from '../constants';

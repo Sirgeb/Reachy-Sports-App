@@ -99,7 +99,7 @@ const SportsUpdate = () => {
        <View style={layout.container}>
         <FlatList
           showsVerticalScrollIndicator={false}
-          // ListHeaderComponent={() => <FeaturedPosts data={data && data.featuredPosts} />}
+          ListHeaderComponent={() => <FeaturedPosts data={data && data.featuredPosts} />}
           ListFooterComponent={() => data.postsConnection.pageInfo.hasNextPage ? <ActivityIndicator color={styles.orange} size={25} /> : null}
           keyExtractor={item => item.id}
           data={data.postsConnection.edges.map(post => ({

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ApolloProvider } from 'react-apollo-hooks';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading';
 import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5, EvilIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
 import * as Notifications from 'expo-notifications';
