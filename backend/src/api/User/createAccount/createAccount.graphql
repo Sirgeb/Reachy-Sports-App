@@ -13,4 +13,5 @@ type Mutation {
 type userPayload {
   token: String!
   userId: ID!
+  groupNames: [String]!
 }

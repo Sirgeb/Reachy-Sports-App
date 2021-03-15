@@ -1,5 +1,5 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Users\Gabriel\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add expo-app-loading
+  C:\Program Files\nodejs\node.exe C:\Users\Gabriel\AppData\Roaming\npm\node_modules\yarn\bin\yarn.js add react-native-simple-taost react-native-app-intro-slider
 
 PATH: 
   C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Users\Gabriel\bin;C:\Program Files (x86)\Common Files\Intel\Shared Files\cpp\bin\Intel64;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0;C:\WINDOWS\System32\OpenSSH;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit;C:\Program Files\PostgreSQL\12\bin;C:\Program Files\Redis;C:\Program Files\Docker\Docker\resources\bin;C:\ProgramData\DockerDesktop\version-bin;C:\Program Files\Git\cmd;C:\Program Files\nodejs;C:\Program Files\MySQL\MySQL Shell 8.0\bin;C:\Users\Gabriel\AppData\Local\Programs\Python\Python37-32\Scripts;C:\Users\Gabriel\AppData\Local\Programs\Python\Python37-32;C:\Users\Gabriel\AppData\Local\Microsoft\WindowsApps;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\heroku\bin;C:\Program Files\Docker Toolbox;C:\Android\sdk\platform-tools;C:\Android\sdk\tools;C:\Program Files\Java\jdk1.8.0_201\bin;C:\Users\Gabriel\AppData\Local\Programs\Microsoft VS Code\bin;C:\xampp\mysql\bin;C:\Users\Gabriel\AppData\Roaming\npm
@@ -14,7 +14,17 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'C:\Users\Gabriel\Desktop\T\React Native\my projects\Reachy Sports App\Frontend - App\node_modules\@babel\core\node_modules\@babel\generator\node_modules\.bin'
+  Error: https://registry.yarnpkg.com/react-native-simple-taost: Not found
+      at Request.params.callback [as _callback] (C:\Users\Gabriel\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:66987:18)
+      at Request.self.callback (C:\Users\Gabriel\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:140748:22)
+      at Request.emit (events.js:315:20)
+      at Request.<anonymous> (C:\Users\Gabriel\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141720:10)
+      at Request.emit (events.js:315:20)
+      at IncomingMessage.<anonymous> (C:\Users\Gabriel\AppData\Roaming\npm\node_modules\yarn\lib\cli.js:141642:12)
+      at Object.onceWrapper (events.js:421:28)
+      at IncomingMessage.emit (events.js:327:22)
+      at endReadableNT (_stream_readable.js:1224:12)
+      at processTicksAndRejections (internal/process/task_queues.js:84:21)
 
 npm manifest: 
   {
@@ -27,6 +37,7 @@ npm manifest:
       "eject": "expo eject"
     },
     "dependencies": {
+      "@react-native-async-storage/async-storage": "^1.14.1",
       "@react-native-community/masked-view": "0.1.10",
       "@react-native-community/netinfo": "5.9.7",
       "@react-native-community/viewpager": "4.2.0",
@@ -41,11 +52,13 @@ npm manifest:
       "apollo-utilities": "^1.3.4",
       "axios": "^0.20.0",
       "expo": "^40.0.0",
+      "expo-app-loading": "^1.0.1",
       "expo-constants": "~9.3.3",
       "expo-facebook": "~9.1.0",
       "expo-google-app-auth": "^8.1.2",
       "expo-notifications": "~0.8.2",
       "expo-permissions": "~10.0.0",
+      "expo-splash-screen": "~0.8.1",
       "graphql": "^15.3.0",
       "graphql-tag": "^2.11.0",
       "moment": "^2.27.0",
@@ -71,7 +84,8 @@ npm manifest:
       "react-navigation-stack": "^2.8.2",
       "react-navigation-tabs": "^2.9.0",
       "styled-components": "^5.2.0",
-      "subscriptions-transport-ws": "^0.9.18"
+      "subscriptions-transport-ws": "^0.9.18",
+      "use-state-with-callback": "^2.0.3"
     },
     "devDependencies": {
       "@babel/core": "~7.9.0",
@@ -2002,6 +2016,23 @@ Lockfile:
       semver "7.3.2"
       slugify "^1.3.4"
   
+  "@expo/configure-splash-screen@0.3.1":
+    version "0.3.1"
+    resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.3.1.tgz#a55b52718751907fd3fbaeb76dbd4162d282fa13"
+    integrity sha512-Wf9U8OYoIQojYjTuXgtTqDmlA4SdSEEQo9PxnVKuF8224FtJoYX1Kwc6kiVKc/4suplrqE71ZVJXOE2Uyh4SHw==
+    dependencies:
+      "@react-native-community/cli-platform-android" "^4.10.0"
+      "@react-native-community/cli-platform-ios" "^4.10.0"
+      color-string "^1.5.3"
+      commander "^5.1.0"
+      core-js "^3.6.5"
+      deep-equal "^2.0.3"
+      fs-extra "^9.0.0"
+      lodash "^4.17.15"
+      pngjs "^5.0.0"
+      xcode "^3.0.0"
+      xml-js "^1.6.11"
+  
   "@expo/configure-splash-screen@0.3.4":
     version "0.3.4"
     resolved "https://registry.yarnpkg.com/@expo/configure-splash-screen/-/configure-splash-screen-0.3.4.tgz#b91d8f08fd96272bd3d7aaa9b51d6189b932c7cc"
@@ -2494,6 +2525,13 @@ Lockfile:
       "@babel/runtime" "^7.7.2"
       regenerator-runtime "^0.13.3"
   
+  "@react-native-async-storage/async-storage@^1.14.1":
+    version "1.14.1"
+    resolved "https://registry.yarnpkg.com/@react-native-async-storage/async-storage/-/async-storage-1.14.1.tgz#3c2ff2b1a312df3b1c809a60fa88665e50a095b8"
+    integrity sha512-UkLUox2q5DKNYB6IMUzsuwrTJeXGLySvtQlnrqd3fd+96JErCT4X3xD+W1cvQjes0nm0LbaELbwObKc+Tea7wA==
+    dependencies:
+      deep-assign "^3.0.0"
+  
   "@react-native-community/cli-debugger-ui@^4.13.1":
     version "4.13.1"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-debugger-ui/-/cli-debugger-ui-4.13.1.tgz#07de6d4dab80ec49231de1f1fbf658b4ad39b32c"
@@ -2512,7 +2550,7 @@ Lockfile:
       hermes-profile-transformer "^0.0.6"
       ip "^1.1.5"
   
-  "@react-native-community/cli-platform-android@^4.13.0", "@react-native-community/cli-platform-android@^4.7.0":
+  "@react-native-community/cli-platform-android@^4.10.0", "@react-native-community/cli-platform-android@^4.13.0", "@react-native-community/cli-platform-android@^4.7.0":
     version "4.13.0"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-android/-/cli-platform-android-4.13.0.tgz#922681ec82ee1aadd993598b814df1152118be02"
     integrity sha512-3i8sX8GklEytUZwPnojuoFbCjIRzMugCdzDIdZ9UNmi/OhD4/8mLGO0dgXfT4sMWjZwu3qjy45sFfk2zOAgHbA==
@@ -2528,7 +2566,7 @@ Lockfile:
       slash "^3.0.0"
       xmldoc "^1.1.2"
   
-  "@react-native-community/cli-platform-ios@^4.7.0":
+  "@react-native-community/cli-platform-ios@^4.10.0", "@react-native-community/cli-platform-ios@^4.7.0":
     version "4.13.0"
     resolved "https://registry.yarnpkg.com/@react-native-community/cli-platform-ios/-/cli-platform-ios-4.13.0.tgz#a738915c68cac86df54e578b59a1311ea62b1aef"
     integrity sha512-6THlTu8zp62efkzimfGr3VIuQJ2514o+vScZERJCV1xgEi8XtV7mb/ZKt9o6Y9WGxKKkc0E0b/aVAtgy+L27CA==
@@ -4205,6 +4243,13 @@ Lockfile:
       fbjs "1.0.0"
       invariant "^2.2.4"
   
+  expo-app-loading@^1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/expo-app-loading/-/expo-app-loading-1.0.1.tgz#a2ef73235c5dd0a99c0319ad9d3f4d278237564c"
+    integrity sha512-qgsystchwMHep43YMAMHJAD5bRUikolQpb1d+ySWF4ZFTtNInmLAPqiBcVSey5taRuHD3cAvEijx3wc0W/HfVw==
+    dependencies:
+      expo-splash-screen "0.8.1"
+  
   expo-application@~2.4.1:
     version "2.4.1"
     resolved "https://registry.yarnpkg.com/expo-application/-/expo-application-2.4.1.tgz#f8eb4a3a05a0b8a8f38f2e981f587a815945b685"
@@ -4319,6 +4364,13 @@ Lockfile:
     version "9.3.0"
     resolved "https://registry.yarnpkg.com/expo-secure-store/-/expo-secure-store-9.3.0.tgz#b716d5d115cc50a34037d1afef84fe4b8ea0745c"
     integrity sha512-dNhKcoUUn+1kmEfFVxSU7h+YsqODqlExZQJcQgxgeiuCeeDvJWkE10t3jjrO6aNfrdM5i/X2l3oh401EDslWsQ==
+  
+  expo-splash-screen@0.8.1, expo-splash-screen@~0.8.1:
+    version "0.8.1"
+    resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.8.1.tgz#de4a018c82af879eeaa9b697013ef37d9567453a"
+    integrity sha512-7NQo8OgkfQ4sv4mIHE58fkiQTGyl5dOP70uAUTb5YXC/QUsHIqEpKQ6ZXDpkLU1cbZ32c8Vtok4r2FRIUrzxcg==
+    dependencies:
+      "@expo/configure-splash-screen" "0.3.1"
   
   expo-sqlite@~8.5.0:
     version "8.5.0"
@@ -7833,6 +7885,11 @@ Lockfile:
     dependencies:
       querystringify "^2.1.1"
       requires-port "^1.0.0"
+  
+  use-state-with-callback@^2.0.3:
+    version "2.0.3"
+    resolved "https://registry.yarnpkg.com/use-state-with-callback/-/use-state-with-callback-2.0.3.tgz#3be56ca52b6afcfe364e0579749dfe588c47c01f"
+    integrity sha512-bJXNAtJZW0xz16GIW54aDbYxRkZa2c8RdoKGQnJqE7GmRdVkZkKQBTR/9vH6T5tZX/7yCIhywE09NyeTQ9EJJQ==
   
   use-subscription@^1.0.0:
     version "1.4.1"

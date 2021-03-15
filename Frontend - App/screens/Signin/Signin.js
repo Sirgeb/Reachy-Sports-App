@@ -1,12 +1,11 @@
 import React, { useState, useContext, useRef, useEffect } from 'react';
-import { useMutation, useApolloClient } from 'react-apollo-hooks';
-import { AntDesign } from '@expo/vector-icons';
+import { useMutation } from 'react-apollo-hooks';
+import { AntDesign, FontAwesome } from '@expo/vector-icons';
 import styled from 'styled-components/native';
 import * as Facebook from 'expo-facebook';
 import * as Google from 'expo-google-app-auth';
 import { Image, Text } from 'react-native';
 import gql from 'graphql-tag';
-import { GET_GROUPS } from '../SportsChat/SportsChat';
 import { AuthContext, useIsLoggedIn } from '../../AuthContext';
 import { facebookAppID, googleClientID } from '../../config';
 import MyAccount from '../../components/MyAccount';
@@ -33,6 +32,7 @@ const CREATE_ACCOUNT = gql`
     ) {
       token
       userId
+      groupNames
     }
   }
 `;
@@ -41,11 +41,10 @@ const Signin = ({ navigation }) => {
   const [loading, setLoading] = useState(false);
   const [createAccount] = useMutation(CREATE_ACCOUNT);
   const isLoggedIn = useIsLoggedIn();
-  const { logUserIn, setUserId, setAccessToken } = useContext(AuthContext);
+  const { logUserIn, setAccessToken } = useContext(AuthContext);
   const mounted = useRef(true);
   let nextRoute = navigation.getParam('nextRoute');
   const groupId = navigation.getParam('groupId');
-  const client = useApolloClient();
 
   useEffect(() => {
     mounted.current = true;
@@ -62,18 +61,20 @@ const Signin = ({ navigation }) => {
     try {
       if (mounted.current === true) setLoading(true);
 
-      await Facebook.initializeAsync(facebookAppID);
+      await Facebook.initializeAsync({
+        appId: facebookAppID,
+      });
       
-      const { type, token } = await Facebook.logInWithReadPermissionsAsync({
+      const { type, token: userToken } = await Facebook.logInWithReadPermissionsAsync({
         permissions: ['public_profile', 'email'],
       });
 
       if (type === 'success') {
         const userProfile = await fetch(
-          `https://graph.facebook.com/me?access_token=${token}&fields=id,email,first_name,last_name`
+          `https://graph.facebook.com/me?access_token=${userToken}&fields=id,email,first_name,last_name`
         );
         const { id, email, first_name, last_name } = await userProfile.json();
-        const { data: { createAccount: { token } } } = await createAccount({
+        const { data: { createAccount: { token, groupNames } } } = await createAccount({
           variables: {
             firstname: first_name,
             lastname: last_name, 
@@ -84,11 +85,8 @@ const Signin = ({ navigation }) => {
         });
 
         await logUserIn(token);
-        await client.query({ query: GET_GROUPS });
         navigation.navigate(nextRoute, { groupId });
-
         if (mounted.current === true) setLoading(false);
-
       } else { 
         return
       }
@@ -106,7 +104,7 @@ const Signin = ({ navigation }) => {
       });
       
       // store access token to be used when signing out
-      await setAccessToken(accessToken);
+      await setAccessToken(accessToken || "");
 
       if (type === 'success') {
         const { id, email, familyName, givenName, photoUrl } = user;
@@ -121,7 +119,6 @@ const Signin = ({ navigation }) => {
         });
 
         await logUserIn(token);
-        await client.query({ query: GET_GROUPS });
         setLoading(false);
         navigation.navigate(nextRoute, { groupId });
       } else {
@@ -161,14 +158,33 @@ const Signin = ({ navigation }) => {
               <Wrapper>
               <AuthButton
                 onPress={facebookLogin}
-                text="Sign in with Facebook"
                 bgColor={styles.facebook}
-              /> 
+              > 
+                <Content>
+                  <FontAwesome 
+                    name="facebook" 
+                    size={20} 
+                    style={{ marginRight: 5}} 
+                    color={styles.white} 
+                  />
+                  <Text style={{ color: styles.white }}>Login with facebook</Text>
+                </Content>
+              </AuthButton>
+
               <AuthButton
                 onPress={googleLogin}
-                text="Sign in with Google"
                 bgColor={styles.google}
-              />
+              >
+                <Content>
+                  <AntDesign 
+                    name="google" 
+                    size={20} 
+                    color={styles.white} 
+                    style={{ marginRight: 5}} 
+                  />
+                  <Text style={{ color: styles.white }}>Login with google</Text>
+                </Content>
+              </AuthButton>
             </Wrapper>
           }
         <GoBack onPress={() => navigation.goBack()}>
@@ -208,5 +224,10 @@ const Wrapper = styled.View`
 const Picture = styled.View`
   flex: 2;
 `
+const Content = styled.View`
+  flex-direction: row;
+  justify-content: center; 
+  align-items: center; 
+`;
 
 export default Signin;

@@ -122,6 +122,8 @@ const Container = styled.View`
   justify-content: center; 
   align-items: center;
   margin: 10px;
+  margin-bottom: 0;
+  padding-bottom: 10px;
   background-color: ${styles.white};
 `;
 const Image = styled.Image`

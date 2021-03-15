@@ -24,7 +24,7 @@ const FeaturedPosts = ({ data }) => {
     )
   }
 
-const { width: WIDTH, height: HEIGHT } = Dimensions.get("window");
+const { width: WIDTH, height: HEIGHT } = Dimensions.get("screen");
 const SliderContainer = styled.View`
   width: 100%;
   height: ${HEIGHT / 3}px;

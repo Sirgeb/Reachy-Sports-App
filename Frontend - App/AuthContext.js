@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-import { AsyncStorage } from "react-native";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
 
@@ -15,14 +15,6 @@ export const AuthProvider = ({ isLoggedIn: isLoggedInProp, children }) => {
       console.log(e.message);
     }
   };
-
-  const setUserId = async (userId) => {
-    try {
-      await AsyncStorage.setItem("userId", userId);
-    } catch (e) {
-      console.log(e.message);
-    }
-  }
 
   const setAccessToken = async (accessToken) => {
     try {
@@ -55,7 +47,6 @@ export const AuthProvider = ({ isLoggedIn: isLoggedInProp, children }) => {
       isLoggedIn, 
       logUserIn, 
       logUserOut, 
-      setUserId, 
       setAccessToken,
       unsetAccessToken
     }}>

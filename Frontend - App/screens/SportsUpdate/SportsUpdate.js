@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import NetInfo from '@react-native-community/netinfo';
 import Toast from 'react-native-simple-toast';
-import { FlatList, ActivityIndicator, AsyncStorage, StyleSheet, View } from 'react-native';
+import { FlatList, ActivityIndicator, StyleSheet, View } from 'react-native';
 import gql from 'graphql-tag';
 import { useNetInfo } from '@react-native-community/netinfo';
 import { useQuery, useSubscription } from 'react-apollo-hooks';
@@ -84,10 +84,6 @@ const SportsUpdate = () => {
     } 
   }
 
-  if (error) {
-    return <NetworkError refresh={refresh} />
-  }
-
   const _renderItem = ({ item }) => (
     <SportsUpdateListItem { ...item } />
   );
@@ -113,6 +109,11 @@ const SportsUpdate = () => {
           })}
           contentContainerStyle={{ width: constants.width }}
           renderItem={_renderItem}
+          ItemSeparatorComponent={() => {
+            return (
+              <View style={layout.lineSeperator} />
+            )
+          }}
           refreshing={refreshing}
           onRefresh={refresh}
           onEndReachedThreshold={1}
@@ -150,10 +151,17 @@ const SportsUpdate = () => {
 const layout = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: styles.white,
     justifyContent: "center", 
     alignItems: "center",
     margin: 10,
-    backgroundColor: styles.white
+    marginBottom: 0,
+    paddingBottom: 10
+  },
+  lineSeperator: {
+    width: '100%', 
+    height: 1.5, 
+    backgroundColor: styles.lightGrey
   }
 });
 

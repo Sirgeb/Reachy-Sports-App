@@ -45,9 +45,7 @@ const Container = styled.TouchableOpacity`
   padding: 10px;
   height: 90px;
   width: 100%;
-  border-bottom-width: 1px;
   border-left-width: 5px;
-  border-bottom-color: ${styles.lightGrey};
   border-left-color: ${styles.orange};
   border-style: solid;
 `;

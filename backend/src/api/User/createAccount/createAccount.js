@@ -1,4 +1,5 @@
 import { prisma } from '../../../../generated/prisma-client';
+import { USER_FRAGMENT } from '../../../fragments';
 import { generateToken } from '../../../utils';
 
 export default {
@@ -34,10 +35,18 @@ export default {
             avatar
           },
           where: userAuthenticatedWith(facebookID, googleID)
+        }).$fragment(USER_FRAGMENT);
+
+        const groupNames = [];
+
+        user.groupParticipant.forEach(({ groupName }) => {
+          groupNames.push(groupName)
         });
+
         return {
           token: generateToken(id, source),
-          userId: user.id 
+          userId: user.id,
+          groupNames
         }
       }
 
@@ -48,9 +57,11 @@ export default {
         avatar, 
         ...userAuthenticatedWith(facebookID, googleID)
       }); 
+
       return {
         token: generateToken(id, source),
-        userId: user.id 
+        userId: user.id,
+        groupIds: []
       }
     }
   }

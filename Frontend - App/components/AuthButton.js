@@ -4,11 +4,11 @@ import constants from "../constants";
 import PropTypes from 'prop-types';
 import { ActivityIndicator } from 'react-native';
 
-const AuthButton = ({ text, onPress, loading=false, bgColor=null }) => (
+const AuthButton = ({ onPress, loading=false, bgColor=null, children }) => (
   <Touchable disabled={loading} onPress={onPress}>
     <Container bgColor={bgColor}>
       {
-        loading ? <ActivityIndicator color="white"/> : <Text> {text} </Text>
+        loading ? <ActivityIndicator color="white"/> : <>{children}</>
       }
     </Container>
   </Touchable>
@@ -16,7 +16,7 @@ const AuthButton = ({ text, onPress, loading=false, bgColor=null }) => (
 
 AuthButton.propTypes = {
   loading: PropTypes.bool,
-  text: PropTypes.string.isRequired,
+  children: PropTypes.element.isRequired,
   onPress: PropTypes.func.isRequired
 };
 
@@ -30,9 +30,4 @@ const Container = styled.View`
   border-radius: 4px; 
   width: ${`${constants.width / 2}px`};
   margin-bottom: 25px;
-`;
-const Text = styled.Text`
-  color: white;
-  text-align: center;
-  font-weight: 600;
 `;

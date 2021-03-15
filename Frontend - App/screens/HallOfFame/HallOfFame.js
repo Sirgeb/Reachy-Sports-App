@@ -1,6 +1,5 @@
 import React from 'react'
-import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { FlatList, StyleSheet, View } from 'react-native';
 import HallOfFameListItem from '../../components/HallOfFameListItem';
 import constants from '../../constants';
 import styles from '../../styles';
@@ -8,24 +7,40 @@ import styles from '../../styles';
 const HallOfFame = () => {
 
   return (
-    <Container>
+    <View style={layout.container}>
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
         data={categories}
+        ItemSeparatorComponent={() => {
+          return (
+            <View style={layout.lineSeperator} />
+          )
+        }}
         contentContainerStyle={{ width: constants.width }}
         renderItem={({item}) => (
           <HallOfFameListItem {...item} />
         )}
       />
-    </Container>
+    </View>
   )
 }
 
-const Container = styled.View` 
-  margin: 10px;
-  background-color: ${styles.white};
-`;
+const layout = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: 10,
+    marginBottom: 0,
+    paddingBottom: 10,
+    backgroundColor: styles.white
+  },
+  lineSeperator: {
+    width: '100%', 
+    height: 1.5, 
+    backgroundColor: styles.lightGrey
+  }
+});
+
 
 const categories = [{
   id: "0",

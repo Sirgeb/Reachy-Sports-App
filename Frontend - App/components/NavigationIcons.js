@@ -59,7 +59,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-between"
   }, 
   icon: {
-    marginRight: 22
+    marginRight: 14
   }
 });
 

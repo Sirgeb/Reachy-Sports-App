@@ -1,5 +1,7 @@
 import React, { useContext, useState, useEffect, useRef } from 'react'; 
-import { View, Image, Text, StyleSheet, Alert, AsyncStorage, TouchableOpacity, SafeAreaView } from 'react-native';
+import { View, Image, Text, StyleSheet, Alert,TouchableOpacity, SafeAreaView } from 'react-native';
+import * as Facebook from 'expo-facebook';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { withNavigation } from 'react-navigation';
 import gql from 'graphql-tag';
 import { AntDesign } from '@expo/vector-icons';
@@ -43,7 +45,7 @@ const Account = ({ navigation }) => {
   }, []);
 
   const handleSignOut = () => {
-    Alert.alert("Do you really want to logout?", "Tap Yes to continue loging out :)", [
+    Alert.alert("Do you really want to logout?", "", [
       {
         text: "Yes",
         onPress: async () => {
@@ -54,6 +56,7 @@ const Account = ({ navigation }) => {
                 androidClientId: googleClientID,
                 accessToken
               });
+              // await Facebook.logOutAsync();
               await unsetAccessToken();
               await logUserOut();
               if (mounted.current === true) setProcessing(false);
@@ -102,7 +105,7 @@ const Account = ({ navigation }) => {
             </View>
          ) : ( 
             <View>
-              <Text style={layout.rowHeader}>You are not any group yet!</Text>
+              <Text style={layout.rowHeader}>You are not a participant in our groups yet!</Text>
               <Text style={layout.rowInfo}>Try and join any of our group chat</Text>
             </View>
          )
@@ -112,10 +115,13 @@ const Account = ({ navigation }) => {
         {
           processing ? <Loader /> : (
             <AuthButton 
-              text="Sign Out"
               bgColor={styles.orange}
               onPress={handleSignOut}
-            />
+            >
+              <View>
+                <Text style={layout.authBtnText}>Sign Out</Text>
+              </View>
+            </AuthButton>
           )
         }
       </View>
@@ -181,6 +187,10 @@ const layout = StyleSheet.create({
     flex: 1, 
     justifyContent: "center",
     alignItems: "center"
+  },
+  authBtnText: {
+    color: styles.white, 
+    alignSelf: 'center'
   }
 });
 

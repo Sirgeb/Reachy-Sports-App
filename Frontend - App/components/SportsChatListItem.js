@@ -19,7 +19,7 @@ const SportsChatListItem = ({ id, navigation, title, name, route, isParticipant,
   const [addParticipant] = useMutation(ADD_PARTICIPANT, { variables: { groupId: id, groupName: title }});
   const isLoggedIn = useIsLoggedIn();
 
-  const handleJoinChat = async (groupId, route, refetch) => {
+  const handleJoinChat = async (groupId, route) => {
     if (!isLoggedIn) navigation.navigate("Signin", { groupId, nextRoute: route });
     try {
       setLoading(true);
@@ -29,7 +29,6 @@ const SportsChatListItem = ({ id, navigation, title, name, route, isParticipant,
         },
         refetchQueries: () => [{ query: GET_AUTHENTICATED_USER }]
       });
-      await refetch();
       navigation.navigate(route, { groupId });
     } catch (error) {
       console.log(error.message);
@@ -94,14 +93,11 @@ const style = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#fafafa",
     padding: 10,
     marginBottom: 1,
     width: "95%",
     height: 95,
-    borderBottomWidth: 1,
     borderLeftWidth: 5,
-    borderBottomColor: styles.lightGrey,
     borderLeftColor: styles.orange,
     borderStyle: "solid"
   },
@@ -113,10 +109,11 @@ const style = StyleSheet.create({
   title: {
     alignSelf: "center",
     color: styles.orange,
-    fontSize: 15
+    fontSize: 14
   },
   joinBtnText: {
-    color: styles.white
+    color: styles.white,
+    fontSize: 12
   }, 
   joinButton: {
     justifyContent: "center",

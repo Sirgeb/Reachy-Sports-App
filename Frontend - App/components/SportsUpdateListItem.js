@@ -20,7 +20,7 @@ class SportsUpdateListItem extends React.PureComponent {
           <PostTitle numberOfLines={2}>{caption}</PostTitle>
           <View style={{ flexDirection: "row" }}>
             <Category>{category}</Category> 
-            <Time> | <FontAwesome5 name="clock" size={10} color={styles.ash} /> { moment(createdAt).format('MMMM Do, YYYY')} </Time>
+            <Time> | <FontAwesome5 name="clock" size={10} color={styles.ash} /> { moment(createdAt).format('MMM Do, YYYY')} </Time>
           </View>
         </Wrapper>
         <Comment> 
@@ -40,12 +40,9 @@ const Wrapper = styled.View`
 
 const PostContainer = styled.TouchableOpacity`
   flex-direction: row;
-  background-color: #fafafa;
   margin-bottom: 1.5px;
   padding: 10px;
   height: 100px;
-  border-bottom-width: 1px;
-  border-bottom-color: ${styles.lightGrey};
   border-left-width: 5px;
   border-left-color: ${styles.orange};
   border-style: solid;

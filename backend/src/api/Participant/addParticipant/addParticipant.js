@@ -14,7 +14,9 @@ export default {
         }]
       });
       
-      if (isParticipant) throw new Error("Sorry you're already a participant");
+      if (isParticipant) {
+        throw new Error("Sorry you're already a participant");
+      }
       
       await prisma.createParticipant({ 
         groupId, 
@@ -25,7 +27,21 @@ export default {
         }
       }});
 
-      return true;
+      const userGroups = await prisma.participants({
+        where: {
+          user: {
+            id: request.user.id
+          }
+        }
+      });
+
+      const groupNames = [];
+
+      userGroups.forEach(({ groupName }) => {
+        groupNames.push(groupName);
+      });
+
+      return groupNames;
     }
   }
 }

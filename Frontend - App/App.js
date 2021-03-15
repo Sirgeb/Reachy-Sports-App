@@ -3,16 +3,14 @@ import { ApolloProvider } from 'react-apollo-hooks';
 import AppLoading from 'expo-app-loading';
 import { AntDesign, Ionicons, MaterialIcons, FontAwesome, FontAwesome5, EvilIcons, Feather, MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Font from 'expo-font';
-import * as Notifications from 'expo-notifications';
-import * as Permissions from 'expo-permissions';
 import { Asset } from 'expo-asset';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 import { persistCache } from 'apollo-cache-persist';
 import SwitchNavigator from './navigation/SwitchNavigator';
 import clientConfig from './apollo';
 import { AuthProvider } from './AuthContext';
-import assets from './assets';   
+import assets from './asset';   
 
 const App = () => { 
   const [loaded, setLoaded] = useState(false);
@@ -21,7 +19,7 @@ const App = () => {
 
   const preLoad = async () => {
     try {
-      await AsyncStorage.clear();
+      // await AsyncStorage.clear();
 
       // Preload Fonts
       await Font.loadAsync({
@@ -61,7 +59,6 @@ const App = () => {
 
       setLoaded(true);
       setClient(client);
-      registerForPushNotificationsAsync();
 
     } catch(e) {
       console.log(e);
@@ -71,32 +68,6 @@ const App = () => {
   useEffect(() => {
     preLoad();
   }, []);
-
-  Notifications.setNotificationHandler({
-    handleNotification: async () => ({
-      shouldShowAlert: true,
-      shouldPlaySound: true,
-      shouldSetBadge: true,
-    }),
-  });
-  
-  async function registerForPushNotificationsAsync() {
-    let token;
-      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
-      let finalStatus = existingStatus;
-
-      if (existingStatus !== 'granted') {
-        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
-        finalStatus = status;
-      }
-      if (finalStatus !== 'granted') {
-        alert('push notification not enabled on your device');
-        return;
-      }
-
-    token = (await Notifications.getExpoPushTokenAsync()).data;
-    await AsyncStorage.setItem("expoToken", token);
-  }
 
   return loaded && client && isLoggedIn !== null ?  (
     <ApolloProvider client={client}>

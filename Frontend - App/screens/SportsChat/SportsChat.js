@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
-import styled from 'styled-components/native';
-import { FlatList } from 'react-native';
+import { FlatList, View, StyleSheet } from 'react-native';
 import { useNetInfo } from '@react-native-community/netinfo';
 import gql from 'graphql-tag';
 import { useQuery } from 'react-apollo-hooks';
@@ -38,14 +37,14 @@ const _GET_GROUPS = gql`
 
 const SportsChat = () => {
   const isLoggedIn = useIsLoggedIn();
-  const { data, error, refetch } = useQuery(!!isLoggedIn ? GET_GROUPS : _GET_GROUPS, { suspend: true });
+  const { data, error, refetch } = useQuery(!!isLoggedIn ? GET_GROUPS : _GET_GROUPS, { fetchPolicy: 'cache-and-network'});
   const networkState = useNetInfo();
 
   const refresh = async () => {
     try {
       await refetch()
     } catch (e) {
-      console.log(e.message);
+      console.log(e.message); 
     }
   }
 
@@ -54,29 +53,43 @@ const SportsChat = () => {
   });
 
   if (!!error && networkState.isConnected === false) {
-    return <NetworkError refresh={refresh} />
+    return <NetworkError />
   }
 
   return (
-    <Container> 
+    <View style={layout.container}> 
       <FlatList
         showsVerticalScrollIndicator={false}
         keyExtractor={item => item.id}
         data={data.getGroups}
+        ItemSeparatorComponent={() => {
+          return (
+            <View style={layout.lineSeperator} />
+          )
+        }}
         contentContainerStyle={{ width: constants.width }}
         renderItem={({item}) => (
           <SportsChatListItem {...item} refetch={refetch} />
         )}
       />
-    </Container>
+    </View>
   )
 }
 
-const Container = styled.View` 
-  flex: 1;
-  margin: 10px;
-  background-color: ${styles.white};
-`;
+const layout = StyleSheet.create({
+  container: {
+    flex: 1,
+    margin: 10,
+    marginBottom: 0,
+    paddingBottom: 10,
+    backgroundColor: styles.white
+  },
+  lineSeperator: {
+    width: '100%', 
+    height: 1.5, 
+    backgroundColor: styles.lightGrey
+  }
+});
 
 export {
   GET_GROUPS

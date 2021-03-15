@@ -47,7 +47,7 @@ type Group {
   id: ID! 
   name: Category!
   title: String!
-  icon: String!
+  icon: String
   route: String!
   messages: [Message!]!
   isParticipant: Boolean!

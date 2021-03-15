@@ -3,7 +3,7 @@ import { HttpLink } from 'apollo-link-http';
 import { onError } from 'apollo-link-error';
 import { withClientState } from 'apollo-link-state';
 import { ApolloLink, Observable, split } from 'apollo-link';
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { WebSocketLink } from 'apollo-link-ws';
 import { getMainDefinition } from 'apollo-utilities';
 import { httpUrl, websocketUrl } from './config';
