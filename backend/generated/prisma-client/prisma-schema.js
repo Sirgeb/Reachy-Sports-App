@@ -11,6 +11,10 @@ type AggregateGroup {
   count: Int!
 }
 
+type AggregateLeague {
+  count: Int!
+}
+
 type AggregateMessage {
   count: Int!
 }
@@ -524,6 +528,142 @@ input GroupWhereUniqueInput {
   id: ID
 }
 
+type League {
+  id: ID!
+  leagueId: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LeagueConnection {
+  pageInfo: PageInfo!
+  edges: [LeagueEdge]!
+  aggregate: AggregateLeague!
+}
+
+input LeagueCreateInput {
+  id: ID
+  leagueId: Int!
+  name: String!
+}
+
+type LeagueEdge {
+  node: League!
+  cursor: String!
+}
+
+enum LeagueOrderByInput {
+  id_ASC
+  id_DESC
+  leagueId_ASC
+  leagueId_DESC
+  name_ASC
+  name_DESC
+  createdAt_ASC
+  createdAt_DESC
+  updatedAt_ASC
+  updatedAt_DESC
+}
+
+type LeaguePreviousValues {
+  id: ID!
+  leagueId: Int!
+  name: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+}
+
+type LeagueSubscriptionPayload {
+  mutation: MutationType!
+  node: League
+  updatedFields: [String!]
+  previousValues: LeaguePreviousValues
+}
+
+input LeagueSubscriptionWhereInput {
+  mutation_in: [MutationType!]
+  updatedFields_contains: String
+  updatedFields_contains_every: [String!]
+  updatedFields_contains_some: [String!]
+  node: LeagueWhereInput
+  AND: [LeagueSubscriptionWhereInput!]
+  OR: [LeagueSubscriptionWhereInput!]
+  NOT: [LeagueSubscriptionWhereInput!]
+}
+
+input LeagueUpdateInput {
+  leagueId: Int
+  name: String
+}
+
+input LeagueUpdateManyMutationInput {
+  leagueId: Int
+  name: String
+}
+
+input LeagueWhereInput {
+  id: ID
+  id_not: ID
+  id_in: [ID!]
+  id_not_in: [ID!]
+  id_lt: ID
+  id_lte: ID
+  id_gt: ID
+  id_gte: ID
+  id_contains: ID
+  id_not_contains: ID
+  id_starts_with: ID
+  id_not_starts_with: ID
+  id_ends_with: ID
+  id_not_ends_with: ID
+  leagueId: Int
+  leagueId_not: Int
+  leagueId_in: [Int!]
+  leagueId_not_in: [Int!]
+  leagueId_lt: Int
+  leagueId_lte: Int
+  leagueId_gt: Int
+  leagueId_gte: Int
+  name: String
+  name_not: String
+  name_in: [String!]
+  name_not_in: [String!]
+  name_lt: String
+  name_lte: String
+  name_gt: String
+  name_gte: String
+  name_contains: String
+  name_not_contains: String
+  name_starts_with: String
+  name_not_starts_with: String
+  name_ends_with: String
+  name_not_ends_with: String
+  createdAt: DateTime
+  createdAt_not: DateTime
+  createdAt_in: [DateTime!]
+  createdAt_not_in: [DateTime!]
+  createdAt_lt: DateTime
+  createdAt_lte: DateTime
+  createdAt_gt: DateTime
+  createdAt_gte: DateTime
+  updatedAt: DateTime
+  updatedAt_not: DateTime
+  updatedAt_in: [DateTime!]
+  updatedAt_not_in: [DateTime!]
+  updatedAt_lt: DateTime
+  updatedAt_lte: DateTime
+  updatedAt_gt: DateTime
+  updatedAt_gte: DateTime
+  AND: [LeagueWhereInput!]
+  OR: [LeagueWhereInput!]
+  NOT: [LeagueWhereInput!]
+}
+
+input LeagueWhereUniqueInput {
+  id: ID
+}
+
 scalar Long
 
 type Message {
@@ -805,6 +945,12 @@ type Mutation {
   upsertGroup(where: GroupWhereUniqueInput!, create: GroupCreateInput!, update: GroupUpdateInput!): Group!
   deleteGroup(where: GroupWhereUniqueInput!): Group
   deleteManyGroups(where: GroupWhereInput): BatchPayload!
+  createLeague(data: LeagueCreateInput!): League!
+  updateLeague(data: LeagueUpdateInput!, where: LeagueWhereUniqueInput!): League
+  updateManyLeagues(data: LeagueUpdateManyMutationInput!, where: LeagueWhereInput): BatchPayload!
+  upsertLeague(where: LeagueWhereUniqueInput!, create: LeagueCreateInput!, update: LeagueUpdateInput!): League!
+  deleteLeague(where: LeagueWhereUniqueInput!): League
+  deleteManyLeagues(where: LeagueWhereInput): BatchPayload!
   createMessage(data: MessageCreateInput!): Message!
   updateMessage(data: MessageUpdateInput!, where: MessageWhereUniqueInput!): Message
   updateManyMessages(data: MessageUpdateManyMutationInput!, where: MessageWhereInput): BatchPayload!
@@ -1500,6 +1646,9 @@ type Query {
   group(where: GroupWhereUniqueInput!): Group
   groups(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Group]!
   groupsConnection(where: GroupWhereInput, orderBy: GroupOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): GroupConnection!
+  league(where: LeagueWhereUniqueInput!): League
+  leagues(where: LeagueWhereInput, orderBy: LeagueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [League]!
+  leaguesConnection(where: LeagueWhereInput, orderBy: LeagueOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): LeagueConnection!
   message(where: MessageWhereUniqueInput!): Message
   messages(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Message]!
   messagesConnection(where: MessageWhereInput, orderBy: MessageOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): MessageConnection!
@@ -1521,6 +1670,7 @@ type Query {
 type Subscription {
   comment(where: CommentSubscriptionWhereInput): CommentSubscriptionPayload
   group(where: GroupSubscriptionWhereInput): GroupSubscriptionPayload
+  league(where: LeagueSubscriptionWhereInput): LeagueSubscriptionPayload
   message(where: MessageSubscriptionWhereInput): MessageSubscriptionPayload
   participant(where: ParticipantSubscriptionWhereInput): ParticipantSubscriptionPayload
   post(where: PostSubscriptionWhereInput): PostSubscriptionPayload

@@ -72,6 +72,12 @@ type Message {
   createdAt: String!
 }
 
+type League {
+  id: ID!
+  leagueId: Int!
+  name: String!
+}
+
 enum Category {
   FOOTBALL
   GOLF 

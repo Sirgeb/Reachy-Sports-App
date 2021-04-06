@@ -18,6 +18,7 @@ export type Maybe<T> = T | undefined | null;
 export interface Exists {
   comment: (where?: CommentWhereInput) => Promise<boolean>;
   group: (where?: GroupWhereInput) => Promise<boolean>;
+  league: (where?: LeagueWhereInput) => Promise<boolean>;
   message: (where?: MessageWhereInput) => Promise<boolean>;
   participant: (where?: ParticipantWhereInput) => Promise<boolean>;
   post: (where?: PostWhereInput) => Promise<boolean>;
@@ -82,6 +83,25 @@ export interface Prisma {
     first?: Int;
     last?: Int;
   }) => GroupConnectionPromise;
+  league: (where: LeagueWhereUniqueInput) => LeagueNullablePromise;
+  leagues: (args?: {
+    where?: LeagueWhereInput;
+    orderBy?: LeagueOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => FragmentableArray<League>;
+  leaguesConnection: (args?: {
+    where?: LeagueWhereInput;
+    orderBy?: LeagueOrderByInput;
+    skip?: Int;
+    after?: String;
+    before?: String;
+    first?: Int;
+    last?: Int;
+  }) => LeagueConnectionPromise;
   message: (where: MessageWhereUniqueInput) => MessageNullablePromise;
   messages: (args?: {
     where?: MessageWhereInput;
@@ -217,6 +237,22 @@ export interface Prisma {
   }) => GroupPromise;
   deleteGroup: (where: GroupWhereUniqueInput) => GroupPromise;
   deleteManyGroups: (where?: GroupWhereInput) => BatchPayloadPromise;
+  createLeague: (data: LeagueCreateInput) => LeaguePromise;
+  updateLeague: (args: {
+    data: LeagueUpdateInput;
+    where: LeagueWhereUniqueInput;
+  }) => LeaguePromise;
+  updateManyLeagues: (args: {
+    data: LeagueUpdateManyMutationInput;
+    where?: LeagueWhereInput;
+  }) => BatchPayloadPromise;
+  upsertLeague: (args: {
+    where: LeagueWhereUniqueInput;
+    create: LeagueCreateInput;
+    update: LeagueUpdateInput;
+  }) => LeaguePromise;
+  deleteLeague: (where: LeagueWhereUniqueInput) => LeaguePromise;
+  deleteManyLeagues: (where?: LeagueWhereInput) => BatchPayloadPromise;
   createMessage: (data: MessageCreateInput) => MessagePromise;
   updateMessage: (args: {
     data: MessageUpdateInput;
@@ -314,6 +350,9 @@ export interface Subscription {
   group: (
     where?: GroupSubscriptionWhereInput
   ) => GroupSubscriptionPayloadSubscription;
+  league: (
+    where?: LeagueSubscriptionWhereInput
+  ) => LeagueSubscriptionPayloadSubscription;
   message: (
     where?: MessageSubscriptionWhereInput
   ) => MessageSubscriptionPayloadSubscription;
@@ -410,6 +449,18 @@ export type GroupOrderByInput =
   | "icon_DESC"
   | "route_ASC"
   | "route_DESC"
+  | "createdAt_ASC"
+  | "createdAt_DESC"
+  | "updatedAt_ASC"
+  | "updatedAt_DESC";
+
+export type LeagueOrderByInput =
+  | "id_ASC"
+  | "id_DESC"
+  | "leagueId_ASC"
+  | "leagueId_DESC"
+  | "name_ASC"
+  | "name_DESC"
   | "createdAt_ASC"
   | "createdAt_DESC"
   | "updatedAt_ASC"
@@ -944,6 +995,68 @@ export interface GroupWhereInput {
 export type GroupWhereUniqueInput = AtLeastOne<{
   id: Maybe<ID_Input>;
 }>;
+
+export type LeagueWhereUniqueInput = AtLeastOne<{
+  id: Maybe<ID_Input>;
+}>;
+
+export interface LeagueWhereInput {
+  id?: Maybe<ID_Input>;
+  id_not?: Maybe<ID_Input>;
+  id_in?: Maybe<ID_Input[] | ID_Input>;
+  id_not_in?: Maybe<ID_Input[] | ID_Input>;
+  id_lt?: Maybe<ID_Input>;
+  id_lte?: Maybe<ID_Input>;
+  id_gt?: Maybe<ID_Input>;
+  id_gte?: Maybe<ID_Input>;
+  id_contains?: Maybe<ID_Input>;
+  id_not_contains?: Maybe<ID_Input>;
+  id_starts_with?: Maybe<ID_Input>;
+  id_not_starts_with?: Maybe<ID_Input>;
+  id_ends_with?: Maybe<ID_Input>;
+  id_not_ends_with?: Maybe<ID_Input>;
+  leagueId?: Maybe<Int>;
+  leagueId_not?: Maybe<Int>;
+  leagueId_in?: Maybe<Int[] | Int>;
+  leagueId_not_in?: Maybe<Int[] | Int>;
+  leagueId_lt?: Maybe<Int>;
+  leagueId_lte?: Maybe<Int>;
+  leagueId_gt?: Maybe<Int>;
+  leagueId_gte?: Maybe<Int>;
+  name?: Maybe<String>;
+  name_not?: Maybe<String>;
+  name_in?: Maybe<String[] | String>;
+  name_not_in?: Maybe<String[] | String>;
+  name_lt?: Maybe<String>;
+  name_lte?: Maybe<String>;
+  name_gt?: Maybe<String>;
+  name_gte?: Maybe<String>;
+  name_contains?: Maybe<String>;
+  name_not_contains?: Maybe<String>;
+  name_starts_with?: Maybe<String>;
+  name_not_starts_with?: Maybe<String>;
+  name_ends_with?: Maybe<String>;
+  name_not_ends_with?: Maybe<String>;
+  createdAt?: Maybe<DateTimeInput>;
+  createdAt_not?: Maybe<DateTimeInput>;
+  createdAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  createdAt_lt?: Maybe<DateTimeInput>;
+  createdAt_lte?: Maybe<DateTimeInput>;
+  createdAt_gt?: Maybe<DateTimeInput>;
+  createdAt_gte?: Maybe<DateTimeInput>;
+  updatedAt?: Maybe<DateTimeInput>;
+  updatedAt_not?: Maybe<DateTimeInput>;
+  updatedAt_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_not_in?: Maybe<DateTimeInput[] | DateTimeInput>;
+  updatedAt_lt?: Maybe<DateTimeInput>;
+  updatedAt_lte?: Maybe<DateTimeInput>;
+  updatedAt_gt?: Maybe<DateTimeInput>;
+  updatedAt_gte?: Maybe<DateTimeInput>;
+  AND?: Maybe<LeagueWhereInput[] | LeagueWhereInput>;
+  OR?: Maybe<LeagueWhereInput[] | LeagueWhereInput>;
+  NOT?: Maybe<LeagueWhereInput[] | LeagueWhereInput>;
+}
 
 export type MessageWhereUniqueInput = AtLeastOne<{
   _id: Maybe<ID_Input>;
@@ -1933,6 +2046,22 @@ export interface GroupUpdateManyMutationInput {
   route?: Maybe<String>;
 }
 
+export interface LeagueCreateInput {
+  id?: Maybe<ID_Input>;
+  leagueId: Int;
+  name: String;
+}
+
+export interface LeagueUpdateInput {
+  leagueId?: Maybe<Int>;
+  name?: Maybe<String>;
+}
+
+export interface LeagueUpdateManyMutationInput {
+  leagueId?: Maybe<Int>;
+  name?: Maybe<String>;
+}
+
 export interface MessageCreateInput {
   _id?: Maybe<ID_Input>;
   text: String;
@@ -2128,6 +2257,17 @@ export interface GroupSubscriptionWhereInput {
   AND?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
   OR?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
   NOT?: Maybe<GroupSubscriptionWhereInput[] | GroupSubscriptionWhereInput>;
+}
+
+export interface LeagueSubscriptionWhereInput {
+  mutation_in?: Maybe<MutationType[] | MutationType>;
+  updatedFields_contains?: Maybe<String>;
+  updatedFields_contains_every?: Maybe<String[] | String>;
+  updatedFields_contains_some?: Maybe<String[] | String>;
+  node?: Maybe<LeagueWhereInput>;
+  AND?: Maybe<LeagueSubscriptionWhereInput[] | LeagueSubscriptionWhereInput>;
+  OR?: Maybe<LeagueSubscriptionWhereInput[] | LeagueSubscriptionWhereInput>;
+  NOT?: Maybe<LeagueSubscriptionWhereInput[] | LeagueSubscriptionWhereInput>;
 }
 
 export interface MessageSubscriptionWhereInput {
@@ -2762,6 +2902,96 @@ export interface AggregateGroupSubscription
   count: () => Promise<AsyncIterator<Int>>;
 }
 
+export interface League {
+  id: ID_Output;
+  leagueId: Int;
+  name: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface LeaguePromise extends Promise<League>, Fragmentable {
+  id: () => Promise<ID_Output>;
+  leagueId: () => Promise<Int>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LeagueSubscription
+  extends Promise<AsyncIterator<League>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  leagueId: () => Promise<AsyncIterator<Int>>;
+  name: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
+export interface LeagueNullablePromise
+  extends Promise<League | null>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  leagueId: () => Promise<Int>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LeagueConnection {
+  pageInfo: PageInfo;
+  edges: LeagueEdge[];
+}
+
+export interface LeagueConnectionPromise
+  extends Promise<LeagueConnection>,
+    Fragmentable {
+  pageInfo: <T = PageInfoPromise>() => T;
+  edges: <T = FragmentableArray<LeagueEdge>>() => T;
+  aggregate: <T = AggregateLeaguePromise>() => T;
+}
+
+export interface LeagueConnectionSubscription
+  extends Promise<AsyncIterator<LeagueConnection>>,
+    Fragmentable {
+  pageInfo: <T = PageInfoSubscription>() => T;
+  edges: <T = Promise<AsyncIterator<LeagueEdgeSubscription>>>() => T;
+  aggregate: <T = AggregateLeagueSubscription>() => T;
+}
+
+export interface LeagueEdge {
+  node: League;
+  cursor: String;
+}
+
+export interface LeagueEdgePromise extends Promise<LeagueEdge>, Fragmentable {
+  node: <T = LeaguePromise>() => T;
+  cursor: () => Promise<String>;
+}
+
+export interface LeagueEdgeSubscription
+  extends Promise<AsyncIterator<LeagueEdge>>,
+    Fragmentable {
+  node: <T = LeagueSubscription>() => T;
+  cursor: () => Promise<AsyncIterator<String>>;
+}
+
+export interface AggregateLeague {
+  count: Int;
+}
+
+export interface AggregateLeaguePromise
+  extends Promise<AggregateLeague>,
+    Fragmentable {
+  count: () => Promise<Int>;
+}
+
+export interface AggregateLeagueSubscription
+  extends Promise<AsyncIterator<AggregateLeague>>,
+    Fragmentable {
+  count: () => Promise<AsyncIterator<Int>>;
+}
+
 export interface MessageConnection {
   pageInfo: PageInfo;
   edges: MessageEdge[];
@@ -3213,6 +3443,59 @@ export interface GroupPreviousValuesSubscription
   updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
+export interface LeagueSubscriptionPayload {
+  mutation: MutationType;
+  node: League;
+  updatedFields: String[];
+  previousValues: LeaguePreviousValues;
+}
+
+export interface LeagueSubscriptionPayloadPromise
+  extends Promise<LeagueSubscriptionPayload>,
+    Fragmentable {
+  mutation: () => Promise<MutationType>;
+  node: <T = LeaguePromise>() => T;
+  updatedFields: () => Promise<String[]>;
+  previousValues: <T = LeaguePreviousValuesPromise>() => T;
+}
+
+export interface LeagueSubscriptionPayloadSubscription
+  extends Promise<AsyncIterator<LeagueSubscriptionPayload>>,
+    Fragmentable {
+  mutation: () => Promise<AsyncIterator<MutationType>>;
+  node: <T = LeagueSubscription>() => T;
+  updatedFields: () => Promise<AsyncIterator<String[]>>;
+  previousValues: <T = LeaguePreviousValuesSubscription>() => T;
+}
+
+export interface LeaguePreviousValues {
+  id: ID_Output;
+  leagueId: Int;
+  name: String;
+  createdAt: DateTimeOutput;
+  updatedAt: DateTimeOutput;
+}
+
+export interface LeaguePreviousValuesPromise
+  extends Promise<LeaguePreviousValues>,
+    Fragmentable {
+  id: () => Promise<ID_Output>;
+  leagueId: () => Promise<Int>;
+  name: () => Promise<String>;
+  createdAt: () => Promise<DateTimeOutput>;
+  updatedAt: () => Promise<DateTimeOutput>;
+}
+
+export interface LeaguePreviousValuesSubscription
+  extends Promise<AsyncIterator<LeaguePreviousValues>>,
+    Fragmentable {
+  id: () => Promise<AsyncIterator<ID_Output>>;
+  leagueId: () => Promise<AsyncIterator<Int>>;
+  name: () => Promise<AsyncIterator<String>>;
+  createdAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+  updatedAt: () => Promise<AsyncIterator<DateTimeOutput>>;
+}
+
 export interface MessageSubscriptionPayload {
   mutation: MutationType;
   node: Message;
@@ -3575,6 +3858,10 @@ export const models: Model[] = [
   },
   {
     name: "Message",
+    embedded: false
+  },
+  {
+    name: "League",
     embedded: false
   },
   {

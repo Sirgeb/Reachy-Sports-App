@@ -78,6 +78,14 @@ type Message {
   updatedAt: DateTime! @updatedAt
 }
 
+type League {
+  id: ID! @id @unique
+  leagueId: Int!
+  name: String!
+  createdAt: DateTime! @createdAt
+  updatedAt: DateTime! @updatedAt
+}
+
 enum Category {
   FOOTBALL
   GOLF 

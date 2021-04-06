@@ -1,0 +1,7 @@
+type Mutation {
+  updateLeague(
+    id: ID!
+    leagueId: Int
+    name: String
+  ): League!
+}
