@@ -23,7 +23,7 @@
     "googleapis": "^59.0.0",
     "graphql-tools": "^4.0.7",
     "graphql-yoga": "^1.18.3",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "merge-graphql-schemas": "^1.7.6",
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
